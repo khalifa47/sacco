@@ -76,27 +76,22 @@ const Header = () => {
     {
       name: "Dashboard",
       icon: <DashboardIcon />,
-      action: handleCloseNavMenu,
     },
     {
       name: "Shares",
       icon: <SavingsIcon />,
-      action: handleCloseNavMenu,
     },
     {
       name: "Loans",
       icon: <LocalAtmIcon />,
-      action: handleCloseNavMenu,
     },
     {
       name: "Welfare",
       icon: <VolunteerActivismIcon />,
-      action: handleCloseNavMenu,
     },
     {
       name: "Admin",
       icon: <SupervisorAccountIcon />,
-      action: handleCloseNavMenu,
     },
   ];
 
@@ -115,7 +110,7 @@ const Header = () => {
 
   return (
     <>
-      <AppBar position="fixed" sx={{ backgroundColor: "#F4641F" }}>
+      <AppBar position="fixed">
         <Container maxWidth="xl">
           <Toolbar
             disableGutters
@@ -153,7 +148,15 @@ const Header = () => {
                 }}
               >
                 {pages.map((page) => (
-                  <MenuItem key={page.name} onClick={page.action}>
+                  <MenuItem
+                    key={page.name}
+                    LinkComponent={Link}
+                    href={
+                      page.name === "Dashboard"
+                        ? "/"
+                        : `/${page.name.toLowerCase()}`
+                    }
+                  >
                     <ListItemIcon>{page.icon}</ListItemIcon>
                     <ListItemText>
                       <Typography sx={{ mx: 2 }}>{page.name}</Typography>
@@ -166,8 +169,13 @@ const Header = () => {
             <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
               {pages.map((page) => (
                 <Button
+                  LinkComponent={Link}
                   key={page.name}
-                  onClick={handleCloseNavMenu}
+                  href={
+                    page.name === "Dashboard"
+                      ? "/"
+                      : `/${page.name.toLowerCase()}`
+                  }
                   sx={{ m: 1, color: "white", display: "block" }}
                 >
                   {page.name}

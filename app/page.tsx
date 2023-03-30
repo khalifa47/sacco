@@ -1,4 +1,5 @@
 import dynamic from "next/dynamic";
+import PageTitle from "@/app/components/PageTitle";
 
 const InfoCard = dynamic(() => import("@/app/components/InfoCard"), {
   loading: () => <p>Loading</p>,
@@ -7,6 +8,7 @@ const InfoCard = dynamic(() => import("@/app/components/InfoCard"), {
 export default function Dashboard() {
   return (
     <main>
+      <PageTitle title="My Dashboard" />
       <div
         style={{
           display: "flex",
