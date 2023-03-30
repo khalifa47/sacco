@@ -148,20 +148,22 @@ const Header = () => {
                 }}
               >
                 {pages.map((page) => (
-                  <MenuItem
+                  <Link
                     key={page.name}
-                    LinkComponent={Link}
+                    style={{ textDecoration: "none", color: "#000000DE" }}
                     href={
                       page.name === "Dashboard"
                         ? "/"
                         : `/${page.name.toLowerCase()}`
                     }
                   >
-                    <ListItemIcon>{page.icon}</ListItemIcon>
-                    <ListItemText>
-                      <Typography sx={{ mx: 2 }}>{page.name}</Typography>
-                    </ListItemText>
-                  </MenuItem>
+                    <MenuItem onClick={handleCloseNavMenu}>
+                      <ListItemIcon>{page.icon}</ListItemIcon>
+                      <ListItemText>
+                        <Typography sx={{ mx: 2 }}>{page.name}</Typography>
+                      </ListItemText>
+                    </MenuItem>
+                  </Link>
                 ))}
               </Menu>
             </Box>
