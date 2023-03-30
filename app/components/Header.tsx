@@ -114,108 +114,111 @@ const Header = () => {
   ];
 
   return (
-    <AppBar position="fixed" sx={{ backgroundColor: "#F4641F" }}>
-      <Container maxWidth="xl">
-        <Toolbar
-          disableGutters
-          sx={{ display: "flex", justifyContent: "space-between" }}
-        >
-          <Logo />
+    <>
+      <AppBar position="fixed" sx={{ backgroundColor: "#F4641F" }}>
+        <Container maxWidth="xl">
+          <Toolbar
+            disableGutters
+            sx={{ display: "flex", justifyContent: "space-between" }}
+          >
+            <Logo />
 
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: "block", md: "none" },
-              }}
-            >
-              {pages.map((page) => (
-                <MenuItem key={page.name} onClick={page.action}>
-                  <ListItemIcon>{page.icon}</ListItemIcon>
-                  <ListItemText>
-                    <Typography sx={{ mx: 2 }}>{page.name}</Typography>
-                  </ListItemText>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
-
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            {pages.map((page) => (
-              <Button
-                key={page.name}
-                onClick={handleCloseNavMenu}
-                sx={{ m: 1, color: "white", display: "block" }}
+            <Box sx={{ display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleOpenNavMenu}
+                color="inherit"
               >
-                {page.name}
-              </Button>
-            ))}
-          </Box>
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: "block", md: "none" },
+                }}
+              >
+                {pages.map((page) => (
+                  <MenuItem key={page.name} onClick={page.action}>
+                    <ListItemIcon>{page.icon}</ListItemIcon>
+                    <ListItemText>
+                      <Typography sx={{ mx: 2 }}>{page.name}</Typography>
+                    </ListItemText>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <Button onClick={handleOpenUserMenu} sx={{ color: "white" }}>
-                {Boolean(anchorElUser) ? (
-                  <ExpandLessIcon />
-                ) : (
-                  <ExpandMoreIcon />
-                )}
-                <Typography letterSpacing={"0.15rem"} ml={1}>
-                  Khalifa Fumo
-                </Typography>
-              </Button>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting.name} onClick={setting.action}>
-                  <ListItemIcon>{setting.icon}</ListItemIcon>
-                  <ListItemText>
-                    <Typography sx={{ mx: 2 }}>{setting.name}</Typography>
-                  </ListItemText>
-                </MenuItem>
+            <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+              {pages.map((page) => (
+                <Button
+                  key={page.name}
+                  onClick={handleCloseNavMenu}
+                  sx={{ m: 1, color: "white", display: "block" }}
+                >
+                  {page.name}
+                </Button>
               ))}
-            </Menu>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+            </Box>
+
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <Button onClick={handleOpenUserMenu} sx={{ color: "white" }}>
+                  {Boolean(anchorElUser) ? (
+                    <ExpandLessIcon />
+                  ) : (
+                    <ExpandMoreIcon />
+                  )}
+                  <Typography letterSpacing={"0.15rem"} ml={1}>
+                    Khalifa Fumo
+                  </Typography>
+                </Button>
+              </Tooltip>
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem key={setting.name} onClick={setting.action}>
+                    <ListItemIcon>{setting.icon}</ListItemIcon>
+                    <ListItemText>
+                      <Typography sx={{ mx: 2 }}>{setting.name}</Typography>
+                    </ListItemText>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+      <Toolbar />
+    </>
   );
 };
 export default Header;

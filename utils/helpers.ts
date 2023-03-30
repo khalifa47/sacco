@@ -20,3 +20,8 @@ export const dateFormat = (dateString: string) => {
   };
   return date.toLocaleDateString("en-US", options);
 };
+
+// number format
+export const formatNumber = (num: number, locale: string = "en-US") => {
+  return new Intl.NumberFormat(locale).format(num);
+};

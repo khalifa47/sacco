@@ -1,4 +1,5 @@
 import Header from "@/app/components/Header";
+import Providers from "@/app/components/Providers";
 
 export const metadata = {
   title: "Kadhi Sacco",
@@ -13,8 +14,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Header />
-        {children}
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   );
