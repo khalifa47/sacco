@@ -42,7 +42,7 @@ const Logo = () => {
       }}
     >
       <Image src="/logo_white.png" alt="logo" height={50} width={50} />
-      <Typography letterSpacing={"0.15rem"} variant="h6" noWrap mr={10}>
+      <Typography letterSpacing={"0.2rem"} variant="h6" noWrap mr={10}>
         KADHI SACCO
       </Typography>
     </Box>
