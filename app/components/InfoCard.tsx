@@ -10,19 +10,19 @@ const getColors = (content: "shares" | "loans" | "welfare") => {
   switch (content) {
     case "shares":
       return {
-        bgColor: "rgba(114,222,86,1)",
+        bgColor: "rgb(220, 252, 231)",
         titleColor: "rgba(54,110,40,1)",
         amountColor: "rgba(32,66,24,1)",
       };
     case "loans":
       return {
-        bgColor: "rgba(222,94,86,1)",
+        bgColor: "rgb(254, 226, 226)",
         titleColor: "rgba(103,48,45,1)",
         amountColor: "rgba(67,32,30,1)",
       };
     case "welfare":
       return {
-        bgColor: "rgba(131,108,222,1)",
+        bgColor: "rgb(237, 233, 254)",
         titleColor: "rgba(64,53,109,1)",
         amountColor: "rgba(42,34,72,1)",
       };
@@ -54,6 +54,7 @@ const InfoCard = ({
         align="left"
         color={contentColors.titleColor}
         mb={2}
+        zIndex={1}
       >
         {capitalize(content)}{" "}
       </Typography>
@@ -63,6 +64,7 @@ const InfoCard = ({
         justifySelf={"center"}
         alignSelf={"center"}
         color={contentColors.amountColor}
+        zIndex={1}
       >
         {`Ksh. ${formatNumber(amount)}`}
       </Typography>
@@ -70,18 +72,13 @@ const InfoCard = ({
         variant="subtitle1"
         fontWeight={600}
         align="right"
-        color="rgba(17,0,211,0.6)"
+        color="#000a4a"
         mt={3}
+        zIndex={1}
       >
         View Transactions
       </Typography>
-      <Box
-        position="absolute"
-        top={{ xs: 0, md: "inherit" }}
-        bottom={{ xs: 0, md: -40 }}
-        left={0}
-        right={{ xs: 0, md: "inherit" }}
-      >
+      <Box position="absolute" top={0} bottom={-5} left={0} right={0}>
         <Vector />
       </Box>
     </Card>
