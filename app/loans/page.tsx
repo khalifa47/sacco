@@ -1,9 +1,9 @@
-import PageTitle from "@/app/components/PageTitle";
+import Title from "@/app/components/Title";
 
 export default function Loans() {
   return (
     <main>
-      <PageTitle title="My Loans" />
+      <Title title="My Loans" pageTitle />
     </main>
   );
 }

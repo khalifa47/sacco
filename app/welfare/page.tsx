@@ -1,9 +1,9 @@
-import PageTitle from "@/app/components/PageTitle";
+import Title from "@/app/components/Title";
 
 export default function Welfare() {
   return (
     <main>
-      <PageTitle title="My Welfare" />
+      <Title title="My Welfare" pageTitle />
     </main>
   );
 }

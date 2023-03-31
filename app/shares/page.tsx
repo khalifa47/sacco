@@ -1,9 +1,9 @@
-import PageTitle from "@/app/components/PageTitle";
+import Title from "@/app/components/Title";
 
 export default function Shares() {
   return (
     <main>
-      <PageTitle title="My Shares" />
+      <Title title="My Shares" pageTitle />
     </main>
   );
 }

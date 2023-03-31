@@ -1,9 +1,9 @@
-import PageTitle from "@/app/components/PageTitle";
+import Title from "@/app/components/Title";
 
 export default function Admin() {
   return (
     <main>
-      <PageTitle title="Admin Dashboard" />
+      <Title title="Admin Dashboard" pageTitle />
     </main>
   );
 }
