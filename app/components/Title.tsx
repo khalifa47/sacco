@@ -1,10 +1,16 @@
-const PageTitle = ({ title }: { title: string }) => {
+const Title = ({
+  title,
+  pageTitle = false,
+}: {
+  title: string;
+  pageTitle?: boolean;
+}) => {
   return (
     <h4
       style={{
         fontFamily: "Roboto,Helvetica,Arial,sans-serif",
         fontWeight: 600,
-        fontSize: "2rem",
+        fontSize: pageTitle ? "2rem" : "1.5rem",
         margin: 10,
         padding: 0,
       }}
@@ -14,4 +20,4 @@ const PageTitle = ({ title }: { title: string }) => {
   );
 };
 
-export default PageTitle;
+export default Title;

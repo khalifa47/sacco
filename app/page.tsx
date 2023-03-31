@@ -1,14 +1,16 @@
 import dynamic from "next/dynamic";
-import PageTitle from "@/app/components/PageTitle";
+import Title from "@/app/components/Title";
 
-const InfoCard = dynamic(() => import("@/app/components/InfoCard"), {
-  loading: () => <p>Loading</p>,
+const InfoCard = dynamic(() => import("@/app/components/InfoCard"));
+const SummaryTable = dynamic(() => import("@/app/components/SummaryTable"), {
+  // loading: () => <Skeleton variant="rectangular" width="100%" height={100} />,
+  loading: () => <h5>Loading</h5>,
 });
 
 export default function Dashboard() {
   return (
     <main>
-      <PageTitle title="My Dashboard" />
+      <Title title="My Dashboard" pageTitle />
       <div
         style={{
           display: "flex",
@@ -22,6 +24,9 @@ export default function Dashboard() {
         <InfoCard content="loans" amount={200000} />
         <InfoCard content="welfare" amount={20000} />
       </div>
+      <hr style={{ marginTop: 30, marginBottom: 20 }} />
+      <Title title="Recent Transactions" />
+      <SummaryTable />
     </main>
   );
 }
