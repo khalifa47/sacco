@@ -453,6 +453,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@mui/x-data-grid@npm:^6.0.3":
+  version: 6.0.3
+  resolution: "@mui/x-data-grid@npm:6.0.3"
+  dependencies:
+    "@babel/runtime": ^7.21.0
+    "@mui/utils": ^5.11.13
+    clsx: ^1.2.1
+    prop-types: ^15.8.1
+    reselect: ^4.1.7
+  peerDependencies:
+    "@mui/material": ^5.4.1
+    "@mui/system": ^5.4.1
+    react: ^17.0.2 || ^18.0.0
+    react-dom: ^17.0.2 || ^18.0.0
+  checksum: fc8f3c6152ef65ca0381a6334c1114a6da77632e844a571c9ef37177706377fb9f04bb06f9b7738af095c1cc4d2b16c59ed1e310f30b1ddde3905ab3d8614508
+  languageName: node
+  linkType: hard
+
 "@next/env@npm:13.2.4":
   version: 13.2.4
   resolution: "@next/env@npm:13.2.4"
@@ -2848,6 +2866,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"reselect@npm:^4.1.7":
+  version: 4.1.7
+  resolution: "reselect@npm:4.1.7"
+  checksum: 738d8e2b8f0dca154ad29de6a209c9fbca2d70ae6788fd85df87f2c74b95a65bbf2d16d43a9e2faff39de34d17a29d706ba08a6b2ee5660c09589edbd19af7e1
+  languageName: node
+  linkType: hard
+
 "resolve-from@npm:^4.0.0":
   version: 4.0.0
   resolution: "resolve-from@npm:4.0.0"
@@ -2942,6 +2967,7 @@ __metadata:
     "@emotion/styled": ^11.10.6
     "@mui/icons-material": ^5.11.11
     "@mui/material": ^5.11.14
+    "@mui/x-data-grid": ^6.0.3
     "@types/node": 18.15.10
     "@types/react": 18.0.29
     "@types/react-dom": 18.0.11
