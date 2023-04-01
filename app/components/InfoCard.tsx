@@ -4,7 +4,6 @@ import { capitalize, formatNumber } from "@/utils/helpers";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Vector from "./Vector";
 import Link from "next/link";
 
 const getColors = (content: "shares" | "loans" | "welfare") => {
@@ -91,7 +90,20 @@ const InfoCard = ({
         View Transactions
       </Typography>
       <Box position="absolute" top={0} bottom={-5} left={0} right={0}>
-        <Vector />
+        <svg
+          width="100%"
+          height="100%"
+          preserveAspectRatio="none"
+          viewBox="0 0 416 218"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M32 49C21.9999 98 0 217.5 0 217.5H416C416 217.5 406 146 395 146C384 146 384.5 171 372 171C359.5 171 353.5 58 342 56.5C330.5 55 319.5 79.5 307 80.5C294.5 81.5 284.5 49 284.5 49H269C250.5 49 263.5 0 250.5 0C237.5 0 212 151.5 199 146C186 140.5 185.5 99.2222 175.5 114.222C165.5 129.222 156 191 145 192C134 192 132.5 58 120 65.5C107.5 73 105.5 128.778 72.5 80.5C39.5 32.2223 42 0 32 49Z"
+            fill="white"
+            fillOpacity="0.4"
+          />
+        </svg>
       </Box>
     </Card>
   );
