@@ -112,6 +112,7 @@ const TransactionsTable = ({
       <DataGrid
         rows={rows}
         columns={columns}
+        density="compact"
         autoHeight
         disableRowSelectionOnClick
         sx={{ border: 1, borderColor: "primary.light" }}
