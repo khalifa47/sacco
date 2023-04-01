@@ -5,6 +5,7 @@ import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Vector from "./Vector";
+import Link from "next/link";
 
 const getColors = (content: "shares" | "loans" | "welfare") => {
   switch (content) {
@@ -39,6 +40,8 @@ const InfoCard = ({
   const contentColors = getColors(content);
   return (
     <Card
+      component={Link}
+      href={`/${content}`}
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -47,6 +50,8 @@ const InfoCard = ({
         p: 2,
         position: "relative",
         width: { xs: "100%", md: "46%", lg: "30%" },
+        textDecoration: "none",
+        ":hover": { boxShadow: 5 },
       }}
     >
       <Typography
@@ -69,12 +74,19 @@ const InfoCard = ({
         {`Ksh. ${formatNumber(amount)}`}
       </Typography>
       <Typography
+        component={Link}
+        href={`/transactions?filterBy=${content}`}
         variant="subtitle1"
         fontWeight={600}
         align="right"
         color="#000a4a"
         mt={3}
         zIndex={1}
+        sx={{
+          textDecoration: "none",
+          transition: "ease-in-out 200ms",
+          ":hover": { color: "#293dbf" },
+        }}
       >
         View Transactions
       </Typography>
