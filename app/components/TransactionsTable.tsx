@@ -126,6 +126,9 @@ const TransactionsTable = ({
         }}
         initialState={{
           pagination: { paginationModel: { pageSize: 25 } },
+          sorting: {
+            sortModel: [{ field: "dateTime", sort: "desc" }],
+          },
           filter: {
             filterModel: {
               items:
