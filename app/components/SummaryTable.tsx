@@ -9,7 +9,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import { capitalize, dateFormat, formatNumber } from "@/utils/helpers";
+import {
+  createData,
+  capitalize,
+  formatDate,
+  formatNumber,
+} from "@/utils/helpers";
 
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Link from "next/link";
@@ -30,16 +35,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     backgroundColor: theme.palette.action.hover,
   },
 }));
-
-function createData(
-  id: string,
-  amount: number,
-  balance: number,
-  type: string,
-  dateTime: string
-) {
-  return { id, amount, balance, type, dateTime };
-}
 
 const rows = [
   createData("281936183", 200000, 200000, "shares", "2004-10-19 10:23:54"),
@@ -73,7 +68,7 @@ const SummaryTable = () => {
                 Ksh. {formatNumber(row.balance)}
               </StyledTableCell>
               <StyledTableCell>{capitalize(row.type)}</StyledTableCell>
-              <StyledTableCell>{dateFormat(row.dateTime)}</StyledTableCell>
+              <StyledTableCell>{formatDate(row.dateTime)}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

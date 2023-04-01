@@ -8,7 +8,7 @@ export const capitalize = (sentence: string) => {
 };
 
 // date format function
-export const dateFormat = (dateString: string) => {
+export const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   // date.setHours(date.getHours() + 3);
   const options: Intl.DateTimeFormatOptions = {
@@ -24,4 +24,14 @@ export const dateFormat = (dateString: string) => {
 // number format
 export const formatNumber = (num: number, locale: string = "en-US") => {
   return new Intl.NumberFormat(locale).format(num);
+};
+
+export const createData = (
+  id: string,
+  amount: number,
+  balance: number,
+  type: string,
+  dateTime: string
+) => {
+  return { id, amount, balance, type, dateTime };
 };
