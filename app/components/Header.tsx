@@ -1,16 +1,23 @@
 "use client";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
+import Popper from "@mui/material/Popper";
+import Fade from "@mui/material/Fade";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
+import Badge from "@mui/material/Badge";
 import Tooltip from "@mui/material/Tooltip";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
+import ListItemButton from "@mui/material/ListItemButton";
 import MenuItem from "@mui/material/MenuItem";
 import { useState } from "react";
 import Image from "next/image";
@@ -25,6 +32,8 @@ import SavingsIcon from "@mui/icons-material/Savings";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
+import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
+import { getTimeAgo } from "@/utils/helpers";
 
 const Logo = () => {
   return (
@@ -52,12 +61,18 @@ const Logo = () => {
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const [anchorElNotification, setAnchorElNotification] =
+    useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
+  };
+
+  const handleToggleNotifications = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNotification(anchorElNotification ? null : event.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
@@ -105,6 +120,36 @@ const Header = () => {
       name: "Logout",
       icon: <LogoutIcon />,
       action: logOut,
+    },
+  ];
+
+  const notifications = [
+    {
+      id: 1,
+      title: "Guarantor Request",
+      content:
+        "You've got a guarantor request from Khalifa Fumo for a loan amount of Ksh. 200,000",
+      go_to: "/loans/1",
+      isRead: false,
+      created_at: "2023-01-19 10:23:54",
+    },
+    {
+      id: 2,
+      title: "Guarantor Request",
+      content:
+        "You've got a guarantor request from Khalifa Fumo for a loan amount of Ksh. 200,000",
+      go_to: "/loans/1",
+      isRead: false,
+      created_at: "2023-01-19 10:23:54",
+    },
+    {
+      id: 3,
+      title: "Guarantor Request",
+      content:
+        "You've got a guarantor request from Khalifa Fumo for a loan amount of Ksh. 200,000",
+      go_to: "/loans/1",
+      isRead: false,
+      created_at: "2023-01-19 10:23:54",
     },
   ];
 
@@ -186,6 +231,64 @@ const Header = () => {
             </Box>
 
             <Box sx={{ flexGrow: 0 }}>
+              <IconButton
+                onClick={handleToggleNotifications}
+                sx={{ color: "white" }}
+              >
+                <Badge badgeContent={notifications.length} color="secondary">
+                  <NotificationsNoneOutlinedIcon />
+                </Badge>
+              </IconButton>
+              <Popper
+                id="popper-notifications"
+                anchorEl={anchorElNotification}
+                keepMounted
+                open={Boolean(anchorElNotification)}
+                transition
+                sx={{ zIndex: 1 }}
+              >
+                {({ TransitionProps }) => (
+                  <Fade {...TransitionProps} timeout={350}>
+                    <Paper
+                      sx={{
+                        mt: 2,
+                        boxShadow: 1,
+                        borderRadius: 3,
+                        maxWidth: 400,
+                      }}
+                    >
+                      <List>
+                        {notifications.map((notification, index) => (
+                          <ListItem
+                            key={notification.id}
+                            disablePadding
+                            divider={index !== notifications.length - 1}
+                          >
+                            <ListItemButton
+                              component={Link}
+                              href={notification.go_to}
+                              sx={{ flexDirection: "column" }}
+                            >
+                              <ListItemText
+                                primary={notification.title}
+                                secondary={notification.content}
+                              />
+                              <Typography
+                                variant="body2"
+                                color="#4f4f4f"
+                                alignSelf="flex-end"
+                              >
+                                {getTimeAgo(notification.created_at)}
+                              </Typography>
+                            </ListItemButton>
+                          </ListItem>
+                        ))}
+                      </List>
+                    </Paper>
+                  </Fade>
+                )}
+              </Popper>
+
               <Tooltip title="Open settings">
                 <Button onClick={handleOpenUserMenu} sx={{ color: "white" }}>
                   {Boolean(anchorElUser) ? (
