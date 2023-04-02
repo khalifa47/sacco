@@ -6,8 +6,14 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 
-const getColors = (content: "shares" | "loans" | "welfare") => {
+const getColors = (content: "balance" | "shares" | "loans" | "welfare") => {
   switch (content) {
+    case "balance":
+      return {
+        bgColor: "rgb(183, 239, 239)",
+        titleColor: "rgb(40, 99, 110)",
+        amountColor: "rgb(24, 64, 66)",
+      };
     case "shares":
       return {
         bgColor: "rgb(220, 252, 231)",
@@ -30,10 +36,12 @@ const getColors = (content: "shares" | "loans" | "welfare") => {
 };
 
 const InfoCard = ({
+  admin,
   content,
   amount,
 }: {
-  content: "shares" | "loans" | "welfare";
+  admin?: boolean;
+  content: "balance" | "shares" | "loans" | "welfare";
   amount: number;
 }) => {
   const contentColors = getColors(content);
@@ -48,7 +56,7 @@ const InfoCard = ({
         backgroundColor: contentColors.bgColor,
         p: 2,
         position: "relative",
-        width: { xs: "100%", md: "46%", lg: "30%" },
+        width: { ...{ xs: "100%", md: "46%" }, lg: admin ? "47%" : "30%" },
         textDecoration: "none",
         ":hover": { boxShadow: 5 },
       }}
