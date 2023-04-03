@@ -1,4 +1,4 @@
-import Title from "@/app/components/Title";
+import Title from "@/app/(components)/Title";
 
 export default function AdminWelfare() {
   return (

@@ -1,9 +1,9 @@
 import dynamic from "next/dynamic";
-import Title from "@/app/components/Title";
+import Title from "@/app/(components)/Title";
 import { createTransactionData } from "@/utils/helpers";
 
-const InfoCard = dynamic(() => import("@/app/components/InfoCard"));
-const SummaryTable = dynamic(() => import("@/app/components/SummaryTable"), {
+const InfoCard = dynamic(() => import("@/app/(components)/InfoCard"));
+const SummaryTable = dynamic(() => import("@/app/(components)/SummaryTable"), {
   // loading: () => <Skeleton variant="rectangular" width="100%" height={100} />,
   loading: () => <h5>Loading</h5>,
 });

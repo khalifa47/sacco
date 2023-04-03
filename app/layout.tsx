@@ -1,5 +1,5 @@
-import Header from "@/app/components/Header";
-import Providers from "@/app/components/Providers";
+import Header from "@/app/(components)/Header";
+import Providers from "@/app/(components)/Providers";
 
 export const metadata = {
   title: "Kadhi Sacco",
