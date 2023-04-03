@@ -1,11 +1,50 @@
 import dynamic from "next/dynamic";
 import Title from "@/app/components/Title";
+import { createTransactionData } from "@/utils/helpers";
 
 const InfoCard = dynamic(() => import("@/app/components/InfoCard"));
 const SummaryTable = dynamic(() => import("@/app/components/SummaryTable"), {
   // loading: () => <Skeleton variant="rectangular" width="100%" height={100} />,
   loading: () => <h5>Loading</h5>,
 });
+
+const rows = [
+  createTransactionData(
+    "281936183",
+    200000,
+    200000,
+    "shares",
+    "2004-10-19 10:23:54"
+  ),
+  createTransactionData(
+    "282936183",
+    200000,
+    200000,
+    "shares",
+    "2004-10-19 10:23:54"
+  ),
+  createTransactionData(
+    "283936183",
+    200000,
+    200000,
+    "shares",
+    "2004-10-19 10:23:54"
+  ),
+  createTransactionData(
+    "284936183",
+    200000,
+    200000,
+    "shares",
+    "2004-10-19 10:23:54"
+  ),
+  createTransactionData(
+    "285936183",
+    200000,
+    200000,
+    "shares",
+    "2004-10-19 10:23:54"
+  ),
+];
 
 export default function Dashboard() {
   return (
@@ -26,7 +65,7 @@ export default function Dashboard() {
       </div>
       <hr style={{ marginTop: 30, marginBottom: 20 }} />
       <Title title="Recent Transactions" />
-      <SummaryTable />
+      <SummaryTable rows={rows} />
     </main>
   );
 }

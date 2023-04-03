@@ -48,7 +48,11 @@ const InfoCard = ({
   return (
     <Card
       component={Link}
-      href={`/${content}`}
+      href={
+        content === "balance"
+          ? "/admin/transactions"
+          : `/${admin ? "admin/" : ""}${content}`
+      }
       sx={{
         display: "flex",
         flexDirection: "column",

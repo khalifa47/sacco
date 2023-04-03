@@ -9,12 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import {
-  createData,
-  capitalize,
-  formatDate,
-  formatNumber,
-} from "@/utils/helpers";
+import { capitalize, formatDate, formatNumber } from "@/utils/helpers";
 
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Link from "next/link";
@@ -36,25 +31,34 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const rows = [
-  createData("281936183", 200000, 200000, "shares", "2004-10-19 10:23:54"),
-  createData("282936183", 200000, 200000, "shares", "2004-10-19 10:23:54"),
-  createData("283936183", 200000, 200000, "shares", "2004-10-19 10:23:54"),
-  createData("284936183", 200000, 200000, "shares", "2004-10-19 10:23:54"),
-  createData("285936183", 200000, 200000, "shares", "2004-10-19 10:23:54"),
-];
+const columns = {
+  transactions: [
+    "Transaction ID",
+    "Amount",
+    "Balance",
+    "Type",
+    "Date and Time",
+  ],
+  users: ["User ID", "Full Name", "Email", "Date Joined"],
+};
 
-const SummaryTable = () => {
+const SummaryTable = ({
+  admin,
+  rows,
+}: {
+  admin?: boolean;
+  rows: TransactionRow[] | UserRow[];
+}) => {
+  const col = "type" in rows[0] ? "transactions" : "users";
+
   return (
     <TableContainer component={Paper} sx={{ maxWidth: "lg", m: "20px auto" }}>
       <Table>
         <TableHead>
           <TableRow>
-            <StyledTableCell>ID</StyledTableCell>
-            <StyledTableCell>Amount</StyledTableCell>
-            <StyledTableCell>Balance</StyledTableCell>
-            <StyledTableCell>Type</StyledTableCell>
-            <StyledTableCell>Date and Time</StyledTableCell>
+            {columns[col].map((column) => (
+              <StyledTableCell key={column}>{column}</StyledTableCell>
+            ))}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -63,18 +67,45 @@ const SummaryTable = () => {
               <StyledTableCell sx={{ color: "#4C3FE4" }}>
                 {row.id}
               </StyledTableCell>
-              <StyledTableCell>Ksh. {formatNumber(row.amount)}</StyledTableCell>
-              <StyledTableCell>
-                Ksh. {formatNumber(row.balance)}
-              </StyledTableCell>
-              <StyledTableCell>{capitalize(row.type)}</StyledTableCell>
+
+              {"type" in row ? (
+                // if transaction
+                <>
+                  <StyledTableCell>
+                    Ksh. {formatNumber(row.amount)}
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    Ksh. {formatNumber(row.balance)}
+                  </StyledTableCell>
+                  <StyledTableCell>{capitalize(row.type)}</StyledTableCell>
+                </>
+              ) : (
+                // if user
+                <>
+                  <StyledTableCell>
+                    {capitalize(
+                      `${row.firstName} 
+                      ${row.otherNames ? row.otherNames : ""} 
+                      ${row.lastName}`
+                    )}
+                  </StyledTableCell>
+                  <StyledTableCell>
+                    <Link
+                      style={{ textDecoration: "none", color: "#4C3FE4" }}
+                      href={`mailto:${row.email}`}
+                    >
+                      {row.email}
+                    </Link>
+                  </StyledTableCell>
+                </>
+              )}
               <StyledTableCell>{formatDate(row.dateTime)}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
       </Table>
       <Link
-        href="/transactions"
+        href={admin ? `/admin/${col}` : "/transactions"}
         style={{
           display: "flex",
           alignItems: "center",
@@ -84,7 +115,9 @@ const SummaryTable = () => {
           color: "#0018af",
         }}
       >
-        <Typography>View All Transactions</Typography>
+        <Typography>
+          View All {admin ? "" : "My "} {capitalize(col)}
+        </Typography>
         <ChevronRightIcon />
       </Link>
     </TableContainer>
