@@ -4,7 +4,8 @@ type UserRow = {
   otherNames?: string;
   lastName: string;
   email: string;
-  dateTime: string;
+  dateJoined: string;
+  dateActive: string;
 };
 
 type TransactionRow = {

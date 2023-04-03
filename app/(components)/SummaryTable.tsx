@@ -9,7 +9,12 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-import { capitalize, formatDate, formatNumber } from "@/utils/helpers";
+import {
+  capitalize,
+  formatDate,
+  formatNumber,
+  getTimeAgo,
+} from "@/utils/helpers";
 
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Link from "next/link";
@@ -39,7 +44,7 @@ const columns = {
     "Type",
     "Date and Time",
   ],
-  users: ["User ID", "Full Name", "Email", "Date Joined"],
+  users: ["User ID", "Full Name", "Email", "Date Joined", "Last Active"],
 };
 
 const SummaryTable = ({
@@ -78,6 +83,7 @@ const SummaryTable = ({
                     Ksh. {formatNumber(row.balance)}
                   </StyledTableCell>
                   <StyledTableCell>{capitalize(row.type)}</StyledTableCell>
+                  <StyledTableCell>{formatDate(row.dateTime)}</StyledTableCell>
                 </>
               ) : (
                 // if user
@@ -97,9 +103,14 @@ const SummaryTable = ({
                       {row.email}
                     </Link>
                   </StyledTableCell>
+                  <StyledTableCell>
+                    {formatDate(row.dateJoined)}
+                  </StyledTableCell>
+                  <StyledTableCell sx={{ color: "#7f7f7f" }}>
+                    {getTimeAgo(row.dateActive)}
+                  </StyledTableCell>
                 </>
               )}
-              <StyledTableCell>{formatDate(row.dateTime)}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
