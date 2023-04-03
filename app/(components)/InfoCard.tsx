@@ -72,7 +72,7 @@ const InfoCard = ({
         mb={2}
         zIndex={1}
       >
-        {capitalize(content)}{" "}
+        {`${admin ? "Total" : ""} ${capitalize(content)}`}
       </Typography>
       <Typography
         variant="h3"

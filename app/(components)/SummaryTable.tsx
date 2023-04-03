@@ -106,7 +106,7 @@ const SummaryTable = ({
                   <StyledTableCell>
                     {formatDate(row.dateJoined)}
                   </StyledTableCell>
-                  <StyledTableCell sx={{ color: "#7f7f7f" }}>
+                  <StyledTableCell sx={{ color: "#5f5f5f" }}>
                     {getTimeAgo(row.dateActive)}
                   </StyledTableCell>
                 </>
