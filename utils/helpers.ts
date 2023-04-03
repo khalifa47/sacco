@@ -54,23 +54,7 @@ export const formatNumber = (num: number, locale: string = "en-US") => {
   return new Intl.NumberFormat(locale).format(num);
 };
 
-export const createTransactionData = (
-  id: string,
-  amount: number,
-  balance: number,
-  type: string,
-  dateTime: string
-) => {
-  return { id, amount, balance, type, dateTime };
-};
+export const createTransactionData = (transaction: TransactionRow) =>
+  transaction;
 
-export const createUserData = (
-  id: string,
-  firstName: string,
-  lastName: string,
-  email: string,
-  dateTime: string,
-  otherNames?: string
-) => {
-  return { id, firstName, otherNames, lastName, email, dateTime };
-};
+export const createUserData = (user: UserRow) => user;

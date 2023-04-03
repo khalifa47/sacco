@@ -9,82 +9,87 @@ const SummaryTable = dynamic(() => import("@/app/(components)/SummaryTable"), {
 });
 
 const transactionRows = [
-  createTransactionData(
-    "281936183",
-    200000,
-    200000,
-    "shares",
-    "2004-10-19 10:23:54"
-  ),
-  createTransactionData(
-    "282936183",
-    200000,
-    200000,
-    "shares",
-    "2004-10-19 10:23:54"
-  ),
-  createTransactionData(
-    "283936183",
-    200000,
-    200000,
-    "shares",
-    "2004-10-19 10:23:54"
-  ),
-  createTransactionData(
-    "284936183",
-    200000,
-    200000,
-    "shares",
-    "2004-10-19 10:23:54"
-  ),
-  createTransactionData(
-    "285936183",
-    200000,
-    200000,
-    "shares",
-    "2004-10-19 10:23:54"
-  ),
+  createTransactionData({
+    id: "281936183",
+    amount: 200000,
+    balance: 200000,
+    type: "shares",
+    dateTime: "2004-10-19 10:23:54",
+  }),
+  createTransactionData({
+    id: "282936183",
+    amount: 200000,
+    balance: 200000,
+    type: "shares",
+    dateTime: "2004-10-19 10:23:54",
+  }),
+  createTransactionData({
+    id: "283936183",
+    amount: 200000,
+    balance: 200000,
+    type: "shares",
+    dateTime: "2004-10-19 10:23:54",
+  }),
+  createTransactionData({
+    id: "284936183",
+    amount: 200000,
+    balance: 200000,
+    type: "shares",
+    dateTime: "2004-10-19 10:23:54",
+  }),
+  createTransactionData({
+    id: "285936183",
+    amount: 200000,
+    balance: 200000,
+    type: "shares",
+    dateTime: "2004-10-19 10:23:54",
+  }),
 ];
 
 const userRows = [
-  createUserData(
-    "1",
-    "khalifa",
-    "fumo",
-    "khalifafumo5@gmail.com",
-    "2004-10-19 10:23:54",
-    "bakari"
-  ),
-  createUserData(
-    "2",
-    "khalifa",
-    "fumo",
-    "khalifafumo5@gmail.com",
-    "2004-10-19 10:23:54",
-    "bakari"
-  ),
-  createUserData(
-    "3",
-    "khalifa",
-    "fumo",
-    "khalifafumo5@gmail.com",
-    "2004-10-19 10:23:54"
-  ),
-  createUserData(
-    "4",
-    "khalifa",
-    "fumo",
-    "khalifafumo5@gmail.com",
-    "2004-10-19 10:23:54"
-  ),
-  createUserData(
-    "5",
-    "khalifa",
-    "fumo",
-    "khalifafumo5@gmail.com",
-    "2004-10-19 10:23:54",
-    "bakari"
-  ),
+  createUserData({
+    id: "1",
+    firstName: "khalifa",
+    otherNames: "bakari",
+    lastName: "fumo",
+    email: "khalifafumo5@gmail.com",
+    dateJoined: "2004-10-19 10:23:54",
+    dateActive: "2014-10-19 10:23:54",
+  }),
+  createUserData({
+    id: "2",
+    firstName: "khalifa",
+    otherNames: "bakari",
+    lastName: "fumo",
+    email: "khalifafumo5@gmail.com",
+    dateJoined: "2004-10-19 10:23:54",
+    dateActive: "2014-10-19 10:23:54",
+  }),
+  createUserData({
+    id: "3",
+    firstName: "khalifa",
+    lastName: "fumo",
+    email: "khalifafumo5@gmail.com",
+    dateJoined: "2004-10-19 10:23:54",
+    dateActive: "2014-10-19 10:23:54",
+  }),
+  createUserData({
+    id: "4",
+    firstName: "khalifa",
+    lastName: "fumo",
+    email: "khalifafumo5@gmail.com",
+    dateJoined: "2004-10-19 10:23:54",
+    dateActive: "2014-10-19 10:23:54",
+  }),
+  createUserData({
+    id: "5",
+    firstName: "khalifa",
+    otherNames: "bakari",
+    lastName: "fumo",
+    email: "khalifafumo5@gmail.com",
+    dateJoined: "2004-10-19 10:23:54",
+    dateActive: "2014-10-19 10:23:54",
+  }),
 ];
 
 export default function Admin() {

@@ -9,41 +9,41 @@ const SummaryTable = dynamic(() => import("@/app/(components)/SummaryTable"), {
 });
 
 const rows = [
-  createTransactionData(
-    "281936183",
-    200000,
-    200000,
-    "shares",
-    "2004-10-19 10:23:54"
-  ),
-  createTransactionData(
-    "282936183",
-    200000,
-    200000,
-    "shares",
-    "2004-10-19 10:23:54"
-  ),
-  createTransactionData(
-    "283936183",
-    200000,
-    200000,
-    "shares",
-    "2004-10-19 10:23:54"
-  ),
-  createTransactionData(
-    "284936183",
-    200000,
-    200000,
-    "shares",
-    "2004-10-19 10:23:54"
-  ),
-  createTransactionData(
-    "285936183",
-    200000,
-    200000,
-    "shares",
-    "2004-10-19 10:23:54"
-  ),
+  createTransactionData({
+    id: "281936183",
+    amount: 200000,
+    balance: 200000,
+    type: "shares",
+    dateTime: "2004-10-19 10:23:54",
+  }),
+  createTransactionData({
+    id: "282936183",
+    amount: 200000,
+    balance: 200000,
+    type: "shares",
+    dateTime: "2004-10-19 10:23:54",
+  }),
+  createTransactionData({
+    id: "283936183",
+    amount: 200000,
+    balance: 200000,
+    type: "shares",
+    dateTime: "2004-10-19 10:23:54",
+  }),
+  createTransactionData({
+    id: "284936183",
+    amount: 200000,
+    balance: 200000,
+    type: "shares",
+    dateTime: "2004-10-19 10:23:54",
+  }),
+  createTransactionData({
+    id: "285936183",
+    amount: 200000,
+    balance: 200000,
+    type: "shares",
+    dateTime: "2004-10-19 10:23:54",
+  }),
 ];
 
 export default function Dashboard() {
