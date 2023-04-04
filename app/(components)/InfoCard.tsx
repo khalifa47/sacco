@@ -85,8 +85,6 @@ const InfoCard = ({
         {`Ksh. ${formatNumber(amount)}`}
       </Typography>
       <Typography
-        // component={Link}
-        // href={`/transactions?filterBy=${content}`}
         variant="subtitle1"
         fontWeight={600}
         align="right"
