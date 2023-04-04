@@ -63,7 +63,7 @@ export default function Dashboard() {
         <InfoCard content="loans" amount={200000} />
         <InfoCard content="welfare" amount={20000} />
       </div>
-      <hr style={{ marginTop: 30, marginBottom: 20 }} />
+      <hr style={{ marginTop: 25, marginBottom: 15 }} />
       <Title title="Recent Transactions" />
       <SummaryTable rows={rows} />
     </main>

@@ -66,7 +66,7 @@ const InfoCard = ({
       }}
     >
       <Typography
-        variant="h4"
+        variant="h5"
         align="left"
         color={contentColors.titleColor}
         mb={2}
@@ -75,8 +75,8 @@ const InfoCard = ({
         {`${admin ? "Total" : ""} ${capitalize(content)}`}
       </Typography>
       <Typography
-        variant="h3"
-        fontSize={`clamp(1rem, 3rem, 2.9rem)`}
+        variant="h4"
+        fontSize={`clamp(1rem, 2.3rem, 2.9rem)`}
         justifySelf={"center"}
         alignSelf={"center"}
         color={contentColors.amountColor}
@@ -85,7 +85,7 @@ const InfoCard = ({
         {`Ksh. ${formatNumber(amount)}`}
       </Typography>
       <Typography
-        variant="subtitle1"
+        variant="subtitle2"
         fontWeight={600}
         align="right"
         color="#000a4a"

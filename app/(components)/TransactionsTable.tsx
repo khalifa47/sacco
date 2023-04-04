@@ -73,7 +73,12 @@ const SpacedToolbar = () => {
           alignItems: "center",
         }}
       >
-        <Box display="flex" gap={3} m={{ xs: "0 auto", md: 1 }}>
+        <Box
+          display="flex"
+          rowGap={0}
+          columnGap={{ xs: 1, md: 3 }}
+          m={{ xs: "0 auto", md: 1 }}
+        >
           <GridToolbarColumnsButton />
           <GridToolbarFilterButton />
           <GridToolbarDensitySelector />

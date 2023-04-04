@@ -113,13 +113,13 @@ export default function Admin() {
         <InfoCard admin content="welfare" amount={20000} />
       </div>
 
-      <hr style={{ marginTop: 30, marginBottom: 20 }} />
+      <hr style={{ marginTop: 25, marginBottom: 15 }} />
 
       {/* User Summary */}
       <Title title="Recent Users" />
       <SummaryTable admin rows={userRows} />
 
-      <hr style={{ marginTop: 30, marginBottom: 20 }} />
+      <hr style={{ marginTop: 25, marginBottom: 15 }} />
 
       {/* Transactions Summary */}
       <Title title="Recent Transactions" />
