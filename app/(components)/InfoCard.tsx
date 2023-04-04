@@ -56,6 +56,7 @@ const InfoCard = ({
       sx={{
         display: "flex",
         flexDirection: "column",
+        justifyContent: "space-between",
         borderRadius: "10px",
         backgroundColor: contentColors.bgColor,
         p: 2,
