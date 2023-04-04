@@ -33,7 +33,7 @@ import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
-import { getTimeAgo } from "@/utils/helpers";
+import { createNotificationData, getTimeAgo } from "@/utils/helpers";
 
 const Logo = () => {
   return (
@@ -57,6 +57,96 @@ const Logo = () => {
     </Box>
   );
 };
+
+const Notifications = ({
+  anchorEl,
+  notifications,
+}: {
+  anchorEl: null | HTMLElement;
+  notifications: AppNotification[];
+}) => {
+  return (
+    <Popper
+      id="popper-notifications"
+      anchorEl={anchorEl}
+      keepMounted
+      open={Boolean(anchorEl)}
+      transition
+      sx={{ zIndex: 1 }}
+    >
+      {({ TransitionProps }) => (
+        <Fade {...TransitionProps} timeout={350}>
+          <Paper
+            sx={{
+              mt: 2,
+              boxShadow: 1,
+              borderRadius: 3,
+              maxWidth: 400,
+            }}
+          >
+            <List>
+              {notifications.map((notification, index) => (
+                <ListItem
+                  key={notification.id}
+                  disablePadding
+                  divider={index !== notifications.length - 1}
+                >
+                  <ListItemButton
+                    component={Link}
+                    href={notification.go_to}
+                    sx={{ flexDirection: "column" }}
+                  >
+                    <ListItemText
+                      primary={notification.title}
+                      secondary={notification.content}
+                    />
+                    <Typography
+                      variant="body2"
+                      color="#4f4f4f"
+                      alignSelf="flex-end"
+                    >
+                      {getTimeAgo(notification.created_at)}
+                    </Typography>
+                  </ListItemButton>
+                </ListItem>
+              ))}
+            </List>
+          </Paper>
+        </Fade>
+      )}
+    </Popper>
+  );
+};
+
+const notifications = [
+  createNotificationData({
+    id: 1,
+    title: "Guarantor Request",
+    content:
+      "You've got a guarantor request from Khalifa Fumo for a loan amount of Ksh. 200,000",
+    go_to: "/loans/1",
+    isRead: false,
+    created_at: "2023-01-19 10:23:54",
+  }),
+  createNotificationData({
+    id: 2,
+    title: "Guarantor Request",
+    content:
+      "You've got a guarantor request from Khalifa Fumo for a loan amount of Ksh. 200,000",
+    go_to: "/loans/1",
+    isRead: false,
+    created_at: "2023-01-19 10:23:54",
+  }),
+  createNotificationData({
+    id: 3,
+    title: "Guarantor Request",
+    content:
+      "You've got a guarantor request from Khalifa Fumo for a loan amount of Ksh. 200,000",
+    go_to: "/loans/1",
+    isRead: false,
+    created_at: "2023-01-19 10:23:54",
+  }),
+];
 
 const Header = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -120,36 +210,6 @@ const Header = () => {
       name: "Logout",
       icon: <LogoutIcon />,
       action: logOut,
-    },
-  ];
-
-  const notifications = [
-    {
-      id: 1,
-      title: "Guarantor Request",
-      content:
-        "You've got a guarantor request from Khalifa Fumo for a loan amount of Ksh. 200,000",
-      go_to: "/loans/1",
-      isRead: false,
-      created_at: "2023-01-19 10:23:54",
-    },
-    {
-      id: 2,
-      title: "Guarantor Request",
-      content:
-        "You've got a guarantor request from Khalifa Fumo for a loan amount of Ksh. 200,000",
-      go_to: "/loans/1",
-      isRead: false,
-      created_at: "2023-01-19 10:23:54",
-    },
-    {
-      id: 3,
-      title: "Guarantor Request",
-      content:
-        "You've got a guarantor request from Khalifa Fumo for a loan amount of Ksh. 200,000",
-      go_to: "/loans/1",
-      isRead: false,
-      created_at: "2023-01-19 10:23:54",
     },
   ];
 
@@ -239,55 +299,10 @@ const Header = () => {
                   <NotificationsNoneOutlinedIcon />
                 </Badge>
               </IconButton>
-              <Popper
-                id="popper-notifications"
+              <Notifications
                 anchorEl={anchorElNotification}
-                keepMounted
-                open={Boolean(anchorElNotification)}
-                transition
-                sx={{ zIndex: 1 }}
-              >
-                {({ TransitionProps }) => (
-                  <Fade {...TransitionProps} timeout={350}>
-                    <Paper
-                      sx={{
-                        mt: 2,
-                        boxShadow: 1,
-                        borderRadius: 3,
-                        maxWidth: 400,
-                      }}
-                    >
-                      <List>
-                        {notifications.map((notification, index) => (
-                          <ListItem
-                            key={notification.id}
-                            disablePadding
-                            divider={index !== notifications.length - 1}
-                          >
-                            <ListItemButton
-                              component={Link}
-                              href={notification.go_to}
-                              sx={{ flexDirection: "column" }}
-                            >
-                              <ListItemText
-                                primary={notification.title}
-                                secondary={notification.content}
-                              />
-                              <Typography
-                                variant="body2"
-                                color="#4f4f4f"
-                                alignSelf="flex-end"
-                              >
-                                {getTimeAgo(notification.created_at)}
-                              </Typography>
-                            </ListItemButton>
-                          </ListItem>
-                        ))}
-                      </List>
-                    </Paper>
-                  </Fade>
-                )}
-              </Popper>
+                notifications={notifications}
+              />
 
               <Tooltip title="Open settings">
                 <Button onClick={handleOpenUserMenu} sx={{ color: "white" }}>

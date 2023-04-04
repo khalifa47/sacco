@@ -54,7 +54,11 @@ export const formatNumber = (num: number, locale: string = "en-US") => {
   return new Intl.NumberFormat(locale).format(num);
 };
 
+// temp dummy data
 export const createTransactionData = (transaction: TransactionRow) =>
   transaction;
 
 export const createUserData = (user: UserRow) => user;
+
+export const createNotificationData = (notification: AppNotification) =>
+  notification;

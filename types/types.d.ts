@@ -15,3 +15,12 @@ type TransactionRow = {
   type: string;
   dateTime: string;
 };
+
+type AppNotification = {
+  id: number;
+  title: string;
+  content: string;
+  go_to: string;
+  isRead: boolean;
+  created_at: string;
+};
