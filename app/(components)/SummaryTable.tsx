@@ -41,7 +41,7 @@ const columns = {
     "Transaction ID",
     "Amount",
     "Balance",
-    "Type",
+    "Purpose",
     "Date and Time",
   ],
   users: ["User ID", "Full Name", "Email", "Date Joined", "Last Active"],
@@ -76,13 +76,18 @@ const SummaryTable = ({
               {"type" in row ? (
                 // if transaction
                 <>
-                  <StyledTableCell>
+                  <StyledTableCell
+                    sx={{
+                      color:
+                        row.type === "debit" ? "error.main" : "success.main",
+                    }}
+                  >
                     Ksh. {formatNumber(row.amount)}
                   </StyledTableCell>
                   <StyledTableCell>
                     Ksh. {formatNumber(row.balance)}
                   </StyledTableCell>
-                  <StyledTableCell>{capitalize(row.type)}</StyledTableCell>
+                  <StyledTableCell>{capitalize(row.content)}</StyledTableCell>
                   <StyledTableCell>{formatDate(row.dateTime)}</StyledTableCell>
                 </>
               ) : (

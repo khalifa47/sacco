@@ -12,7 +12,8 @@ type TransactionRow = {
   id: string;
   amount: number;
   balance: number;
-  type: string;
+  type: "debit" | "credit";
+  content: string;
   dateTime: string;
 };
 

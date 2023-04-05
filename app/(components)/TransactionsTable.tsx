@@ -46,6 +46,13 @@ const columns: GridColDef[] = [
     valueFormatter: ({ value }) => `Ksh. ${formatNumber(value)}`,
   },
   {
+    field: "content",
+    headerName: "Purpose",
+    headerClassName: "header",
+    width: 150,
+    valueFormatter: ({ value }) => capitalize(value),
+  },
+  {
     field: "type",
     headerName: "Type",
     headerClassName: "header",
@@ -130,8 +137,9 @@ const TransactionsTable = ({
             disableShowAllButton: true,
           },
         }}
+        pageSizeOptions={[10, 25, 50]}
         initialState={{
-          pagination: { paginationModel: { pageSize: 25 } },
+          pagination: { paginationModel: { pageSize: 10 } },
           sorting: {
             sortModel: [{ field: "dateTime", sort: "desc" }],
           },
@@ -140,7 +148,7 @@ const TransactionsTable = ({
               items:
                 content === "all"
                   ? []
-                  : [{ field: "type", operator: "equals", value: content }],
+                  : [{ field: "content", operator: "equals", value: content }],
             },
           },
         }}
