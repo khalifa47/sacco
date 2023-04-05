@@ -50,7 +50,7 @@ const Logo = () => {
         mr: 2,
       }}
     >
-      <Image src="/logo_white.png" alt="logo" height={50} width={50} />
+      <Image src="/logo_white.png" alt="logo" height={40} width={40} />
       <Typography letterSpacing={"0.2rem"} variant="h6" noWrap mr={10}>
         KADHI SACCO
       </Typography>
@@ -216,8 +216,11 @@ const Header = () => {
   return (
     <>
       <AppBar
-        position="fixed"
-        sx={{ maxHeight: "50px", justifyContent: "center" }}
+        position="absolute"
+        sx={{
+          maxHeight: "50px",
+          justifyContent: "center",
+        }}
       >
         <Container maxWidth="xl">
           <Toolbar
