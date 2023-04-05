@@ -39,6 +39,7 @@ export default function Shares() {
               data: [12, 19, 3, 5, 2, 3, 12, 19, 3, 5, 2, 3],
               borderColor: "#F4641F",
               backgroundColor: "#F4641F80",
+              tension: 0.2,
             },
           ]}
         />

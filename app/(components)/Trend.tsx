@@ -21,6 +21,7 @@ type Data = {
   data: number[];
   borderColor: string;
   backgroundColor: string;
+  tension: number;
 };
 
 ChartJS.register(
@@ -46,9 +47,11 @@ const Trend = ({
   return (
     <Card
       sx={{
-        p: 2,
+        p: 1,
+        pb: 4,
         flex: 1,
         borderRadius: "10px",
+        maxHeight: "300px",
         ":hover": { boxShadow: 5 },
       }}
     >
@@ -80,6 +83,7 @@ const Trend = ({
         />
       </RadioGroup> */}
       <Line
+        width="100%"
         options={{
           scales: {
             y: {
@@ -87,6 +91,7 @@ const Trend = ({
             },
           },
           responsive: true,
+          maintainAspectRatio: false,
         }}
         data={{
           labels: labels,
