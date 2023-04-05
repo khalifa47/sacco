@@ -3,11 +3,12 @@ const Divider = () => {
     <hr
       style={{
         width: "90%",
+        height: "1px",
         margin: "auto",
-        borderWidth: 0,
-        borderBottomWidth: "thin",
+        border: 0,
         marginTop: 25,
         marginBottom: 15,
+        backgroundColor: "rgba(0, 0, 0, 0.12)",
       }}
     />
   );
