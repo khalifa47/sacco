@@ -11,7 +11,8 @@ const Title = ({
         fontFamily: "Roboto,Helvetica,Arial,sans-serif",
         fontWeight: 600,
         fontSize: pageTitle ? "1.5rem" : "1.1rem",
-        margin: 10,
+        marginTop: 0,
+        marginBottom: 10,
         padding: 0,
       }}
     >

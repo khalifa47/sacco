@@ -215,11 +215,17 @@ const Header = () => {
 
   return (
     <>
-      <AppBar position="fixed">
+      <AppBar
+        position="fixed"
+        sx={{ maxHeight: "50px", justifyContent: "center" }}
+      >
         <Container maxWidth="xl">
           <Toolbar
             disableGutters
-            sx={{ display: "flex", justifyContent: "space-between" }}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+            }}
           >
             <Logo />
 
@@ -283,7 +289,12 @@ const Header = () => {
                       ? "/"
                       : `/${page.name.toLowerCase()}`
                   }
-                  sx={{ m: 1, color: "white", display: "block" }}
+                  sx={{
+                    m: 1,
+                    color: "white",
+                    display: "block",
+                    ":hover": { color: "secondary.main" },
+                  }}
                 >
                   {page.name}
                 </Button>
