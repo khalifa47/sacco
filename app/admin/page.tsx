@@ -1,6 +1,7 @@
 import Title from "@/app/(components)/Title";
 import { createTransactionData, createUserData } from "@/utils/helpers";
 import dynamic from "next/dynamic";
+import Divider from "@/app/(components)/Divider";
 
 const InfoCard = dynamic(() => import("@/app/(components)/InfoCard"));
 const SummaryTable = dynamic(() => import("@/app/(components)/SummaryTable"), {
@@ -118,14 +119,13 @@ export default function Admin() {
         <InfoCard admin content="welfare" amount={20000} />
       </div>
 
-      <hr style={{ marginTop: 25, marginBottom: 15 }} />
+      <Divider />
 
       {/* User Summary */}
       <Title title="Recent Users" />
       <SummaryTable admin rows={userRows} />
 
-      <hr style={{ marginTop: 25, marginBottom: 15 }} />
-
+      <Divider />
       {/* Transactions Summary */}
       <Title title="Recent Transactions" />
       <SummaryTable admin rows={transactionRows} />

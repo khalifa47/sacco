@@ -3,6 +3,7 @@ import TransactionsTable from "@/app/(components)/TransactionsTable";
 import { createTransactionData } from "@/utils/helpers";
 import type { GridRowsProp } from "@mui/x-data-grid";
 import dynamic from "next/dynamic";
+import Divider from "@/app/(components)/Divider";
 
 const InfoCard = dynamic(() => import("@/app/(components)/InfoCard"));
 const Trend = dynamic(() => import("@/app/(components)/Trend"));
@@ -132,12 +133,15 @@ export default function Shares() {
         />
       </div>
 
-      <hr style={{ marginTop: 25, marginBottom: 15 }} />
+      <Divider />
 
       {/* Shares Transactions */}
       <Title title="Shares Transactions" />
       <TransactionsTable rows={rows} content="shares" />
 
+      <Divider />
+
+      <Title title="Shares Actions" />
       {/* Deposit shares */}
       {/* Withdraw shares */}
       {/* Transfer to Welfare */}
