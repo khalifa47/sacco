@@ -4,6 +4,7 @@ import { createTransactionData } from "@/utils/helpers";
 import type { GridRowsProp } from "@mui/x-data-grid";
 import dynamic from "next/dynamic";
 import Divider from "@/app/(components)/Divider";
+import ActionCard from "@/app/(components)/ActionCard";
 
 const InfoCard = dynamic(() => import("@/app/(components)/InfoCard"));
 const Trend = dynamic(() => import("@/app/(components)/Trend"));
@@ -142,6 +143,23 @@ export default function Shares() {
       <Divider />
 
       <Title title="Shares Actions" />
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          columnGap: 0,
+          rowGap: "10px",
+        }}
+      >
+        <ActionCard action="deposit" />
+        <ActionCard action="withdraw" />
+        <ActionCard action="transfer" />
+        <ActionCard action="settings" />
+      </div>
+
+      <div style={{ height: "200px" }}></div>
+
       {/* Deposit shares */}
       {/* Withdraw shares */}
       {/* Transfer to Welfare */}
