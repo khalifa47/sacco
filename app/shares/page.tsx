@@ -159,11 +159,6 @@ export default function Shares() {
       </div>
 
       <div style={{ height: "200px" }}></div>
-
-      {/* Deposit shares */}
-      {/* Withdraw shares */}
-      {/* Transfer to Welfare */}
-      {/* Shares frequency */}
     </main>
   );
 }
