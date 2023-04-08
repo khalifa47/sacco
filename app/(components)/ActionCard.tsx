@@ -7,13 +7,15 @@ import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import { blue, green, purple, red } from "@mui/material/colors";
 
-type Action = "deposit" | "withdraw" | "transfer" | "settings";
+type ShareActions = "deposit" | "withdraw" | "transfer";
+type LoanActions = "loan history" | "request" | "payment";
 
-const getResource = (
-  action: Action
-): { color: string; icon: React.ReactNode } => {
+type Action = ShareActions | LoanActions | "settings";
+
+const getResource = (action: Action) => {
   switch (action) {
     case "deposit":
+    case "loan history":
       return {
         color: green[300],
         icon: (
@@ -23,6 +25,7 @@ const getResource = (
         ),
       };
     case "withdraw":
+    case "request":
       return {
         color: red[300],
         icon: (
@@ -43,6 +46,7 @@ const getResource = (
         ),
       };
     case "transfer":
+    case "payment":
       return {
         color: blue[300],
         icon: (
@@ -67,11 +71,17 @@ const getResource = (
           </svg>
         ),
       };
+    default:
+      return {
+        color: "brown",
+        icon: <svg></svg>,
+      };
   }
 };
 
 const ActionCard = ({ action }: { action: Action }) => {
-  const cardResource = getResource(action);
+  const cardResource: { color: string; icon: React.ReactNode } =
+    getResource(action);
 
   return (
     <Card
