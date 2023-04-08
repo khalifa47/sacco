@@ -108,6 +108,7 @@ export default function Shares() {
       >
         <InfoCard content="shares" amount={200000} />
         <Trend
+          content="shares"
           labels={[
             "January",
             "February",
