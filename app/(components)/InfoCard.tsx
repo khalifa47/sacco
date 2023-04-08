@@ -6,9 +6,9 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
 
-type Content = "balance" | "shares" | "loans" | "welfare";
+type InfoContent = "balance" | Content;
 
-const getColors = (content: Content) => {
+const getColors = (content: InfoContent) => {
   switch (content) {
     case "balance":
       return {
@@ -43,7 +43,7 @@ const InfoCard = ({
   amount,
 }: {
   admin?: boolean;
-  content: Content;
+  content: InfoContent;
   amount: number;
 }) => {
   const contentColors = getColors(content);

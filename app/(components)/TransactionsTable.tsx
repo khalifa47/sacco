@@ -57,6 +57,11 @@ const columns: GridColDef[] = [
     headerName: "Type",
     headerClassName: "header",
     width: 150,
+    valueGetter: ({ row }) => {
+      if (row.content === "loans")
+        return row.type === "debit" ? "repayment" : row.type;
+      else return row.type;
+    },
     valueFormatter: ({ value }) => capitalize(value),
   },
   {
@@ -107,7 +112,7 @@ const TransactionsTable = ({
   content,
   rows,
 }: {
-  content: "shares" | "loans" | "welfare" | "all";
+  content: Content | "all";
   rows: GridRowsProp;
 }) => {
   return (

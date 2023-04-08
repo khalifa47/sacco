@@ -1,3 +1,5 @@
+type Content = "shares" | "loans" | "welfare";
+
 type UserRow = {
   id: string;
   firstName: string;
@@ -13,7 +15,7 @@ type TransactionRow = {
   amount: number;
   balance: number;
   type: "debit" | "credit";
-  content: string;
+  content: Content;
   dateTime: string;
 };
 

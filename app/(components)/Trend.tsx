@@ -14,6 +14,7 @@ import {
   LineElement,
   Tooltip,
 } from "chart.js";
+import { capitalize } from "@/utils/helpers";
 // import { useState } from "react";
 
 type Data = {
@@ -33,9 +34,11 @@ ChartJS.register(
 );
 
 const Trend = ({
+  content,
   labels,
   datasets,
 }: {
+  content: Content;
   labels: string[];
   datasets: Data[];
 }) => {
@@ -56,7 +59,9 @@ const Trend = ({
       }}
     >
       <Typography textAlign="center" fontWeight={600}>
-        My Shares Distribution
+        {`My ${capitalize(content)} ${
+          content == "loans" ? "Payments" : "Deposits"
+        } Distribution`}
       </Typography>
       {/* <RadioGroup row sx={{ justifyContent: "center" }}>
         <FormControlLabel
