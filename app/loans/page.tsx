@@ -153,11 +153,6 @@ export default function Loans() {
           rowGap: "10px",
         }}
       >
-        {/* Past Loans */}
-        {/* Request for loan */}
-        {/* Direct Loan Payment */}
-        {/* Loan settings */}
-
         <ActionCard action="loan history" />
         <ActionCard action="request" />
         <ActionCard action="payment" />
