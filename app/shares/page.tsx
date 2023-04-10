@@ -1,13 +1,13 @@
-import Title from "@/app/(components)/Title";
-import TransactionsTable from "@/app/(components)/TransactionsTable";
+import Title from "@/app/(components)/layout/Title";
+import TransactionsTable from "@/app/(components)/data/TransactionsTable";
 import { createTransactionData } from "@/utils/helpers";
 import type { GridRowsProp } from "@mui/x-data-grid";
 import dynamic from "next/dynamic";
-import Divider from "@/app/(components)/Divider";
-import ActionCard from "@/app/(components)/ActionCard";
+import Divider from "@/app/(components)/layout/Divider";
+import ActionCard from "@/app/(components)/action/ActionCard";
 
-const InfoCard = dynamic(() => import("@/app/(components)/InfoCard"));
-const Trend = dynamic(() => import("@/app/(components)/Trend"));
+const InfoCard = dynamic(() => import("@/app/(components)/data/InfoCard"));
+const Trend = dynamic(() => import("@/app/(components)/data/Trend"));
 
 const rows: GridRowsProp = [
   createTransactionData({

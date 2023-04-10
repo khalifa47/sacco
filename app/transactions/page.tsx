@@ -1,5 +1,5 @@
-import Title from "@/app/(components)/Title";
-import TransactionsTable from "@/app/(components)/TransactionsTable";
+import Title from "@/app/(components)/layout/Title";
+import TransactionsTable from "@/app/(components)/data/TransactionsTable";
 import { createTransactionData } from "@/utils/helpers";
 import type { GridRowsProp } from "@mui/x-data-grid/models";
 

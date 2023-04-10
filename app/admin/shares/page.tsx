@@ -1,4 +1,4 @@
-import Title from "@/app/(components)/Title";
+import Title from "@/app/(components)/layout/Title";
 
 export default function AdminShares() {
   return (

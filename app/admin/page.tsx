@@ -1,13 +1,16 @@
-import Title from "@/app/(components)/Title";
+import Title from "@/app/(components)/layout/Title";
 import { createTransactionData, createUserData } from "@/utils/helpers";
 import dynamic from "next/dynamic";
-import Divider from "@/app/(components)/Divider";
+import Divider from "@/app/(components)/layout/Divider";
 
-const InfoCard = dynamic(() => import("@/app/(components)/InfoCard"));
-const SummaryTable = dynamic(() => import("@/app/(components)/SummaryTable"), {
-  // loading: () => <Skeleton variant="rectangular" width="100%" height={100} />,
-  loading: () => <h5>Loading</h5>,
-});
+const InfoCard = dynamic(() => import("@/app/(components)/data/InfoCard"));
+const SummaryTable = dynamic(
+  () => import("@/app/(components)/data/SummaryTable"),
+  {
+    // loading: () => <Skeleton variant="rectangular" width="100%" height={100} />,
+    loading: () => <h5>Loading</h5>,
+  }
+);
 
 const transactionRows = [
   createTransactionData({
