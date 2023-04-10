@@ -27,3 +27,8 @@ type AppNotification = {
   isRead: boolean;
   created_at: string;
 };
+
+type ShareActions = "deposit" | "withdraw" | "transfer";
+type LoanActions = "loan history" | "request" | "payment";
+
+type Action = ShareActions | LoanActions | "settings";
