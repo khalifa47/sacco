@@ -22,22 +22,70 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
 const Actions = ({ content }: { content: Content }) => {
   const [selectedAction, setSelectedAction] = useState<Action | null>(null);
 
+  const handleDialogOpen = (action: Action) => {
+    setSelectedAction(action);
+  };
+
+  const handleDialogClose = () => {
+    setSelectedAction(null);
+  };
+
   if (content === "shares") {
     return (
       <Wrapper>
-        <ActionCard action="deposit" />
-        <ActionCard action="withdraw" />
-        <ActionCard action="transfer" />
-        <ActionCard action="settings" />
+        <ActionCard
+          action="deposit"
+          selectedAction={selectedAction}
+          handleDialogOpen={handleDialogOpen}
+          handleDialogClose={handleDialogClose}
+        />
+        <ActionCard
+          action="withdraw"
+          selectedAction={selectedAction}
+          handleDialogOpen={handleDialogOpen}
+          handleDialogClose={handleDialogClose}
+        />
+        <ActionCard
+          action="transfer"
+          selectedAction={selectedAction}
+          handleDialogOpen={handleDialogOpen}
+          handleDialogClose={handleDialogClose}
+        />
+        <ActionCard
+          action="settings"
+          selectedAction={selectedAction}
+          handleDialogOpen={handleDialogOpen}
+          handleDialogClose={handleDialogClose}
+        />
       </Wrapper>
     );
   } else if (content === "loans") {
     return (
       <Wrapper>
-        <ActionCard action="loan history" />
-        <ActionCard action="request" />
-        <ActionCard action="payment" />
-        <ActionCard action="settings" />
+        <ActionCard
+          action="loan history"
+          selectedAction={selectedAction}
+          handleDialogOpen={handleDialogOpen}
+          handleDialogClose={handleDialogClose}
+        />
+        <ActionCard
+          action="request"
+          selectedAction={selectedAction}
+          handleDialogOpen={handleDialogOpen}
+          handleDialogClose={handleDialogClose}
+        />
+        <ActionCard
+          action="payment"
+          selectedAction={selectedAction}
+          handleDialogOpen={handleDialogOpen}
+          handleDialogClose={handleDialogClose}
+        />
+        <ActionCard
+          action="settings"
+          selectedAction={selectedAction}
+          handleDialogOpen={handleDialogOpen}
+          handleDialogClose={handleDialogClose}
+        />
       </Wrapper>
     );
   }
@@ -50,8 +98,18 @@ const Actions = ({ content }: { content: Content }) => {
         gap: 10,
       }}
     >
-      <ActionCard action="deposit" />
-      <ActionCard action="settings" />
+      <ActionCard
+        action="deposit"
+        selectedAction={selectedAction}
+        handleDialogOpen={handleDialogOpen}
+        handleDialogClose={handleDialogClose}
+      />
+      <ActionCard
+        action="settings"
+        selectedAction={selectedAction}
+        handleDialogOpen={handleDialogOpen}
+        handleDialogClose={handleDialogClose}
+      />
     </div>
   );
 };

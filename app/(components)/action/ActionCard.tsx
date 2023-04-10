@@ -6,11 +6,7 @@ import ButtonBase from "@mui/material/ButtonBase";
 import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import { blue, green, purple, red } from "@mui/material/colors";
-
-type ShareActions = "deposit" | "withdraw" | "transfer";
-type LoanActions = "loan history" | "request" | "payment";
-
-type Action = ShareActions | LoanActions | "settings";
+import ActionDialog from "./ActionDialog";
 
 const getResource = (action: Action) => {
   switch (action) {
@@ -111,49 +107,67 @@ const getResource = (action: Action) => {
   }
 };
 
-const ActionCard = ({ action }: { action: Action }) => {
+const ActionCard = ({
+  action,
+  selectedAction,
+  handleDialogOpen,
+  handleDialogClose,
+}: {
+  action: Action;
+  selectedAction: Action | null;
+  handleDialogOpen: (action: Action) => void;
+  handleDialogClose: () => void;
+}) => {
   const cardResource: { color: string; icon: React.ReactNode } =
     getResource(action);
 
   return (
-    <Card
-      component={ButtonBase}
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        borderRadius: "10px",
-        justifyContent: "center",
-        alignItems: "center",
-        border: 1,
-        boxShadow: 0,
-        borderColor: cardResource.color,
-        backgroundColor: "transparent",
-        py: 4,
-        position: "relative",
-        width: { xs: "48%", md: "24%" },
-        ":hover": {
-          boxShadow: 5,
-          "& .text": { display: "block" },
-          "& .icon": { display: "none" },
-        },
-      }}
-    >
-      <Typography
-        className="text"
-        variant="h5"
-        fontWeight={700}
-        color={cardResource.color}
-        display="none"
+    <>
+      <Card
+        component={ButtonBase}
+        onClick={() => handleDialogOpen(action)}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          borderRadius: "10px",
+          justifyContent: "center",
+          alignItems: "center",
+          border: 1,
+          boxShadow: 0,
+          borderColor: cardResource.color,
+          backgroundColor: "transparent",
+          py: 4,
+          position: "relative",
+          width: { xs: "48%", md: "24%" },
+          ":hover": {
+            boxShadow: 5,
+            "& .text": { display: "block" },
+            "& .icon": { display: "none" },
+          },
+        }}
       >
-        {capitalize(action)}
-      </Typography>
-      <SvgIcon
-        className="icon"
-        sx={{ fontSize: "70px", color: cardResource.color, display: "block" }}
-      >
-        {cardResource.icon}
-      </SvgIcon>
-    </Card>
+        <Typography
+          className="text"
+          variant="h5"
+          fontWeight={700}
+          color={cardResource.color}
+          display="none"
+        >
+          {capitalize(action)}
+        </Typography>
+        <SvgIcon
+          className="icon"
+          sx={{ fontSize: "70px", color: cardResource.color, display: "block" }}
+        >
+          {cardResource.icon}
+        </SvgIcon>
+      </Card>
+      <ActionDialog
+        action={action}
+        open={action === selectedAction}
+        handleClose={handleDialogClose}
+      />
+    </>
   );
 };
 
