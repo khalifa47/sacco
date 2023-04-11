@@ -1748,6 +1748,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"formik-mui@npm:^5.0.0-alpha.0":
+  version: 5.0.0-alpha.0
+  resolution: "formik-mui@npm:5.0.0-alpha.0"
+  peerDependencies:
+    "@emotion/react": ">=11.5.0"
+    "@emotion/styled": ">=11.3.0"
+    "@mui/material": ">=5.2.3"
+    formik: ">=2.2.9"
+    react: ">=17.0.2"
+    tiny-warning: ">=1.0.3"
+  checksum: ccb4a2602fb4416f5081a6c38d9837a8622fc75993bcdb85be8529a4ce2ed0ca7ef37b62415b218113b714bc09545b8a1ed3e271ee04210b1fafee301caf5ed4
+  languageName: node
+  linkType: hard
+
 "formik@npm:^2.2.9":
   version: 2.2.9
   resolution: "formik@npm:2.2.9"
@@ -3053,6 +3067,7 @@ __metadata:
     eslint: 8.36.0
     eslint-config-next: 13.2.4
     formik: ^2.2.9
+    formik-mui: ^5.0.0-alpha.0
     next: 13.2.4
     react: 18.2.0
     react-chartjs-2: ^5.2.0
