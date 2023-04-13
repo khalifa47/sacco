@@ -54,12 +54,14 @@ export const formatNumber = (num: number, locale: string = "en-US") => {
   return new Intl.NumberFormat(locale).format(num);
 };
 
-export const isValidKenyanPhoneNumber = (phoneNumber: string) => {
+export const isValidSafaricomPhoneNumber = (phoneNumber: string) => {
   // Remove whitespace, hyphens, and other characters from the phone number
   phoneNumber = phoneNumber.replace(/\D/g, "");
 
   // Check if the phone number starts with the Kenyan country code (+254) and is 12 digits long
-  return /^254\d{9}$/.test(phoneNumber);
+  return /^(?:254|\+254|0)?((?:7(?:[0129]\d|4[0123568]|5[789]|6[89])|(1(1[0-5])))\d{6})$/.test(
+    phoneNumber
+  );
 };
 
 // temp dummy data

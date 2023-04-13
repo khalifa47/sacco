@@ -1,6 +1,6 @@
 import * as yup from "yup";
 import { Formik, Form, Field } from "formik";
-import { isValidKenyanPhoneNumber } from "@/utils/helpers";
+import { isValidSafaricomPhoneNumber } from "@/utils/helpers";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import { TextField } from "formik-mui";
@@ -18,7 +18,7 @@ export const DepositShares = ({ phone }: { phone: string }) => {
       .test({
         name: "is-valid-phone",
         message: "Invalid phone number",
-        test: (value) => isValidKenyanPhoneNumber(String(value)),
+        test: (value) => isValidSafaricomPhoneNumber(String(value)),
       })
       .required("Phone number is required."),
   });
