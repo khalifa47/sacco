@@ -13,17 +13,10 @@ import {
   PointElement,
   LineElement,
   Tooltip,
+  type ChartDataset,
 } from "chart.js";
 import { capitalize } from "@/utils/helpers";
 // import { useState } from "react";
-
-type Data = {
-  label: string;
-  data: number[];
-  borderColor: string;
-  backgroundColor: string;
-  tension: number;
-};
 
 ChartJS.register(
   CategoryScale,
@@ -40,7 +33,7 @@ const Trend = ({
 }: {
   content: Content;
   labels: string[];
-  datasets: Data[];
+  datasets: ChartDataset<"line">[];
 }) => {
   //   const [selectedScale, setSelectedScale] = useState("monthly");
   //   const handleChangeScale = (event: React.ChangeEvent<HTMLInputElement>) => {
