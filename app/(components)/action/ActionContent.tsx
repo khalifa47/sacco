@@ -85,7 +85,7 @@ export const TransferShares = () => {};
 
 export const SettingShares = () => {};
 
-// loan
+// loans
 export const HistoryLoans = () => {};
 
 export const RequestLoans = () => {};
