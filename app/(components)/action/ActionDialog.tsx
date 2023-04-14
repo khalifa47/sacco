@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import { TransitionProps } from "@mui/material/transitions";
 import { forwardRef } from "react";
 import { capitalize } from "@/utils/helpers";
-import { DepositShares } from "./ActionContent";
+import { DepositShares, TransferShares, WithdrawShares } from "./ActionContent";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -41,11 +41,21 @@ const ActionDialog = ({
     >
       <DialogTitle>{capitalize(action)}</DialogTitle>
       <DialogContent>
-        <DialogContentText>
+        {/* <DialogContentText>
           Enter an amount between Ksh. 1,000 and Ksh. 100,000 and the phone
           number that will be prompted to make the payment.
         </DialogContentText>
-        <DepositShares phone="254711144488" />
+        <DepositShares phone="254711144488" /> */}
+        {/* <DialogContentText>
+          Withdraw an amount between Ksh. 100 and (60% of your shares) to a
+          specified phone number by MPESA.
+        </DialogContentText>
+        <WithdrawShares sharesAmount={50000} phone="254711144488" /> */}
+        <DialogContentText>
+          Transfer an amount between Ksh. 100 and (60% of your shares) to
+          welfare or another shares account.
+        </DialogContentText>
+        <TransferShares sharesAmount={50000} />
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Close</Button>
