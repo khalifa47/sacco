@@ -17,7 +17,7 @@ import {
   WithdrawShares,
   RepayLoans,
   DepositWelfare,
-  SettingWelfare,
+  Settings,
 } from "./ActionContent";
 
 const Transition = forwardRef(function Transition(
@@ -52,12 +52,22 @@ const getDialogContent = (
           "Transfer an amount between Ksh. 100 and (60% of your shares) to welfare or another shares account.",
         content: <TransferShares sharesAmount={50000} />,
       };
+    case "share settings":
+      return {
+        contentText: "Change your shares depositing frequency settings.",
+        content: <Settings action="share settings" frequency="monthly" />,
+      };
 
     // loans
     case "payment":
       return {
         contentText: "Make a direct loan repayment.",
         content: <RepayLoans phone="254711144488" loanBalance={90000} />,
+      };
+    case "loan settings":
+      return {
+        contentText: "Change your loan repayment frequency settings.",
+        content: <Settings action="loan settings" frequency="monthly" />,
       };
 
     // welfare
@@ -69,8 +79,8 @@ const getDialogContent = (
       };
     case "welfare settings":
       return {
-        contentText: "Change your welfare frequncy settings.",
-        content: <SettingWelfare frequency="monthly" />,
+        contentText: "Change your welfare frequency settings.",
+        content: <Settings action="welfare settings" frequency="monthly" />,
       };
     default:
       return {

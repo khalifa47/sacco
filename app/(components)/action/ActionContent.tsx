@@ -6,6 +6,13 @@ import { useState } from "react";
 import PaymentForm from "./PaymentForm";
 import SettingsForm from "./SettingsForm";
 
+const frequencyToInitialAmount = {
+  weekly: 1000,
+  monthly: 10000,
+  quarterly: 100000,
+  yearly: 300000,
+};
+
 // TODO: Add confirm box for verifying transaction
 
 // shares
@@ -135,8 +142,6 @@ export const TransferShares = ({ sharesAmount }: { sharesAmount: number }) => {
   );
 };
 
-export const SettingShares = () => {};
-
 // loans
 export const HistoryLoans = () => {};
 
@@ -173,8 +178,6 @@ export const RepayLoans = ({
   );
 };
 
-export const SettingLoans = () => {};
-
 // welfare
 export const DepositWelfare = ({ phone }: { phone: string }) => {
   const validationSchema = yup.object({
@@ -201,13 +204,14 @@ export const DepositWelfare = ({ phone }: { phone: string }) => {
   );
 };
 
-export const SettingWelfare = ({ frequency }: { frequency: Frequency }) => {
-  const frequencyToInitialAmount = {
-    weekly: 1000,
-    monthly: 10000,
-    quarterly: 100000,
-    yearly: 300000,
-  };
+// all settings
+export const Settings = ({
+  action,
+  frequency,
+}: {
+  action: Action;
+  frequency: Frequency;
+}) => {
   const validationSchema = yup.object({
     frequency: yup
       .string()
@@ -223,7 +227,7 @@ export const SettingWelfare = ({ frequency }: { frequency: Frequency }) => {
   });
   return (
     <SettingsForm
-      action="welfare settings"
+      action={action}
       initialValues={{
         frequency: frequency,
         amount: frequencyToInitialAmount[frequency],
