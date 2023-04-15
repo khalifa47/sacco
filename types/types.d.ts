@@ -37,3 +37,5 @@ type LoanActions = "loan history" | "request" | "payment" | "loan settings";
 type WelfareActions = "deposit welfare" | "welfare settings";
 
 type Action = ShareActions | LoanActions | WelfareActions;
+
+type Frequency = "weekly" | "monthly" | "quarterly" | "yearly";
