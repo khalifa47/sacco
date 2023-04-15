@@ -11,7 +11,12 @@ import Button from "@mui/material/Button";
 import { TransitionProps } from "@mui/material/transitions";
 import { forwardRef } from "react";
 import { capitalize } from "@/utils/helpers";
-import { DepositShares, TransferShares, WithdrawShares } from "./ActionContent";
+import {
+  DepositShares,
+  TransferShares,
+  WithdrawShares,
+  DepositWelfare,
+} from "./ActionContent";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -26,10 +31,10 @@ const getDialogContent = (
   action: Action
 ): { contentText: string; content: React.ReactNode } => {
   switch (action) {
-    case "deposit":
+    case "deposit shares":
       return {
         contentText:
-          "Enter an amount between Ksh. 1,000 and Ksh. 100,000 and the phone number that will be prompted to make the payment.",
+          "Deposit an amount between Ksh. 100 and Ksh. 100,000 to your shares account.",
         content: <DepositShares phone="254711144488" />,
       };
     case "withdraw":
@@ -43,6 +48,12 @@ const getDialogContent = (
         contentText:
           "Transfer an amount between Ksh. 100 and (60% of your shares) to welfare or another shares account.",
         content: <TransferShares sharesAmount={50000} />,
+      };
+    case "deposit welfare":
+      return {
+        contentText:
+          "Deposit an amount between Ksh. 100 and Ksh. 100,000 to your welfare account.",
+        content: <DepositWelfare phone="254711144488" />,
       };
     default:
       return {

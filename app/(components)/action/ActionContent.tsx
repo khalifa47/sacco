@@ -26,7 +26,7 @@ export const DepositShares = ({ phone }: { phone: string }) => {
   });
   return (
     <ActionForm
-      action="deposit"
+      action="deposit shares"
       initialValues={{ amount: 1000, phone: phone }}
       validationSchema={validationSchema}
     />
@@ -146,6 +146,29 @@ export const RepayLoans = () => {};
 export const SettingLoans = () => {};
 
 // welfare
-export const DepositWelfare = () => {};
+export const DepositWelfare = ({ phone }: { phone: string }) => {
+  const validationSchema = yup.object({
+    amount: yup
+      .number()
+      .required("Amount is required.")
+      .lessThan(100000, "Amount cannot exceed Ksh. 100,000")
+      .moreThan(999, "Amount cannot be less than Ksh. 1,000"),
+    phone: yup
+      .string()
+      .test({
+        name: "is-valid-phone",
+        message: "Invalid phone number",
+        test: (value) => isValidSafaricomPhoneNumber(String(value)),
+      })
+      .required("Phone number is required."),
+  });
+  return (
+    <ActionForm
+      action="deposit welfare"
+      initialValues={{ amount: 1000, phone: phone }}
+      validationSchema={validationSchema}
+    />
+  );
+};
 
 export const SettingWelfare = () => {};
