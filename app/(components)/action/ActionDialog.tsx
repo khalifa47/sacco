@@ -15,6 +15,7 @@ import {
   DepositShares,
   TransferShares,
   WithdrawShares,
+  RepayLoans,
   DepositWelfare,
 } from "./ActionContent";
 
@@ -31,6 +32,7 @@ const getDialogContent = (
   action: Action
 ): { contentText: string; content: React.ReactNode } => {
   switch (action) {
+    // shares
     case "deposit shares":
       return {
         contentText:
@@ -49,6 +51,15 @@ const getDialogContent = (
           "Transfer an amount between Ksh. 100 and (60% of your shares) to welfare or another shares account.",
         content: <TransferShares sharesAmount={50000} />,
       };
+
+    // loans
+    case "payment":
+      return {
+        contentText: "Make a direct loan payment.",
+        content: <RepayLoans phone="254711144488" loanBalance={90000} />,
+      };
+
+    // welfare
     case "deposit welfare":
       return {
         contentText:

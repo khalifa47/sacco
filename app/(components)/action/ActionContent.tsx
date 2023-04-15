@@ -13,7 +13,7 @@ export const DepositShares = ({ phone }: { phone: string }) => {
     amount: yup
       .number()
       .required("Amount is required.")
-      .lessThan(100000, "Amount cannot exceed Ksh. 100,000")
+      .lessThan(100001, "Amount cannot exceed Ksh. 100,000")
       .moreThan(999, "Amount cannot be less than Ksh. 1,000"),
     phone: yup
       .string()
@@ -141,7 +141,36 @@ export const HistoryLoans = () => {};
 
 export const RequestLoans = () => {};
 
-export const RepayLoans = () => {};
+export const RepayLoans = ({
+  phone,
+  loanBalance,
+}: {
+  phone: string;
+  loanBalance: number;
+}) => {
+  const validationSchema = yup.object({
+    amount: yup
+      .number()
+      .required("Amount is required.")
+      .lessThan(loanBalance + 1, "Amount cannot exceed your loan Balance")
+      .moreThan(999, "Amount cannot be less than Ksh. 1,000"),
+    phone: yup
+      .string()
+      .test({
+        name: "is-valid-phone",
+        message: "Invalid phone number",
+        test: (value) => isValidSafaricomPhoneNumber(String(value)),
+      })
+      .required("Phone number is required."),
+  });
+  return (
+    <ActionForm
+      action="payment"
+      initialValues={{ amount: 1000, phone: phone }}
+      validationSchema={validationSchema}
+    />
+  );
+};
 
 export const SettingLoans = () => {};
 
@@ -151,7 +180,7 @@ export const DepositWelfare = ({ phone }: { phone: string }) => {
     amount: yup
       .number()
       .required("Amount is required.")
-      .lessThan(100000, "Amount cannot exceed Ksh. 100,000")
+      .lessThan(100001, "Amount cannot exceed Ksh. 100,000")
       .moreThan(999, "Amount cannot be less than Ksh. 1,000"),
     phone: yup
       .string()
