@@ -10,7 +10,7 @@ type Values = {
   phone?: string;
 };
 
-const ActionForm = ({
+const PaymentForm = ({
   action,
   initialValues,
   validationSchema,
@@ -89,4 +89,4 @@ const ActionForm = ({
   );
 };
 
-export default ActionForm;
+export default PaymentForm;

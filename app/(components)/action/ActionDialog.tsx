@@ -55,7 +55,7 @@ const getDialogContent = (
     // loans
     case "payment":
       return {
-        contentText: "Make a direct loan payment.",
+        contentText: "Make a direct loan repayment.",
         content: <RepayLoans phone="254711144488" loanBalance={90000} />,
       };
 

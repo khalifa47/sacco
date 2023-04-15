@@ -3,7 +3,7 @@ import { isValidSafaricomPhoneNumber } from "@/utils/helpers";
 import Radio from "@mui/material/Radio";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { useState } from "react";
-import ActionForm from "./ActionForm";
+import PaymentForm from "./PaymentForm";
 
 // TODO: Add confirm box for verifying transaction
 
@@ -25,7 +25,7 @@ export const DepositShares = ({ phone }: { phone: string }) => {
       .required("Phone number is required."),
   });
   return (
-    <ActionForm
+    <PaymentForm
       action="deposit shares"
       initialValues={{ amount: 1000, phone: phone }}
       validationSchema={validationSchema}
@@ -56,7 +56,7 @@ export const WithdrawShares = ({
       .required("Phone number is required."),
   });
   return (
-    <ActionForm
+    <PaymentForm
       action="withdraw"
       initialValues={{ amount: 100, phone: phone }}
       validationSchema={validationSchema}
@@ -120,7 +120,7 @@ export const TransferShares = ({ sharesAmount }: { sharesAmount: number }) => {
           label="Transfer to Other Shares Account"
         />
       </div>
-      <ActionForm
+      <PaymentForm
         action="transfer"
         initialValues={{ amount: 100 }}
         validationSchema={
@@ -164,7 +164,7 @@ export const RepayLoans = ({
       .required("Phone number is required."),
   });
   return (
-    <ActionForm
+    <PaymentForm
       action="payment"
       initialValues={{ amount: 1000, phone: phone }}
       validationSchema={validationSchema}
@@ -192,7 +192,7 @@ export const DepositWelfare = ({ phone }: { phone: string }) => {
       .required("Phone number is required."),
   });
   return (
-    <ActionForm
+    <PaymentForm
       action="deposit welfare"
       initialValues={{ amount: 1000, phone: phone }}
       validationSchema={validationSchema}
