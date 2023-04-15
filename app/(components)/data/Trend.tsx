@@ -14,6 +14,7 @@ import {
   LineElement,
   Tooltip,
   type ChartDataset,
+  Filler,
 } from "chart.js";
 import { capitalize } from "@/utils/helpers";
 // import { useState } from "react";
@@ -23,7 +24,8 @@ ChartJS.register(
   LinearScale,
   PointElement,
   LineElement,
-  Tooltip
+  Tooltip,
+  Filler
 );
 
 const Trend = ({
@@ -39,6 +41,13 @@ const Trend = ({
   //   const handleChangeScale = (event: React.ChangeEvent<HTMLInputElement>) => {
   //     setSelectedScale(event.target.value);
   //   };
+  datasets[0].label = "Amount";
+  datasets[0].borderColor = "#F4641F";
+  datasets[0].borderWidth = 0;
+  datasets[0].backgroundColor = "#F4641F80";
+  datasets[0].tension = 0.4;
+  datasets[0].fill = true;
+  datasets[0].pointRadius = 0;
 
   return (
     <Card
@@ -48,6 +57,9 @@ const Trend = ({
         flex: 1,
         borderRadius: "10px",
         maxHeight: "300px",
+        position: "relative",
+        background:
+          "linear-gradient(135deg, rgba(42, 45, 52, 0.2), rgba(247, 202, 201, 0.2))",
         ":hover": { boxShadow: 5 },
       }}
     >
@@ -86,6 +98,14 @@ const Trend = ({
           scales: {
             y: {
               beginAtZero: true,
+              grid: {
+                color: "transparent",
+              },
+            },
+            x: {
+              grid: {
+                color: "transparent",
+              },
             },
           },
           responsive: true,
