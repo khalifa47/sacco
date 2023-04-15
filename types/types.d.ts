@@ -28,7 +28,12 @@ type AppNotification = {
   created_at: string;
 };
 
-type ShareActions = "deposit" | "withdraw" | "transfer";
-type LoanActions = "loan history" | "request" | "payment";
+type ShareActions =
+  | "deposit shares"
+  | "withdraw"
+  | "transfer"
+  | "share settings";
+type LoanActions = "loan history" | "request" | "payment" | "loan settings";
+type WelfareActions = "deposit welfare" | "welfare settings";
 
-type Action = ShareActions | LoanActions | "settings";
+type Action = ShareActions | LoanActions | WelfareActions;

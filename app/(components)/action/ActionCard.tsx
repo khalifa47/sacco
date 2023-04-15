@@ -11,7 +11,8 @@ import ActionDialog from "./ActionDialog";
 const getResource = (action: Action) => {
   switch (action) {
     // share actions
-    case "deposit":
+    case "deposit shares":
+    case "deposit welfare":
       return {
         color: green[300],
         icon: (
@@ -88,7 +89,7 @@ const getResource = (action: Action) => {
       };
 
     // shared actions
-    case "settings":
+    default:
       return {
         color: purple[300],
         icon: (
@@ -98,11 +99,6 @@ const getResource = (action: Action) => {
             </g>
           </svg>
         ),
-      };
-    default:
-      return {
-        color: "brown",
-        icon: <svg></svg>,
       };
   }
 };
@@ -129,6 +125,7 @@ const ActionCard = ({
         sx={{
           display: "flex",
           flexDirection: "column",
+          flexWrap: "wrap",
           borderRadius: "10px",
           justifyContent: "center",
           alignItems: "center",

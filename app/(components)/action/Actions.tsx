@@ -34,7 +34,7 @@ const Actions = ({ content }: { content: Content }) => {
     return (
       <Wrapper>
         <ActionCard
-          action="deposit"
+          action="deposit shares"
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
           handleDialogClose={handleDialogClose}
@@ -52,7 +52,7 @@ const Actions = ({ content }: { content: Content }) => {
           handleDialogClose={handleDialogClose}
         />
         <ActionCard
-          action="settings"
+          action="share settings"
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
           handleDialogClose={handleDialogClose}
@@ -81,7 +81,7 @@ const Actions = ({ content }: { content: Content }) => {
           handleDialogClose={handleDialogClose}
         />
         <ActionCard
-          action="settings"
+          action="loan settings"
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
           handleDialogClose={handleDialogClose}
@@ -99,13 +99,13 @@ const Actions = ({ content }: { content: Content }) => {
       }}
     >
       <ActionCard
-        action="deposit"
+        action="deposit welfare"
         selectedAction={selectedAction}
         handleDialogOpen={handleDialogOpen}
         handleDialogClose={handleDialogClose}
       />
       <ActionCard
-        action="settings"
+        action="welfare settings"
         selectedAction={selectedAction}
         handleDialogOpen={handleDialogOpen}
         handleDialogClose={handleDialogClose}
