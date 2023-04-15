@@ -15,6 +15,7 @@ import {
   DepositShares,
   TransferShares,
   WithdrawShares,
+  RequestLoans,
   RepayLoans,
   DepositWelfare,
   Settings,
@@ -59,6 +60,17 @@ const getDialogContent = (
       };
 
     // loans
+    case "loan history":
+      return {
+        contentText: "View your loan repayment history.",
+        content: <></>,
+      };
+    case "request":
+      return {
+        contentText:
+          "Apply for a loan. The guarantor you select will be notified.",
+        content: <RequestLoans sharesAmount={50000} outStandingLoan={10000} />,
+      };
     case "payment":
       return {
         contentText: "Make a direct loan repayment.",

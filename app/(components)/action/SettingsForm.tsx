@@ -3,7 +3,6 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { TextField, Select } from "formik-mui";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
-import { capitalize } from "@/utils/helpers";
 import type { ObjectSchema } from "yup";
 
 type Values = {

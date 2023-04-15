@@ -5,6 +5,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { useState } from "react";
 import PaymentForm from "./PaymentForm";
 import SettingsForm from "./SettingsForm";
+import RequestForm from "./RequestForm";
 
 const frequencyToInitialAmount = {
   weekly: 1000,
@@ -48,6 +49,7 @@ export const WithdrawShares = ({
   phone: string;
   sharesAmount: number;
 }) => {
+  // TODO: Deny withdrawal if there is a pending loan
   const validationSchema = yup.object({
     amount: yup
       .number()
@@ -145,7 +147,20 @@ export const TransferShares = ({ sharesAmount }: { sharesAmount: number }) => {
 // loans
 export const HistoryLoans = () => {};
 
-export const RequestLoans = () => {};
+export const RequestLoans = ({
+  sharesAmount,
+  outStandingLoan,
+}: {
+  sharesAmount: number;
+  outStandingLoan: number;
+}) => {
+  return (
+    <RequestForm
+      sharesAmount={sharesAmount}
+      outStandingLoan={outStandingLoan}
+    />
+  );
+};
 
 export const RepayLoans = ({
   phone,
