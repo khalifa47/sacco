@@ -22,6 +22,36 @@ const Transition = forwardRef(function Transition(
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+const getDialogContent = (
+  action: Action
+): { contentText: string; content: React.ReactNode } => {
+  switch (action) {
+    case "deposit":
+      return {
+        contentText:
+          "Enter an amount between Ksh. 1,000 and Ksh. 100,000 and the phone number that will be prompted to make the payment.",
+        content: <DepositShares phone="254711144488" />,
+      };
+    case "withdraw":
+      return {
+        contentText:
+          "Withdraw an amount between Ksh. 100 and (60% of your shares) to a specified phone number by MPESA.",
+        content: <WithdrawShares sharesAmount={50000} phone="254711144488" />,
+      };
+    case "transfer":
+      return {
+        contentText:
+          "Transfer an amount between Ksh. 100 and (60% of your shares) to welfare or another shares account.",
+        content: <TransferShares sharesAmount={50000} />,
+      };
+    default:
+      return {
+        contentText: "",
+        content: <></>,
+      };
+  }
+};
+
 const ActionDialog = ({
   action,
   open,
@@ -31,6 +61,7 @@ const ActionDialog = ({
   open: boolean;
   handleClose: () => void;
 }) => {
+  const { contentText, content } = getDialogContent(action);
   return (
     <Dialog
       open={open}
@@ -41,21 +72,8 @@ const ActionDialog = ({
     >
       <DialogTitle>{capitalize(action)}</DialogTitle>
       <DialogContent>
-        {/* <DialogContentText>
-          Enter an amount between Ksh. 1,000 and Ksh. 100,000 and the phone
-          number that will be prompted to make the payment.
-        </DialogContentText>
-        <DepositShares phone="254711144488" /> */}
-        {/* <DialogContentText>
-          Withdraw an amount between Ksh. 100 and (60% of your shares) to a
-          specified phone number by MPESA.
-        </DialogContentText>
-        <WithdrawShares sharesAmount={50000} phone="254711144488" /> */}
-        <DialogContentText>
-          Transfer an amount between Ksh. 100 and (60% of your shares) to
-          welfare or another shares account.
-        </DialogContentText>
-        <TransferShares sharesAmount={50000} />
+        <DialogContentText>{contentText}</DialogContentText>
+        {content}
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Close</Button>
