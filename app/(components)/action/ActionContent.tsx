@@ -4,6 +4,7 @@ import Radio from "@mui/material/Radio";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { useState } from "react";
 import PaymentForm from "./PaymentForm";
+import SettingsForm from "./SettingsForm";
 
 // TODO: Add confirm box for verifying transaction
 
@@ -200,4 +201,34 @@ export const DepositWelfare = ({ phone }: { phone: string }) => {
   );
 };
 
-export const SettingWelfare = () => {};
+export const SettingWelfare = ({ frequency }: { frequency: Frequency }) => {
+  const frequencyToInitialAmount = {
+    weekly: 1000,
+    monthly: 10000,
+    quarterly: 100000,
+    yearly: 300000,
+  };
+  const validationSchema = yup.object({
+    frequency: yup
+      .string()
+      .oneOf(
+        ["weekly", "monthly", "quarterly", "yearly"],
+        "Please select a valid option."
+      )
+      .required("Frequency is required."),
+    amount: yup
+      .number()
+      .required("Amount is required.")
+      .moreThan(999, "Amount cannot be less than Ksh. 1,000"),
+  });
+  return (
+    <SettingsForm
+      action="welfare settings"
+      initialValues={{
+        frequency: frequency,
+        amount: frequencyToInitialAmount[frequency],
+      }}
+      validationSchema={validationSchema}
+    />
+  );
+};

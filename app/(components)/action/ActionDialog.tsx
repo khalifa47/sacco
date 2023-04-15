@@ -17,6 +17,7 @@ import {
   WithdrawShares,
   RepayLoans,
   DepositWelfare,
+  SettingWelfare,
 } from "./ActionContent";
 
 const Transition = forwardRef(function Transition(
@@ -65,6 +66,11 @@ const getDialogContent = (
         contentText:
           "Deposit an amount between Ksh. 100 and Ksh. 100,000 to your welfare account.",
         content: <DepositWelfare phone="254711144488" />,
+      };
+    case "welfare settings":
+      return {
+        contentText: "Change your welfare frequncy settings.",
+        content: <SettingWelfare frequency="monthly" />,
       };
     default:
       return {
