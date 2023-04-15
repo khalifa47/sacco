@@ -2,7 +2,6 @@ import { Formik, Form, Field } from "formik";
 import CircularProgress from "@mui/material/CircularProgress";
 import { TextField } from "formik-mui";
 import Button from "@mui/material/Button";
-import { capitalize } from "@/utils/helpers";
 import type { ObjectSchema } from "yup";
 
 type Values = {
@@ -32,7 +31,7 @@ const PaymentForm = ({
         }, 500);
       }}
     >
-      {({ submitForm, isSubmitting }) => (
+      {({ submitForm, isSubmitting, isValid }) => (
         <Form
           style={{
             marginTop: 12,
@@ -77,10 +76,10 @@ const PaymentForm = ({
             <Button
               variant="contained"
               size="small"
-              disabled={isSubmitting}
+              disabled={!isValid}
               onClick={submitForm}
             >
-              {capitalize(action)}
+              {action}
             </Button>
           )}
         </Form>
