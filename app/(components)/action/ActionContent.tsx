@@ -1,12 +1,9 @@
 import * as yup from "yup";
-import { Formik, Form, Field } from "formik";
 import { isValidSafaricomPhoneNumber } from "@/utils/helpers";
-import Button from "@mui/material/Button";
-import CircularProgress from "@mui/material/CircularProgress";
 import Radio from "@mui/material/Radio";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { TextField } from "formik-mui";
 import { useState } from "react";
+import ActionForm from "./ActionForm";
 
 // TODO: Add confirm box for verifying transaction
 
@@ -28,59 +25,11 @@ export const DepositShares = ({ phone }: { phone: string }) => {
       .required("Phone number is required."),
   });
   return (
-    <Formik
-      initialValues={{
-        amount: 1000,
-        phone: phone,
-      }}
+    <ActionForm
+      action="deposit"
+      initialValues={{ amount: 1000, phone: phone }}
       validationSchema={validationSchema}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          setSubmitting(false);
-          alert(JSON.stringify(values, null, 2));
-        }, 500);
-      }}
-    >
-      {({ submitForm, isSubmitting }) => (
-        <Form
-          style={{
-            marginTop: 12,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 12,
-          }}
-        >
-          <Field
-            component={TextField}
-            color="secondary"
-            name="amount"
-            type="number"
-            label="Amount"
-          />
-          <Field
-            component={TextField}
-            color="secondary"
-            name="phone"
-            type="string"
-            label="Phone Number"
-          />
-
-          {isSubmitting ? (
-            <CircularProgress />
-          ) : (
-            <Button
-              variant="contained"
-              size="small"
-              disabled={isSubmitting}
-              onClick={submitForm}
-            >
-              Deposit
-            </Button>
-          )}
-        </Form>
-      )}
-    </Formik>
+    />
   );
 };
 
@@ -107,59 +56,11 @@ export const WithdrawShares = ({
       .required("Phone number is required."),
   });
   return (
-    <Formik
-      initialValues={{
-        amount: 100,
-        phone: phone,
-      }}
+    <ActionForm
+      action="withdraw"
+      initialValues={{ amount: 100, phone: phone }}
       validationSchema={validationSchema}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
-          setSubmitting(false);
-          alert(JSON.stringify(values, null, 2));
-        }, 500);
-      }}
-    >
-      {({ submitForm, isSubmitting }) => (
-        <Form
-          style={{
-            marginTop: 12,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 12,
-          }}
-        >
-          <Field
-            component={TextField}
-            color="secondary"
-            name="amount"
-            type="number"
-            label="Amount"
-          />
-          <Field
-            component={TextField}
-            color="secondary"
-            name="phone"
-            type="string"
-            label="Phone Number"
-          />
-
-          {isSubmitting ? (
-            <CircularProgress />
-          ) : (
-            <Button
-              variant="contained"
-              size="small"
-              disabled={isSubmitting}
-              onClick={submitForm}
-            >
-              Withdraw
-            </Button>
-          )}
-        </Form>
-      )}
-    </Formik>
+    />
   );
 };
 
@@ -195,114 +96,6 @@ export const TransferShares = ({ sharesAmount }: { sharesAmount: number }) => {
       .required("ID number is required."),
   });
 
-  const TransferWelfare = () => {
-    return (
-      <Formik
-        initialValues={{
-          amount: 100,
-        }}
-        validationSchema={validationSchemaWelfare}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            setSubmitting(false);
-            alert(JSON.stringify(values, null, 2));
-          }, 500);
-        }}
-      >
-        {({ submitForm, isSubmitting }) => (
-          <Form
-            style={{
-              marginTop: 12,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 12,
-            }}
-          >
-            <Field
-              component={TextField}
-              color="secondary"
-              name="amount"
-              type="number"
-              label="Amount"
-            />
-
-            {isSubmitting ? (
-              <CircularProgress />
-            ) : (
-              <Button
-                variant="contained"
-                size="small"
-                disabled={isSubmitting}
-                onClick={submitForm}
-              >
-                Transfer
-              </Button>
-            )}
-          </Form>
-        )}
-      </Formik>
-    );
-  };
-
-  const TransferOtherShares = () => {
-    return (
-      <Formik
-        initialValues={{
-          amount: 100,
-          id: "",
-        }}
-        validationSchema={validationSchemaOtherShares}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            setSubmitting(false);
-            alert(JSON.stringify(values, null, 2));
-          }, 500);
-        }}
-      >
-        {({ submitForm, isSubmitting }) => (
-          <Form
-            style={{
-              marginTop: 12,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: 12,
-            }}
-          >
-            <Field
-              component={TextField}
-              color="secondary"
-              name="amount"
-              type="number"
-              label="Amount"
-            />
-            <Field
-              component={TextField}
-              color="secondary"
-              name="id"
-              type="string"
-              label="ID Number"
-            />
-
-            {isSubmitting ? (
-              <CircularProgress />
-            ) : (
-              <Button
-                variant="contained"
-                size="small"
-                disabled={isSubmitting}
-                onClick={submitForm}
-              >
-                Transfer
-              </Button>
-            )}
-          </Form>
-        )}
-      </Formik>
-    );
-  };
-
   return (
     <>
       <div style={{ display: "flex", justifyContent: "center" }}>
@@ -327,11 +120,16 @@ export const TransferShares = ({ sharesAmount }: { sharesAmount: number }) => {
           label="Transfer to Other Shares Account"
         />
       </div>
-      {selectedValue === "welfare" ? (
-        <TransferWelfare />
-      ) : (
-        <TransferOtherShares />
-      )}
+      <ActionForm
+        action="transfer"
+        initialValues={{ amount: 100 }}
+        validationSchema={
+          selectedValue === "welfare"
+            ? validationSchemaWelfare
+            : validationSchemaOtherShares
+        }
+        sharesToWelfare={selectedValue === "welfare" ? true : false}
+      />
     </>
   );
 };
