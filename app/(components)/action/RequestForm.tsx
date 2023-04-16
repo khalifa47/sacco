@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 import TextFieldAlt from "@mui/material/TextField";
 import { formatNumber } from "@/utils/helpers";
 import Divider from "../layout/Divider";
+import type { AutocompleteRenderOptionState } from "@mui/material";
 
 const userData: UserRow[] = [
   {
@@ -114,10 +115,15 @@ const RequestForm = ({
       )
       .moreThan(99, "Amount cannot be less than Ksh. 100"),
     purpose: yup.string().required("Purpose is required."),
+    guarantor: yup.object().when("amount", {
+      is: (amount: number) => amount > sharesAmount,
+      then: (schema: yup.ObjectSchema<any>) =>
+        schema.required("Guarantor is required."),
+    }),
   });
   return (
     <Formik
-      initialValues={{ amount: 100, purpose: "" }}
+      initialValues={{ amount: 100, purpose: "", guarantor: userData[0] }}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
@@ -156,30 +162,36 @@ const RequestForm = ({
             <>
               <Divider />
               <Field
-                id="id"
-                name="id"
                 component={Autocomplete}
+                name="guarantor"
                 options={userData}
+                renderOption={(
+                  props: AutocompleteRenderOptionState,
+                  option: UserRow
+                ) => (
+                  <li {...props} key={option.id}>
+                    {option.firstName}{" "}
+                    {option.otherNames ? option.otherNames + " " : ""}
+                    {option.lastName}
+                  </li>
+                )}
                 getOptionLabel={(option: UserRow) =>
                   `${option.firstName} ${
                     option.otherNames ? option.otherNames + " " : ""
                   }${option.lastName}`
                 }
                 style={{ width: 300 }}
-                validate={(id: string) => {
-                  if (!id) {
-                    return "Guarantor is required.";
-                  }
+                renderInput={(params: AutocompleteRenderInputParams) => {
+                  return (
+                    <TextFieldAlt
+                      {...params}
+                      name="guarantor"
+                      type="string"
+                      color="secondary"
+                      label="Guarantor"
+                    />
+                  );
                 }}
-                renderInput={(params: AutocompleteRenderInputParams) => (
-                  <TextFieldAlt
-                    {...params}
-                    name="id"
-                    type="string"
-                    color="secondary"
-                    label="ID of Guarantor"
-                  />
-                )}
               />
             </>
           )}
