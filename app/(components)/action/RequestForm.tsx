@@ -96,6 +96,16 @@ const userData: UserRow[] = [
     dateActive: "2022-01-11",
   },
 ];
+const defaultUser: UserRow = {
+  id: "0",
+  firstName: "",
+  lastName: "",
+  email: "",
+  dateJoined: "",
+  dateActive: "",
+};
+
+userData.unshift(defaultUser);
 
 const RequestForm = ({
   sharesAmount,
