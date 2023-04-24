@@ -128,7 +128,11 @@ const RequestForm = ({
     guarantor: yup.object().when("amount", {
       is: (amount: number) => amount > sharesAmount,
       then: (schema: yup.ObjectSchema<any>) =>
-        schema.required("Guarantor is required."),
+        schema.required("Guarantor is required.").test({
+          name: "is-valid-ID",
+          message: "Guarantor is required.",
+          test: (value: any) => value.id !== defaultUser.id,
+        }),
     }),
   });
   return (
