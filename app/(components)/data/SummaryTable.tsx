@@ -8,7 +8,9 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
 import {
   capitalize,
   formatDate,
@@ -42,6 +44,7 @@ const columns = {
     "Amount",
     "Balance",
     "Purpose",
+    "Payment Method",
     "Date and Time",
   ],
   users: ["User ID", "Full Name", "Email", "Date Joined", "Last Active"],
@@ -52,7 +55,7 @@ const SummaryTable = ({
   rows,
 }: {
   admin?: boolean;
-  rows: TransactionRow[] | UserRow[];
+  rows: Transaction[] | User[];
 }) => {
   const col = "type" in rows[0] ? "transactions" : "users";
 
@@ -88,6 +91,7 @@ const SummaryTable = ({
                     Ksh. {formatNumber(row.balance)}
                   </StyledTableCell>
                   <StyledTableCell>{capitalize(row.content)}</StyledTableCell>
+                  <StyledTableCell>{row.method}</StyledTableCell>
                   <StyledTableCell>{formatDate(row.dateTime)}</StyledTableCell>
                 </>
               ) : (
@@ -112,7 +116,21 @@ const SummaryTable = ({
                     {formatDate(row.dateJoined)}
                   </StyledTableCell>
                   <StyledTableCell sx={{ color: "#5f5f5f" }}>
-                    {getTimeAgo(row.dateActive)}
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      {getTimeAgo(row.dateActive)}
+                      <Tooltip title={capitalize(row.status)}>
+                        <Chip
+                          color={row.status === "active" ? "success" : "error"}
+                          sx={{ height: 7, width: 7, borderRadius: "50%" }}
+                        />
+                      </Tooltip>
+                    </div>
                   </StyledTableCell>
                 </>
               )}

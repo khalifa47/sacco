@@ -1,22 +1,40 @@
 type Content = "shares" | "loans" | "welfare";
 
-type UserRow = {
+type LoanStatus = "requested" | "rejected" | "granted" | "paid";
+
+type User = {
   id: string;
   firstName: string;
   otherNames?: string;
   lastName: string;
   email: string;
+  status: "active" | "inactive";
   dateJoined: string;
   dateActive: string;
 };
 
-type TransactionRow = {
+type Transaction = {
   id: string;
   amount: number;
   balance: number;
   type: "debit" | "credit";
+  method: "Card" | "MPESA" | "PayPal";
   content: Content;
   dateTime: string;
+};
+
+type Loan = {
+  id: string;
+  user: User;
+  guarantor: User[];
+  payments: Transaction[];
+  amount: number;
+  status: LoanStatus;
+  frequency: Frequency;
+  amountPerFrequency: number;
+  purpose: string;
+  createdAt: string;
+  updatedAt: string;
 };
 
 type AppNotification = {
