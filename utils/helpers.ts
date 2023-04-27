@@ -65,10 +65,9 @@ export const isValidSafaricomPhoneNumber = (phoneNumber: string) => {
 };
 
 // temp dummy data
-export const createTransactionData = (transaction: TransactionRow) =>
-  transaction;
+export const createTransactionData = (transaction: Transaction) => transaction;
 
-export const createUserData = (user: UserRow) => user;
+export const createUserData = (user: User) => user;
 
 export const createNotificationData = (notification: AppNotification) =>
   notification;

@@ -15,7 +15,7 @@ import {
   type GridRowsProp,
 } from "@mui/x-data-grid";
 
-const columns: GridColDef[] = [
+const transactionColumns: GridColDef[] = [
   {
     field: "id",
     headerName: "ID",
@@ -65,6 +65,12 @@ const columns: GridColDef[] = [
     valueFormatter: ({ value }) => capitalize(value),
   },
   {
+    field: "method",
+    headerName: "Payment Method",
+    headerClassName: "header",
+    width: 150,
+  },
+  {
     field: "dateTime",
     type: "dateTime",
     headerName: "Date and Time",
@@ -108,7 +114,7 @@ const SpacedToolbar = () => {
   );
 };
 
-const TransactionsTable = ({
+const DataTable = ({
   content,
   rows,
 }: {
@@ -128,7 +134,7 @@ const TransactionsTable = ({
     >
       <DataGrid
         rows={rows}
-        columns={columns}
+        columns={transactionColumns}
         density="compact"
         autoHeight
         disableRowSelectionOnClick
@@ -162,4 +168,4 @@ const TransactionsTable = ({
   );
 };
 
-export default TransactionsTable;
+export default DataTable;

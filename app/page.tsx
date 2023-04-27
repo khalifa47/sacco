@@ -19,6 +19,7 @@ const rows = [
     balance: 200000,
     type: "credit",
     content: "shares",
+    method: "MPESA",
     dateTime: "2004-10-19 10:23:54",
   }),
   createTransactionData({
@@ -27,6 +28,7 @@ const rows = [
     balance: 200000,
     type: "credit",
     content: "shares",
+    method: "MPESA",
     dateTime: "2004-10-19 10:23:54",
   }),
   createTransactionData({
@@ -35,6 +37,7 @@ const rows = [
     balance: 200000,
     type: "credit",
     content: "shares",
+    method: "MPESA",
     dateTime: "2004-10-19 10:23:54",
   }),
   createTransactionData({
@@ -43,6 +46,7 @@ const rows = [
     balance: 200000,
     type: "credit",
     content: "shares",
+    method: "MPESA",
     dateTime: "2004-10-19 10:23:54",
   }),
   createTransactionData({
@@ -51,6 +55,7 @@ const rows = [
     balance: 200000,
     type: "credit",
     content: "shares",
+    method: "MPESA",
     dateTime: "2004-10-19 10:23:54",
   }),
 ];

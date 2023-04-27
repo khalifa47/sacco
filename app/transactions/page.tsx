@@ -1,5 +1,5 @@
 import Title from "@/app/(components)/layout/Title";
-import TransactionsTable from "@/app/(components)/data/TransactionsTable";
+import DataTable from "@/app/(components)/data/DataTable";
 import { createTransactionData } from "@/utils/helpers";
 import type { GridRowsProp } from "@mui/x-data-grid/models";
 
@@ -10,6 +10,7 @@ const rows: GridRowsProp = [
     balance: 200000,
     content: "shares",
     type: "debit",
+    method: "MPESA",
     dateTime: "2004-10-19 10:23:54",
   }),
   createTransactionData({
@@ -18,6 +19,7 @@ const rows: GridRowsProp = [
     balance: 200000,
     content: "shares",
     type: "debit",
+    method: "MPESA",
     dateTime: "2004-10-19 10:23:54",
   }),
   createTransactionData({
@@ -26,6 +28,7 @@ const rows: GridRowsProp = [
     balance: 200000,
     content: "shares",
     type: "debit",
+    method: "MPESA",
     dateTime: "2004-10-19 10:23:54",
   }),
   createTransactionData({
@@ -34,6 +37,7 @@ const rows: GridRowsProp = [
     balance: 200000,
     content: "shares",
     type: "debit",
+    method: "MPESA",
     dateTime: "2004-10-19 10:23:54",
   }),
   createTransactionData({
@@ -42,6 +46,7 @@ const rows: GridRowsProp = [
     balance: 200000,
     content: "shares",
     type: "debit",
+    method: "MPESA",
     dateTime: "2004-10-19 10:23:54",
   }),
 
@@ -51,6 +56,7 @@ const rows: GridRowsProp = [
     balance: 200000,
     content: "shares",
     type: "debit",
+    method: "MPESA",
     dateTime: "2004-10-19 10:23:54",
   }),
   createTransactionData({
@@ -59,6 +65,7 @@ const rows: GridRowsProp = [
     balance: 200000,
     content: "shares",
     type: "debit",
+    method: "MPESA",
     dateTime: "2004-10-19 10:23:54",
   }),
   createTransactionData({
@@ -67,6 +74,7 @@ const rows: GridRowsProp = [
     balance: 200000,
     content: "shares",
     type: "debit",
+    method: "MPESA",
     dateTime: "2004-10-19 10:23:54",
   }),
   createTransactionData({
@@ -75,6 +83,7 @@ const rows: GridRowsProp = [
     balance: 200000,
     content: "shares",
     type: "debit",
+    method: "MPESA",
     dateTime: "2004-10-19 10:23:54",
   }),
   createTransactionData({
@@ -83,6 +92,7 @@ const rows: GridRowsProp = [
     balance: 200000,
     content: "shares",
     type: "debit",
+    method: "MPESA",
     dateTime: "2004-10-19 10:23:54",
   }),
 ];
@@ -91,7 +101,7 @@ export default function Transactions() {
   return (
     <main>
       <Title title="My Transactions" pageTitle />
-      <TransactionsTable rows={rows} content="all" />
+      <DataTable rows={rows} content="all" />
     </main>
   );
 }
