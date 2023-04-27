@@ -12,13 +12,14 @@ import { formatNumber } from "@/utils/helpers";
 import Divider from "../layout/Divider";
 import type { AutocompleteRenderOptionState } from "@mui/material";
 
-const userData: UserRow[] = [
+const userData: User[] = [
   {
     id: "1",
     firstName: "John",
     otherNames: "Jacob",
     lastName: "Smith",
     email: "john.jacob.smith@example.com",
+    status: "active",
     dateJoined: "2022-01-01",
     dateActive: "2022-01-02",
   },
@@ -27,6 +28,7 @@ const userData: UserRow[] = [
     firstName: "Jane",
     lastName: "Doe",
     email: "jane.doe@example.com",
+    status: "active",
     dateJoined: "2022-01-02",
     dateActive: "2022-01-03",
   },
@@ -35,6 +37,7 @@ const userData: UserRow[] = [
     firstName: "Bob",
     lastName: "Jones",
     email: "bob.jones@example.com",
+    status: "active",
     dateJoined: "2022-01-03",
     dateActive: "2022-01-04",
   },
@@ -43,6 +46,7 @@ const userData: UserRow[] = [
     firstName: "Alice",
     lastName: "Smith",
     email: "alice.smith@example.com",
+    status: "active",
     dateJoined: "2022-01-04",
     dateActive: "2022-01-05",
   },
@@ -52,6 +56,7 @@ const userData: UserRow[] = [
     otherNames: "M.",
     lastName: "Johnson",
     email: "alex.m.johnson@example.com",
+    status: "active",
     dateJoined: "2022-01-05",
     dateActive: "2022-01-06",
   },
@@ -60,6 +65,7 @@ const userData: UserRow[] = [
     firstName: "Emily",
     lastName: "Brown",
     email: "emily.brown@example.com",
+    status: "active",
     dateJoined: "2022-01-06",
     dateActive: "2022-01-07",
   },
@@ -68,6 +74,7 @@ const userData: UserRow[] = [
     firstName: "Chris",
     lastName: "Green",
     email: "chris.green@example.com",
+    status: "active",
     dateJoined: "2022-01-07",
     dateActive: "2022-01-08",
   },
@@ -76,6 +83,7 @@ const userData: UserRow[] = [
     firstName: "Sarah",
     lastName: "Taylor",
     email: "sarah.taylor@example.com",
+    status: "active",
     dateJoined: "2022-01-08",
     dateActive: "2022-01-09",
   },
@@ -84,6 +92,7 @@ const userData: UserRow[] = [
     firstName: "Michael",
     lastName: "Davis",
     email: "michael.davis@example.com",
+    status: "active",
     dateJoined: "2022-01-09",
     dateActive: "2022-01-10",
   },
@@ -92,16 +101,18 @@ const userData: UserRow[] = [
     firstName: "Jennifer",
     lastName: "Lee",
     email: "jennifer.lee@example.com",
+    status: "active",
     dateJoined: "2022-01-10",
     dateActive: "2022-01-11",
   },
 ];
-const defaultUser: UserRow = {
+const defaultUser: User = {
   id: "0",
   firstName: "",
   lastName: "",
   email: "",
   dateJoined: "",
+  status: "inactive",
   dateActive: "",
 };
 
@@ -181,7 +192,7 @@ const RequestForm = ({
                 options={userData}
                 renderOption={(
                   props: AutocompleteRenderOptionState,
-                  option: UserRow
+                  option: User
                 ) => (
                   <li {...props} key={option.id}>
                     {option.firstName}{" "}
@@ -189,7 +200,7 @@ const RequestForm = ({
                     {option.lastName}
                   </li>
                 )}
-                getOptionLabel={(option: UserRow) =>
+                getOptionLabel={(option: User) =>
                   `${option.firstName} ${
                     option.otherNames ? option.otherNames + " " : ""
                   }${option.lastName}`
