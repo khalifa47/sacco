@@ -13,7 +13,84 @@ import {
   GridToolbarQuickFilter,
   type GridColDef,
   type GridRowsProp,
+  type GridRenderCellParams,
 } from "@mui/x-data-grid";
+
+const loanHistoryColumns: GridColDef[] = [
+  {
+    field: "id",
+    headerName: "ID",
+    width: 100,
+    headerClassName: "header",
+    sortable: false,
+  },
+  {
+    field: "amount",
+    type: "number",
+    headerName: "Amount",
+    headerAlign: "left",
+    headerClassName: "header",
+    align: "left",
+    width: 150,
+    disableColumnMenu: true,
+    valueFormatter: ({ value }) => `Ksh. ${formatNumber(value)}`,
+  },
+  {
+    field: "guarantors",
+    headerName: "Guarantors",
+    headerAlign: "left",
+    headerClassName: "header",
+    align: "left",
+    width: 150,
+    disableColumnMenu: true,
+    sortable: false,
+    renderCell: (params: GridRenderCellParams<Loan>) => (
+      <span>
+        {params.value.map(
+          (guarantor: User) =>
+            `${guarantor.firstName} ${guarantor.lastName}${
+              params.value[params.value.length - 1] === guarantor ? "" : ", "
+            }`
+        )}
+      </span>
+    ),
+  },
+  {
+    field: "purpose",
+    headerName: "Purpose",
+    headerAlign: "left",
+    headerClassName: "header",
+    align: "left",
+    width: 150,
+    disableColumnMenu: true,
+    sortable: false,
+  },
+  {
+    field: "createdAt",
+    type: "dateTime",
+    headerName: "Taken On",
+    headerClassName: "header",
+    flex: 1,
+    valueGetter: ({ value }) => value && new Date(value),
+    valueFormatter: ({ value }) => formatDate(value),
+  },
+  {
+    field: "updatedAt",
+    type: "dateTime",
+    headerName: "Last Paid",
+    headerClassName: "header",
+    flex: 1,
+    valueGetter: ({ value }) => value && new Date(value),
+    valueFormatter: ({ value }) => formatDate(value),
+  },
+  {
+    field: "status",
+    headerName: "Status",
+    headerClassName: "header",
+    width: 100,
+    valueFormatter: ({ value }) => capitalize(value),
+  },
+];
 
 const transactionColumns: GridColDef[] = [
   {
@@ -56,7 +133,7 @@ const transactionColumns: GridColDef[] = [
     field: "type",
     headerName: "Type",
     headerClassName: "header",
-    width: 150,
+    width: 100,
     valueGetter: ({ row }) => {
       if (row.content === "loans")
         return row.type === "debit" ? "repayment" : row.type;
@@ -66,9 +143,9 @@ const transactionColumns: GridColDef[] = [
   },
   {
     field: "method",
-    headerName: "Payment Method",
+    headerName: "Method",
     headerClassName: "header",
-    width: 150,
+    width: 100,
   },
   {
     field: "dateTime",
@@ -115,12 +192,14 @@ const SpacedToolbar = () => {
 };
 
 const DataTable = ({
-  content,
+  // content,
   rows,
 }: {
-  content: Content | "all";
+  // content: Content | "all";
   rows: GridRowsProp;
 }) => {
+  const isLoan = "status" in rows[0];
+
   return (
     <Box
       sx={{
@@ -134,7 +213,7 @@ const DataTable = ({
     >
       <DataGrid
         rows={rows}
-        columns={transactionColumns}
+        columns={isLoan ? loanHistoryColumns : transactionColumns}
         density="compact"
         autoHeight
         disableRowSelectionOnClick
@@ -151,17 +230,17 @@ const DataTable = ({
         pageSizeOptions={[10, 25, 50]}
         initialState={{
           pagination: { paginationModel: { pageSize: 10 } },
-          sorting: {
-            sortModel: [{ field: "dateTime", sort: "desc" }],
-          },
-          filter: {
-            filterModel: {
-              items:
-                content === "all"
-                  ? []
-                  : [{ field: "content", operator: "equals", value: content }],
-            },
-          },
+          // sorting: {
+          //   sortModel: [{ field: "dateTime", sort: "desc" }],
+          // },
+          // filter: {
+          //   filterModel: {
+          //     items:
+          //       content === "all"
+          //         ? []
+          //         : [{ field: "content", operator: "equals", value: content }],
+          //   },
+          // },
         }}
       />
     </Box>
