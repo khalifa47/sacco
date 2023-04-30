@@ -9,7 +9,7 @@ import Actions from "@/app/(components)/action/Actions";
 const InfoCard = dynamic(() => import("@/app/(components)/data/InfoCard"));
 const Trend = dynamic(() => import("@/app/(components)/data/Trend"));
 
-const rows: GridRowsProp = [
+const rows: GridRowsProp<Transaction> = [
   createTransactionData({
     id: "281936183",
     amount: 200000,
@@ -145,7 +145,7 @@ export default function Shares() {
 
       {/* Shares Transactions */}
       <Title title="Shares Transactions" />
-      <DataTable rows={rows} content="shares" />
+      <DataTable rows={rows} />
 
       <Divider />
 

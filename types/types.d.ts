@@ -26,7 +26,7 @@ type Transaction = {
 type Loan = {
   id: string;
   user: User;
-  guarantor: User[];
+  guarantors: User[];
   payments: Transaction[];
   amount: number;
   status: LoanStatus;

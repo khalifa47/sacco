@@ -3,7 +3,7 @@ import DataTable from "@/app/(components)/data/DataTable";
 import { createTransactionData } from "@/utils/helpers";
 import type { GridRowsProp } from "@mui/x-data-grid/models";
 
-const rows: GridRowsProp = [
+const rows: GridRowsProp<Transaction> = [
   createTransactionData({
     id: "281936183",
     amount: 200000,
@@ -101,7 +101,7 @@ export default function Transactions() {
   return (
     <main>
       <Title title="My Transactions" pageTitle />
-      <DataTable rows={rows} content="all" />
+      <DataTable rows={rows} />
     </main>
   );
 }
