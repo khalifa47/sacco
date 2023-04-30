@@ -6,6 +6,8 @@ import { useState } from "react";
 import PaymentForm from "./PaymentForm";
 import SettingsForm from "./SettingsForm";
 import RequestForm from "./RequestForm";
+import DataTable from "../data/DataTable";
+import { loans } from "@/utils/data";
 
 const frequencyToInitialAmount = {
   weekly: 1000,
@@ -145,7 +147,9 @@ export const TransferShares = ({ sharesAmount }: { sharesAmount: number }) => {
 };
 
 // loans
-export const HistoryLoans = () => {};
+export const HistoryLoans = () => {
+  return <DataTable rows={loans} />;
+};
 
 export const RequestLoans = ({
   sharesAmount,

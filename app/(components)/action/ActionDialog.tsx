@@ -19,6 +19,7 @@ import {
   RepayLoans,
   DepositWelfare,
   Settings,
+  HistoryLoans,
 } from "./ActionContent";
 
 const Transition = forwardRef(function Transition(
@@ -62,8 +63,8 @@ const getDialogContent = (
     // loans
     case "loan history":
       return {
-        contentText: "View your loan repayment history.",
-        content: <></>,
+        contentText: "View your loan history.",
+        content: <HistoryLoans />,
       };
     case "request":
       return {
