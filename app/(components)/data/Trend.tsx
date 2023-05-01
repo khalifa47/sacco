@@ -58,8 +58,6 @@ const Trend = ({
         borderRadius: "10px",
         maxHeight: "300px",
         position: "relative",
-        background:
-          "linear-gradient(135deg, rgba(42, 45, 52, 0.2), rgba(247, 202, 201, 0.2))",
         ":hover": { boxShadow: 5 },
       }}
     >
