@@ -1,4 +1,3 @@
-import Header from "@/app/(components)/layout/Header";
 import Providers from "@/app/(components)/layout/Providers";
 
 export const metadata = {
@@ -14,10 +13,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Providers>
-          <Header />
-          {children}
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );
