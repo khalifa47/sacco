@@ -34,6 +34,7 @@ import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import { createNotificationData, getTimeAgo } from "@/utils/helpers";
+import { useSupabase } from "./Providers";
 
 const Logo = () => {
   return (
@@ -149,6 +150,8 @@ const notifications = [
 ];
 
 const Header = () => {
+  const supabase = useSupabase();
+
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [anchorElNotification, setAnchorElNotification] =
@@ -173,8 +176,8 @@ const Header = () => {
     setAnchorElUser(null);
   };
 
-  const logOut = () => {
-    console.log("logged out");
+  const logOut = async () => {
+    await supabase.auth.signOut();
   };
 
   const pages = [
