@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { useSupabase } from "../(components)/layout/Providers";
+import { useSupabase } from "./(components)/layout/Providers";
 import { useTheme } from "@mui/material/styles";
 import Skeleton from "@mui/material/Skeleton";
 
@@ -28,6 +28,7 @@ export default function LoginRegister() {
         <Auth
           supabaseClient={supabase}
           providers={[]}
+          redirectTo="http://localhost:3000/dashboard"
           appearance={{
             theme: ThemeSupa,
             variables: {
