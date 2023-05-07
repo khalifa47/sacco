@@ -9,3 +9,117 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+enum Role {
+  user
+  admin
+}
+
+enum UserStatus {
+  active
+  inactive
+}
+
+enum LoanStatus {
+  pending
+  approved
+  rejected
+  disbursed
+  paid
+}
+
+enum Frequency {
+  weekly
+  monthly
+  quarterly
+  yearly
+}
+
+enum ContributionType {
+  shares
+  welfare
+}
+
+model User {
+  id          String     @id
+  national_id String     @unique @db.VarChar(20)
+  email       String     @unique
+  phone       String     @unique
+  firstName   String     @map("first_name")
+  otherNames  String?    @map("other_names")
+  lastName    String     @map("last_name")
+  role        Role       @default(user)
+  status      UserStatus @default(inactive)
+  password    String
+  lastActive  DateTime   @map("last_active")
+  createdAt   DateTime   @default(now()) @map("created_at")
+
+  notifications Notification[]
+  loans         Loan[]
+  contributions Contribution[]
+  guarantors    Guarantor[]
+
+  @@map("users")
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    String   @map("user_id")
+  title     String
+  content   String
+  goTo      String?  @map("go_to")
+  isRead    Boolean  @default(false) @map("is_read")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
+
+model Loan {
+  id                 Int        @id @default(autoincrement())
+  userId             String     @map("user_id")
+  amount             Float
+  status             LoanStatus @default(pending)
+  frequency          Frequency
+  amountPerFrequency Float      @map("amount_per_frequency")
+  purpose            String
+  createdAt          DateTime   @default(now()) @map("created_at")
+  updatedAt          DateTime   @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  guarantors Guarantor[]
+
+  @@map("loans")
+}
+
+model Guarantor {
+  id        Int      @id @default(autoincrement())
+  userId    String   @map("user_id")
+  loanId    Int      @map("loan_id")
+  approved  Boolean  @default(false)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  loan Loan @relation(fields: [loanId], references: [id], onDelete: Cascade)
+
+  @@map("guarantors")
+}
+
+model Contribution {
+  id                 Int              @id @default(autoincrement())
+  userId             String           @map("user_id")
+  amount             Float
+  frequency          Frequency
+  amountPerFrequency Float            @map("amount_per_frequency")
+  type               ContributionType
+  createdAt          DateTime         @default(now()) @map("created_at")
+  updatedAt          DateTime         @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("contributions")
+}
+
+// TODO: Decide on whether to have a single transactions table or separate tables for each transaction type
