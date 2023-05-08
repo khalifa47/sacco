@@ -268,11 +268,7 @@ const Header = () => {
                   <Link
                     key={page.name}
                     style={{ textDecoration: "none", color: "#000000DE" }}
-                    href={
-                      page.name === "Dashboard"
-                        ? "/"
-                        : `/${page.name.toLowerCase()}`
-                    }
+                    href={`/${page.name.toLowerCase()}`}
                   >
                     <MenuItem onClick={handleCloseNavMenu}>
                       <ListItemIcon>{page.icon}</ListItemIcon>
@@ -290,11 +286,7 @@ const Header = () => {
                 <Button
                   LinkComponent={Link}
                   key={page.name}
-                  href={
-                    page.name === "Dashboard"
-                      ? "/"
-                      : `/${page.name.toLowerCase()}`
-                  }
+                  href={`/${page.name.toLowerCase()}`}
                   sx={{
                     m: 1,
                     color: "white",
