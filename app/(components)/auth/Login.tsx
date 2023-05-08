@@ -4,8 +4,7 @@ import { Formik, Form, Field } from "formik";
 import CircularProgress from "@mui/material/CircularProgress";
 import { TextField } from "formik-mui";
 import Button from "@mui/material/Button";
-
-import type { SupabaseClient } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
 
 const nationalIdRegex = /^[0-9]{8}$/;
 const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
@@ -22,17 +21,31 @@ const validationSchema = yup.object({
   password: yup.string().required("Password is required."),
 });
 
-const Login = ({ supabase }: { supabase?: SupabaseClient }) => {
+const Login = () => {
+  const router = useRouter();
   return (
     <Formik
       initialValues={{ identifier: "", password: "" }}
       validationSchema={validationSchema}
-      onSubmit={(values, { setSubmitting }) => {
+      onSubmit={async (values, { setSubmitting }) => {
         const isEmail = emailRegex.test(values.identifier);
-        setTimeout(() => {
-          setSubmitting(false);
-          alert(JSON.stringify(values, null, 2));
-        }, 500);
+
+        const res = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            isEmail: isEmail,
+            identifier: values.identifier,
+            password: values.password,
+          }),
+        });
+
+        if (!res.ok) {
+          throw new Error(await res.text());
+        } else {
+          router.push("/dashboard");
+        }
+        setSubmitting(false);
       }}
     >
       {({ submitForm, isSubmitting, isValid }) => (

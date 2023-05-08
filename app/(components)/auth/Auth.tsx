@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 
-import { useSupabase } from "@/app/(components)/layout/Providers";
 import Login from "./Login";
 
 const StyledLink = ({ children }: { children: string }) => (
@@ -19,8 +18,6 @@ const StyledLink = ({ children }: { children: string }) => (
 );
 
 const Auth = () => {
-  const supabase = useSupabase();
-
   return (
     <Box
       boxShadow={24}
