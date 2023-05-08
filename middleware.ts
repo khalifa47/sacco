@@ -11,12 +11,15 @@ export async function middleware(req: NextRequest) {
     data: { session },
   } = await supabase.auth.getSession();
 
-  const canAccess =
-    req.nextUrl.pathname === "/" ||
-    req.nextUrl.pathname.startsWith("/_next/static/chunks") ||
-    session;
+  // const canAccess =
+  //   req.nextUrl.pathname === "/" ||
+  //   req.nextUrl.pathname.startsWith("/api/auth") ||
+  //   req.nextUrl.pathname.startsWith("/_next/static/chunks") ||
+  //   session !== null;
 
-  if (canAccess) return res;
+  // if (canAccess) return res;
 
-  return NextResponse.redirect(new URL("/", req.nextUrl));
+  // return NextResponse.redirect(new URL("/", req.nextUrl));
+
+  return res;
 }
