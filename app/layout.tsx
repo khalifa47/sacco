@@ -1,4 +1,5 @@
 import Providers from "@/app/(components)/layout/Providers";
+import "./globals.css";
 
 export const metadata = {
   title: "Kadhi Sacco",
