@@ -695,13 +695,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@stitches/core@npm:^1.2.8":
-  version: 1.2.8
-  resolution: "@stitches/core@npm:1.2.8"
-  checksum: 3a76a697b1d71ffb212e8b166f923c8f66ef99de93689dd417571f90fbba5692abb9a92220acd102baf5298896f0fdfeaa721da2d61adee1247531a26f67a15f
-  languageName: node
-  linkType: hard
-
 "@supabase/auth-helpers-nextjs@npm:^0.6.1":
   version: 0.6.1
   resolution: "@supabase/auth-helpers-nextjs@npm:0.6.1"
@@ -721,30 +714,6 @@ __metadata:
   peerDependencies:
     "@supabase/supabase-js": ^2.0.4
   checksum: 6042f06d3bdf240b1a84112f6e0ea397affb1c045453136b7cb0421945ac0aac62986c794dbd38db89f13422d753e43cca34df4adc49eb2ba8ac04e5f64fb885
-  languageName: node
-  linkType: hard
-
-"@supabase/auth-ui-react@npm:^0.3.5":
-  version: 0.3.5
-  resolution: "@supabase/auth-ui-react@npm:0.3.5"
-  dependencies:
-    "@stitches/core": ^1.2.8
-    "@supabase/auth-ui-shared": 0.1.3
-    prop-types: ^15.7.2
-    react: ^18.2.0
-    react-dom: ^18.2.0
-  peerDependencies:
-    "@supabase/supabase-js": ^2.8.0
-  checksum: 34bad22b5f4f5852481d3cc631a250955ee6286c55123fbcf9ff90248686eb6a81654df0b7aca1e1acafc8cdec54bbfd1451955117f6993a38dbf0920daea9a9
-  languageName: node
-  linkType: hard
-
-"@supabase/auth-ui-shared@npm:0.1.3, @supabase/auth-ui-shared@npm:^0.1.3":
-  version: 0.1.3
-  resolution: "@supabase/auth-ui-shared@npm:0.1.3"
-  peerDependencies:
-    "@supabase/supabase-js": ^2.8.0
-  checksum: 98562e61f0fc5b7a08c774c52948a31a0a10fc6bfba4ae79488953b9b9a2ea0b6ba1fbcf49603973cebe6913c07103f3c7218311e889f0ee2a538cc456bce2f0
   languageName: node
   linkType: hard
 
@@ -3675,7 +3644,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.6.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -3717,7 +3686,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:18.2.0, react-dom@npm:^18.2.0":
+"react-dom@npm:18.2.0":
   version: 18.2.0
   resolution: "react-dom@npm:18.2.0"
   dependencies:
@@ -3765,7 +3734,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:18.2.0, react@npm:^18.2.0":
+"react@npm:18.2.0":
   version: 18.2.0
   resolution: "react@npm:18.2.0"
   dependencies:
@@ -3914,8 +3883,6 @@ __metadata:
     "@mui/x-data-grid": ^6.0.3
     "@prisma/client": ^4.13.0
     "@supabase/auth-helpers-nextjs": ^0.6.1
-    "@supabase/auth-ui-react": ^0.3.5
-    "@supabase/auth-ui-shared": ^0.1.3
     "@supabase/supabase-js": ^2.21.0
     "@types/node": 18.15.10
     "@types/react": 18.0.29
