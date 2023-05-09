@@ -19,5 +19,6 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api/auth|auth|_next/static|_next/image|favicon.ico).*)"],
+  // match all routes except /api/auth, /auth, /_next/static, /_next/image, /favicon.ico, and the root route
+  matcher: ["/((?!api/auth|auth|_next/static|_next/image|favicon.ico|$).*)"],
 };
