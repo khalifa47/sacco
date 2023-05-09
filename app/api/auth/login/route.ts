@@ -18,7 +18,10 @@ export async function POST(req: NextRequest) {
     headers,
     cookies,
   });
-  const { error } = await supabase.auth.signInWithPassword({
+  const {
+    data: { session },
+    error,
+  } = await supabase.auth.signInWithPassword({
     email: body.identifier,
     password: body.password,
   });
@@ -28,7 +31,14 @@ export async function POST(req: NextRequest) {
       status: error.status,
     });
   }
-  return new NextResponse(null, {
+  return new NextResponse(JSON.stringify(session), {
     status: 200,
+    headers: {
+      "Set-Cookie": `supabase-auth-token=${encodeURIComponent(
+        `["${session!.access_token}", "${session!.refresh_token}"]`
+      )}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${
+        session!.expires_in
+      };`,
+    },
   });
 }
