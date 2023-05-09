@@ -15,10 +15,13 @@ const validationSchema = yup.object({
     .required("Email or National ID is required")
     .test({
       name: "is-valid-identifier",
-      message: "Invalid email or national ID",
+      message: "Invalid Email or national ID",
       test: (value) => nationalIdRegex.test(value) || emailRegex.test(value),
     }),
-  password: yup.string().required("Password is required."),
+  password: yup
+    .string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required."),
 });
 
 const Login = () => {
