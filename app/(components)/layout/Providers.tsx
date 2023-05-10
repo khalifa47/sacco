@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
@@ -17,7 +17,7 @@ const theme = createTheme({
   },
 });
 
-const Context = createContext<SupabaseClient | undefined>(undefined);
+export const Context = createContext<SupabaseClient | undefined>(undefined);
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   const [supabase] = useState(() => createBrowserSupabaseClient());
@@ -42,16 +42,6 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
       </ThemeProvider>
     </Context.Provider>
   );
-};
-
-export const useSupabase = () => {
-  const context = useContext(Context);
-
-  if (context === undefined) {
-    throw new Error("useSupabase must be used inside SupabaseProvider");
-  }
-
-  return context;
 };
 
 export default Providers;

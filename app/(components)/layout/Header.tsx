@@ -34,7 +34,7 @@ import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import { createNotificationData, getTimeAgo } from "@/utils/helpers";
-import { useSupabase } from "./Providers";
+import { useSupabaseClient } from "@/utils/supabase";
 
 const Logo = () => {
   return (
@@ -150,7 +150,7 @@ const notifications = [
 ];
 
 const Header = () => {
-  const supabase = useSupabase();
+  const supabase = useSupabaseClient();
 
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);

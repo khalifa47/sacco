@@ -70,7 +70,6 @@ const Auth = () => {
   const [page, setPage] = useState<Page>("login");
 
   const pageProps = getPageProps(page, setPage);
-  console.log(page);
 
   return (
     <Box
