@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 
 import Login from "./Login";
+import Register from "./Register";
 
 const StyledLink = ({ children }: { children: string }) => (
   <Link
@@ -57,12 +58,15 @@ const Auth = () => {
         justifyContent="center"
       >
         <Typography variant="h6" fontWeight={600} mb={2}>
-          Log In
+          {/* Log In */}
+          Register
         </Typography>
-        <Login />
+        <Register />
+        {/* <Login /> */}
         <Box display="flex" flexDirection="column" mt={2}>
-          <StyledLink>Forgot your password?</StyledLink>
-          <StyledLink>Don&apos;t have an account? Sign up</StyledLink>
+          {/* <StyledLink>Forgot your password?</StyledLink>
+          <StyledLink>Don&apos;t have an account? Sign up</StyledLink> */}
+          <StyledLink>Already have an account? Sign In</StyledLink>
         </Box>
       </Box>
     </Box>

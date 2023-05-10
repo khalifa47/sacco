@@ -26,6 +26,8 @@ export async function POST(req: NextRequest) {
     password: body.password,
   });
 
+  // TODO: handle login with national ID
+
   if (error !== null) {
     return new NextResponse(error.message, {
       status: error.status,
