@@ -19,6 +19,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemButton from "@mui/material/ListItemButton";
 import MenuItem from "@mui/material/MenuItem";
+import LinearProgress from "@mui/material/LinearProgress";
 import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -152,6 +153,7 @@ const notifications = [
 const Header = () => {
   const supabase = useSupabaseClient();
 
+  const [loggingOut, setLoggingOut] = useState(false);
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [anchorElNotification, setAnchorElNotification] =
@@ -177,6 +179,7 @@ const Header = () => {
   };
 
   const logOut = async () => {
+    setLoggingOut(true);
     await supabase.auth.signOut();
   };
 
@@ -341,14 +344,20 @@ const Header = () => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting.name} onClick={setting.action}>
-                    <ListItemIcon>{setting.icon}</ListItemIcon>
-                    <ListItemText>
-                      <Typography sx={{ mx: 2 }}>{setting.name}</Typography>
-                    </ListItemText>
-                  </MenuItem>
-                ))}
+                {settings.map((setting) =>
+                  setting.name === "Logout" && loggingOut ? (
+                    <Box key={setting.name} width="80%" m="10px auto">
+                      <LinearProgress />
+                    </Box>
+                  ) : (
+                    <MenuItem key={setting.name} onClick={setting.action}>
+                      <ListItemIcon>{setting.icon}</ListItemIcon>
+                      <ListItemText>
+                        <Typography sx={{ mx: 2 }}>{setting.name}</Typography>
+                      </ListItemText>
+                    </MenuItem>
+                  )
+                )}
               </Menu>
             </Box>
           </Toolbar>
