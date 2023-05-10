@@ -123,10 +123,3 @@ const Auth = () => {
 };
 
 export default Auth;
-
-// Forgot your password?
-// Your email address
-// Send reset password instructions
-
-// Don't have an account? Sign up
-// Already have an account? Sign in

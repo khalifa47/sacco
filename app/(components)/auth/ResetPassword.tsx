@@ -4,10 +4,9 @@ import { Formik, Form, Field } from "formik";
 import CircularProgress from "@mui/material/CircularProgress";
 import { TextField } from "formik-mui";
 import Button from "@mui/material/Button";
-import { useRouter } from "next/navigation";
 
-const nationalIdRegex = /^[0-9]{8}$/;
 const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+const nationalIdRegex = /^[0-9]{8}$/;
 
 const validationSchema = yup.object({
   identifier: yup
@@ -18,36 +17,31 @@ const validationSchema = yup.object({
       message: "Invalid Email or national ID",
       test: (value) => nationalIdRegex.test(value) || emailRegex.test(value),
     }),
-  password: yup
-    .string()
-    .min(6, "Password must be at least 6 characters")
-    .required("Password is required."),
 });
 
-const Login = () => {
-  const router = useRouter();
+const ResetPassword = () => {
   return (
     <Formik
-      initialValues={{ identifier: "", password: "" }}
+      initialValues={{ identifier: "" }}
       validationSchema={validationSchema}
       onSubmit={async (values, { setSubmitting }) => {
         const isEmail = emailRegex.test(values.identifier);
 
-        const res = await fetch("/api/auth/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            isEmail: isEmail,
-            identifier: values.identifier,
-            password: values.password,
-          }),
-        });
+        // const res = await fetch("/api/auth/reset", {
+        //   method: "POST",
+        //   headers: { "Content-Type": "application/json" },
+        //   body: JSON.stringify({
+        //     isEmail: isEmail,
+        //     identifier: values.identifier,
+        //   }),
+        // });
 
-        if (!res.ok) {
-          throw new Error(await res.text());
-        } else {
-          router.push("/dashboard");
-        }
+        // if (!res.ok) {
+        //   throw new Error(await res.text());
+        // } else {
+        //   router.push("/dashboard");
+        // }
+        alert(JSON.stringify(values, null, 2));
         setSubmitting(false);
       }}
     >
@@ -69,14 +63,6 @@ const Login = () => {
             color="secondary"
             label="Email or National ID"
           />
-          <Field
-            component={TextField}
-            fullWidth
-            color="secondary"
-            type="password"
-            name="password"
-            label="Password"
-          />
 
           {isSubmitting ? (
             <CircularProgress size={30} />
@@ -87,7 +73,7 @@ const Login = () => {
               disabled={!isValid}
               onClick={submitForm}
             >
-              Login
+              Send Password Reset Email
             </Button>
           )}
         </Form>
@@ -96,4 +82,6 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ResetPassword;
+
+// TODO: add API auth for email reset password
