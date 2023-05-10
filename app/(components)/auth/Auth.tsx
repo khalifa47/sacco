@@ -6,19 +6,72 @@ import Link from "@mui/material/Link";
 
 import Login from "./Login";
 import Register from "./Register";
+import ResetPassword from "./ResetPassword";
 
-const StyledLink = ({ children }: { children: string }) => (
+import { type Dispatch, type SetStateAction, useState } from "react";
+import { capitalize } from "@/utils/helpers";
+
+type Page = "login" | "register" | "reset password";
+
+const StyledLink = ({
+  children,
+  onClick,
+}: {
+  children: string;
+  onClick: () => void;
+}) => (
   <Link
     component="button"
     variant="body2"
     color="secondary.dark"
+    onClick={onClick}
     sx={{ textDecoration: "none", ":hover": { textDecoration: "underline" } }}
   >
     {children}
   </Link>
 );
 
+const getPageProps = (page: Page, setPage: Dispatch<SetStateAction<Page>>) => {
+  switch (page) {
+    case "login":
+      return {
+        component: <Login />,
+        links: [
+          <StyledLink key={1} onClick={() => setPage("reset password")}>
+            Forgot your password?
+          </StyledLink>,
+          <StyledLink key={2} onClick={() => setPage("register")}>
+            Don&apos;t have an account? Sign up
+          </StyledLink>,
+        ],
+      };
+    case "register":
+      return {
+        component: <Register />,
+        links: [
+          <StyledLink key={1} onClick={() => setPage("login")}>
+            Already have an account? Sign In
+          </StyledLink>,
+        ],
+      };
+    case "reset password":
+      return {
+        component: <ResetPassword />,
+        links: [
+          <StyledLink key={1} onClick={() => setPage("login")}>
+            Already have an account? Sign In
+          </StyledLink>,
+        ],
+      };
+  }
+};
+
 const Auth = () => {
+  const [page, setPage] = useState<Page>("login");
+
+  const pageProps = getPageProps(page, setPage);
+  console.log(page);
+
   return (
     <Box
       boxShadow={24}
@@ -58,15 +111,11 @@ const Auth = () => {
         justifyContent="center"
       >
         <Typography variant="h6" fontWeight={600} mb={2}>
-          {/* Log In */}
-          Register
+          {capitalize(page)}
         </Typography>
-        <Register />
-        {/* <Login /> */}
+        {pageProps.component}
         <Box display="flex" flexDirection="column" mt={2}>
-          {/* <StyledLink>Forgot your password?</StyledLink>
-          <StyledLink>Don&apos;t have an account? Sign up</StyledLink> */}
-          <StyledLink>Already have an account? Sign In</StyledLink>
+          {pageProps.links.map((link) => link)}
         </Box>
       </Box>
     </Box>
