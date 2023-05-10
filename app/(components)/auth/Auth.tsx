@@ -122,3 +122,5 @@ const Auth = () => {
 };
 
 export default Auth;
+
+// TODO: Add a password reset page with new and old password fields

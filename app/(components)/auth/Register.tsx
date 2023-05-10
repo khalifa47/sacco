@@ -31,7 +31,7 @@ const validationSchema = yup.object({
     .string()
     .test({
       name: "is-valid-phone",
-      message: "Invalid phone number",
+      message: "Format: +254...",
       test: (value) => isValidSafaricomPhoneNumber(String(value)),
     })
     .required("Phone number is required."),
@@ -49,11 +49,34 @@ const validationSchema = yup.object({
 });
 
 const RowField = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ display: "flex", gap: 10 }}>
+  <div style={{ display: "flex", width: "100%", gap: 10 }}>
     {Children.map(children, (child) => (
       <div style={{ width: "50%" }}>{child}</div>
     ))}
   </div>
+);
+
+const CustomizedField = ({
+  name,
+  label,
+  isPassword,
+}: {
+  name: string;
+  label: string;
+  isPassword?: boolean;
+}) => (
+  <Field
+    component={TextField}
+    fullWidth
+    size="small"
+    name={name}
+    color="secondary"
+    {...(isPassword && { type: "password" })}
+    label={label}
+    FormHelperTextProps={{
+      sx: { mt: 0, lineHeight: 1.2, display: { xs: "none", md: "block" } },
+    }}
+  />
 );
 
 const Register = () => {
@@ -94,76 +117,25 @@ const Register = () => {
           }}
         >
           <RowField>
-            <Field
-              component={TextField}
-              size="small"
-              name="firstName"
-              color="secondary"
-              label="*First Name"
-            />
-            <Field
-              component={TextField}
-              size="small"
-              name="lastName"
-              color="secondary"
-              label="*Last Name"
-            />
+            <CustomizedField name="firstName" label="*First Name" />
+            <CustomizedField name="lastName" label="*Last Name" />
           </RowField>
 
-          <Field
-            component={TextField}
-            size="small"
-            fullWidth
-            name="otherNames"
-            color="secondary"
-            label="Other Names"
-          />
+          <CustomizedField name="otherNames" label="Other Names" />
 
           <RowField>
-            <Field
-              component={TextField}
-              size="small"
-              fullWidth
-              name="nationalId"
-              color="secondary"
-              label="*National ID"
-            />
-            <Field
-              component={TextField}
-              size="small"
-              fullWidth
-              name="phone"
-              color="secondary"
-              label="*Phone"
-            />
+            <CustomizedField name="nationalId" label="*National ID" />
+            <CustomizedField name="phone" label="*Phone Number" />
           </RowField>
-          <Field
-            component={TextField}
-            size="small"
-            fullWidth
-            name="email"
-            color="secondary"
-            label="*Email"
-          />
+
+          <CustomizedField name="email" label="*Email" />
 
           <RowField>
-            <Field
-              component={TextField}
-              size="small"
-              fullWidth
-              color="secondary"
-              type="password"
-              name="password"
-              label="*Password"
-            />
-            <Field
-              component={TextField}
-              size="small"
-              fullWidth
-              color="secondary"
-              type="password"
+            <CustomizedField name="password" label="*Password" isPassword />
+            <CustomizedField
               name="confirmPassword"
               label="*Confirm Password"
+              isPassword
             />
           </RowField>
 
