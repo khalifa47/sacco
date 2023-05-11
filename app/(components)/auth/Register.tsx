@@ -86,20 +86,24 @@ const Register = () => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={async (values, { setSubmitting }) => {
-        const res = await fetch("/api/auth/register", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(values),
-        });
-
-        if (!res.ok) {
-          throw new Error(res.statusText);
-        } else {
-          alert(JSON.stringify(await res.json(), null, 2));
-          // router.push("/dashboard");
+        try {
+          const res = await fetch("/api/auth/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(values),
+          });
+          if (!res.ok) {
+            const msg = await res.text();
+            throw new Error(msg === "" ? res.statusText : msg);
+          } else {
+            alert(JSON.stringify(await res.json(), null, 2));
+            // router.push("/dashboard");
+          }
+        } catch (error) {
+          alert(error);
+        } finally {
+          setSubmitting(false);
         }
-
-        setSubmitting(false);
       }}
     >
       {({ submitForm, isSubmitting, isValid }) => (
@@ -155,5 +159,3 @@ const Register = () => {
 };
 
 export default Register;
-
-// TODO: handle exceptions

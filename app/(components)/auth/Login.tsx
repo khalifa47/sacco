@@ -33,21 +33,27 @@ const Login = () => {
       onSubmit={async (values, { setSubmitting }) => {
         const isEmail = emailRegex.test(values.identifier);
 
-        const res = await fetch("/api/auth/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            isEmail: isEmail,
-            ...values,
-          }),
-        });
+        try {
+          const res = await fetch("/api/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              isEmail: isEmail,
+              ...values,
+            }),
+          });
 
-        if (!res.ok) {
-          throw new Error(await res.text());
-        } else {
-          router.push("/dashboard");
+          if (!res.ok) {
+            const msg = await res.text();
+            throw new Error(msg === "" ? res.statusText : msg);
+          } else {
+            router.push("/dashboard");
+          }
+        } catch (error) {
+          alert(error);
+        } finally {
+          setSubmitting(false);
         }
-        setSubmitting(false);
       }}
     >
       {({ submitForm, isSubmitting, isValid }) => (
