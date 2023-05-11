@@ -1,4 +1,5 @@
 import { Context } from "@/app/(components)/layout/Providers";
+import { ToastContext } from "@/app/(components)/layout/Toast";
 import { useContext } from "react";
 
 export const useSupabaseClient = () => {
@@ -10,3 +11,5 @@ export const useSupabaseClient = () => {
 
   return context;
 };
+
+export const useToast = () => useContext(ToastContext);

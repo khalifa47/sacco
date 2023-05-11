@@ -35,7 +35,7 @@ import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import { createNotificationData, getTimeAgo } from "@/utils/helpers";
-import { useSupabaseClient } from "@/utils/supabase";
+import { useSupabaseClient } from "@/utils/hooks";
 
 const Logo = () => {
   return (

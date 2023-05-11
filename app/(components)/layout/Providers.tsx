@@ -8,6 +8,7 @@ import type { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
 import { ThemeProvider, createTheme } from "@mui/material";
 import Container from "@mui/material/Container";
+import ToastProvider from "./Toast";
 
 const theme = createTheme({
   palette: {
@@ -38,7 +39,9 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <Context.Provider value={supabase}>
       <ThemeProvider theme={theme}>
-        <Container maxWidth="xl">{children}</Container>
+        <ToastProvider>
+          <Container maxWidth="xl">{children}</Container>
+        </ToastProvider>
       </ThemeProvider>
     </Context.Provider>
   );
