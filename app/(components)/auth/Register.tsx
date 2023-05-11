@@ -86,22 +86,19 @@ const Register = () => {
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={async (values, { setSubmitting }) => {
-        // const res = await fetch("/api/auth/register", {
-        //   method: "POST",
-        //   headers: { "Content-Type": "application/json" },
-        //   body: JSON.stringify({
-        //     isEmail: isEmail,
-        //     identifier: values.identifier,
-        //     password: values.password,
-        //   }),
-        // });
+        const res = await fetch("/api/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(values),
+        });
 
-        // if (!res.ok) {
-        //   throw new Error(await res.text());
-        // } else {
-        //   router.push("/dashboard");
-        // }
-        alert(JSON.stringify(values, null, 2));
+        if (!res.ok) {
+          throw new Error(res.statusText);
+        } else {
+          alert(JSON.stringify(await res.json(), null, 2));
+          // router.push("/dashboard");
+        }
+
         setSubmitting(false);
       }}
     >
@@ -159,6 +156,4 @@ const Register = () => {
 
 export default Register;
 
-// TODO: make responsive for smaller screens
-
-// TODO: add API auth for register
+// TODO: handle exceptions
