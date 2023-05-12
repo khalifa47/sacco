@@ -60,7 +60,7 @@ const Toast: React.FC<ToastProps> = ({
 }) => {
   const [progress, setProgress] = useState(0);
 
-  const autoHideDuration = 6000;
+  const autoHideDuration = 5000;
   const delay = autoHideDuration / 100;
 
   useEffect(() => {

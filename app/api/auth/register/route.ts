@@ -30,22 +30,30 @@ export async function POST(req: NextRequest) {
     cookies,
   });
 
-  const { data, error } = await supabase.auth.signUp({
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.signUp({
     email: body.email,
     password: body.password,
   });
 
   if (error !== null) {
-    throw new Error(`${error.message}, Name: ${error.name}`);
+    console.log(error.status);
+    return new NextResponse(error.message, {
+      status: error.status || 500,
+    });
   }
 
-  return new NextResponse(JSON.stringify(data), {
+  if (user?.identities?.length === 0) {
+    return new NextResponse("Email address has already been taken", {
+      status: 409,
+    });
+  }
+
+  return new NextResponse(JSON.stringify(user), {
     status: 200,
   });
 }
 
-// TODO: Check if user exists in the database
-
 // TODO: Create user in the database
-
-// TODO: Send user message

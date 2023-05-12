@@ -5,6 +5,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { TextField } from "formik-mui";
 import Button from "@mui/material/Button";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/utils/hooks";
 
 const nationalIdRegex = /^[0-9]{8}$/;
 const emailRegex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
@@ -26,6 +27,7 @@ const validationSchema = yup.object({
 
 const Login = () => {
   const router = useRouter();
+  const { showToast } = useToast();
   return (
     <Formik
       initialValues={{ identifier: "", password: "" }}
@@ -47,10 +49,11 @@ const Login = () => {
             const msg = await res.text();
             throw new Error(msg === "" ? res.statusText : msg);
           } else {
+            showToast("Logged in successfully", "success");
             router.push("/dashboard");
           }
-        } catch (error) {
-          alert(error);
+        } catch (error: any) {
+          showToast(error.toString(), "error");
         } finally {
           setSubmitting(false);
         }

@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import { useRouter } from "next/navigation";
 import { isValidSafaricomPhoneNumber } from "@/utils/helpers";
 import { Children } from "react";
+import { useToast } from "@/utils/hooks";
 
 const nationalIdRegex = /^[0-9]{8}$/;
 
@@ -81,6 +82,7 @@ const CustomizedField = ({
 
 const Register = () => {
   const router = useRouter();
+  const { showToast } = useToast();
   return (
     <Formik
       initialValues={initialValues}
@@ -96,11 +98,11 @@ const Register = () => {
             const msg = await res.text();
             throw new Error(msg === "" ? res.statusText : msg);
           } else {
-            alert(JSON.stringify(await res.json(), null, 2));
+            showToast("Account created successfully", "success");
             // router.push("/dashboard");
           }
-        } catch (error) {
-          alert(error);
+        } catch (error: any) {
+          showToast(error.toString(), "error");
         } finally {
           setSubmitting(false);
         }
@@ -159,3 +161,5 @@ const Register = () => {
 };
 
 export default Register;
+
+// TODO: decide on what to do after a user registers
