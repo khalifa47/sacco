@@ -21,7 +21,6 @@ const loanHistoryColumns: GridColDef[] = [
     field: "id",
     headerName: "ID",
     width: 100,
-    headerClassName: "header",
     sortable: false,
   },
   {
@@ -29,7 +28,6 @@ const loanHistoryColumns: GridColDef[] = [
     type: "number",
     headerName: "Amount",
     headerAlign: "left",
-    headerClassName: "header",
     align: "left",
     width: 150,
     disableColumnMenu: true,
@@ -39,7 +37,6 @@ const loanHistoryColumns: GridColDef[] = [
     field: "guarantors",
     headerName: "Guarantors",
     headerAlign: "left",
-    headerClassName: "header",
     align: "left",
     width: 150,
     disableColumnMenu: true,
@@ -59,7 +56,6 @@ const loanHistoryColumns: GridColDef[] = [
     field: "purpose",
     headerName: "Purpose",
     headerAlign: "left",
-    headerClassName: "header",
     align: "left",
     width: 150,
     disableColumnMenu: true,
@@ -69,7 +65,6 @@ const loanHistoryColumns: GridColDef[] = [
     field: "createdAt",
     type: "dateTime",
     headerName: "Taken On",
-    headerClassName: "header",
     flex: 1,
     valueGetter: ({ value }) => value && new Date(value),
     valueFormatter: ({ value }) => formatDate(value),
@@ -78,7 +73,6 @@ const loanHistoryColumns: GridColDef[] = [
     field: "updatedAt",
     type: "dateTime",
     headerName: "Last Paid",
-    headerClassName: "header",
     flex: 1,
     valueGetter: ({ value }) => value && new Date(value),
     valueFormatter: ({ value }) => formatDate(value),
@@ -86,7 +80,6 @@ const loanHistoryColumns: GridColDef[] = [
   {
     field: "status",
     headerName: "Status",
-    headerClassName: "header",
     width: 100,
     valueFormatter: ({ value }) => capitalize(value),
   },
@@ -97,7 +90,6 @@ const transactionColumns: GridColDef[] = [
     field: "id",
     headerName: "ID",
     width: 150,
-    headerClassName: "header",
     sortable: false,
   },
   {
@@ -105,7 +97,6 @@ const transactionColumns: GridColDef[] = [
     type: "number",
     headerName: "Amount",
     headerAlign: "left",
-    headerClassName: "header",
     align: "left",
     width: 150,
     disableColumnMenu: true,
@@ -116,7 +107,6 @@ const transactionColumns: GridColDef[] = [
     type: "number",
     headerName: "Balance",
     headerAlign: "left",
-    headerClassName: "header",
     align: "left",
     width: 150,
     disableColumnMenu: true,
@@ -125,14 +115,12 @@ const transactionColumns: GridColDef[] = [
   {
     field: "content",
     headerName: "Purpose",
-    headerClassName: "header",
     width: 150,
     valueFormatter: ({ value }) => capitalize(value),
   },
   {
     field: "type",
     headerName: "Type",
-    headerClassName: "header",
     width: 100,
     valueGetter: ({ row }) => {
       if (row.content === "loans")
@@ -144,14 +132,12 @@ const transactionColumns: GridColDef[] = [
   {
     field: "method",
     headerName: "Method",
-    headerClassName: "header",
     width: 100,
   },
   {
     field: "dateTime",
     type: "dateTime",
     headerName: "Date and Time",
-    headerClassName: "header",
     flex: 1,
     valueGetter: ({ value }) => value && new Date(value),
     valueFormatter: ({ value }) => formatDate(value),
@@ -203,9 +189,6 @@ const DataTable = ({
   return (
     <Box
       sx={{
-        "& .header": {
-          fontSize: 16,
-        },
         "& .css-1ojlfni-MuiDataGrid-root": {
           "--unstable_DataGrid-headWeight": 600,
         },
