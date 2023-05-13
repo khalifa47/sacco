@@ -1,6 +1,5 @@
 "use client";
 
-import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell, { tableCellClasses } from "@mui/material/TableCell";
@@ -21,22 +20,41 @@ import {
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Link from "next/link";
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-    fontSize: 15,
-  },
-  [`&.${tableCellClasses.body}`]: {
-    fontSize: 13,
-  },
-}));
+const StyledTableCell = ({
+  children,
+  color = "inherit",
+}: {
+  children: React.ReactNode;
+  color?: string;
+}) => (
+  <TableCell
+    sx={{
+      [`&.${tableCellClasses.head}`]: {
+        backgroundColor: "black",
+        color: "white",
+        fontSize: 15,
+      },
+      [`&.${tableCellClasses.body}`]: {
+        fontSize: 13,
+        color,
+      },
+    }}
+  >
+    {children}
+  </TableCell>
+);
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  "&:nth-of-type(odd)": {
-    backgroundColor: theme.palette.action.hover,
-  },
-}));
+const StyledTableRow = ({ children }: { children: React.ReactNode }) => (
+  <TableRow
+    sx={{
+      "&:nth-of-type(odd)": {
+        backgroundColor: "#f3f3f3",
+      },
+    }}
+  >
+    {children}
+  </TableRow>
+);
 
 const columns = {
   transactions: [
@@ -72,18 +90,13 @@ const SummaryTable = ({
         <TableBody>
           {rows.map((row) => (
             <StyledTableRow key={row.id}>
-              <StyledTableCell sx={{ color: "#4C3FE4" }}>
-                {row.id}
-              </StyledTableCell>
+              <StyledTableCell color="#4C3FE4">{row.id}</StyledTableCell>
 
               {"type" in row ? (
                 // if transaction
                 <>
                   <StyledTableCell
-                    sx={{
-                      color:
-                        row.type === "debit" ? "error.main" : "success.main",
-                    }}
+                    color={row.type === "debit" ? "error.main" : "success.main"}
                   >
                     Ksh. {formatNumber(row.amount)}
                   </StyledTableCell>
@@ -115,7 +128,7 @@ const SummaryTable = ({
                   <StyledTableCell>
                     {formatDate(row.dateJoined)}
                   </StyledTableCell>
-                  <StyledTableCell sx={{ color: "#5f5f5f" }}>
+                  <StyledTableCell color="#5f5f5f">
                     <div
                       style={{
                         display: "flex",
