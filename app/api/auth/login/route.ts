@@ -30,9 +30,10 @@ export async function POST(req: NextRequest) {
 
   if (error !== null) {
     return new NextResponse(error.message, {
-      status: error.status,
+      status: error.status || 500,
     });
   }
+
   return new NextResponse(JSON.stringify(session), {
     status: 200,
     headers: {

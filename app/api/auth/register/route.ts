@@ -39,7 +39,6 @@ export async function POST(req: NextRequest) {
   });
 
   if (error !== null) {
-    console.log(error.status);
     return new NextResponse(error.message, {
       status: error.status || 500,
     });

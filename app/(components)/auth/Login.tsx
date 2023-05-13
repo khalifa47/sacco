@@ -49,8 +49,8 @@ const Login = () => {
             const msg = await res.text();
             throw new Error(msg === "" ? res.statusText : msg);
           } else {
-            showToast("Logged in successfully", "success");
             router.push("/dashboard");
+            showToast("Logged in successfully", "success");
           }
         } catch (error: any) {
           showToast(error.toString(), "error");

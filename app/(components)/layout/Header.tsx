@@ -35,7 +35,7 @@ import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import { createNotificationData, getTimeAgo } from "@/utils/helpers";
-import { useSupabaseClient } from "@/utils/hooks";
+import { useToast } from "@/utils/hooks";
 
 const Logo = () => {
   return (
@@ -151,7 +151,7 @@ const notifications = [
 ];
 
 const Header = () => {
-  const supabase = useSupabaseClient();
+  const { showToast } = useToast();
 
   const [loggingOut, setLoggingOut] = useState(false);
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -180,7 +180,18 @@ const Header = () => {
 
   const logOut = async () => {
     setLoggingOut(true);
-    await supabase.auth.signOut();
+    try {
+      const res = await fetch("/api/auth/logout", { method: "GET" });
+
+      if (!res.ok) {
+        const msg = await res.text();
+        throw new Error(msg === "" ? res.statusText : msg);
+      }
+    } catch (error: any) {
+      showToast(error.toString(), "error");
+    } finally {
+      setLoggingOut(false);
+    }
   };
 
   const pages = [
