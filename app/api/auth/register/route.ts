@@ -56,3 +56,5 @@ export async function POST(req: NextRequest) {
 }
 
 // TODO: Create user in the database
+
+// TODO: Create contribution account for the user OR allow user to opt in

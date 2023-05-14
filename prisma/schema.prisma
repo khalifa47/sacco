@@ -40,8 +40,19 @@ enum ContributionType {
   welfare
 }
 
+enum TransactionType {
+  debit
+  credit
+}
+
+enum PaymentMethod {
+  card
+  mpesa
+  paypal
+}
+
 model User {
-  id          String     @id
+  id          String     @id // comes from auth
   national_id String     @unique @db.VarChar(20)
   email       String     @unique
   phone       String     @unique
@@ -89,9 +100,24 @@ model Loan {
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  guarantors Guarantor[]
+  transactions LoanTransaction[]
+  guarantors   Guarantor[]
 
   @@map("loans")
+}
+
+model LoanTransaction {
+  id        Int             @id // will be receipt ID
+  loanId    Int             @map("loan_id")
+  amount    Float
+  balance   Float
+  type      TransactionType // debit => loan repayment, credit => loan disbursement
+  method    PaymentMethod
+  createdAt DateTime        @default(now()) @map("created_at")
+
+  loan Loan @relation(fields: [loanId], references: [id], onDelete: Cascade)
+
+  @@map("loan_transactions")
 }
 
 model Guarantor {
@@ -113,13 +139,31 @@ model Contribution {
   amount             Float
   frequency          Frequency
   amountPerFrequency Float            @map("amount_per_frequency")
-  type               ContributionType
+  type               ContributionType // shares => odd ID, welfare => even ID
   createdAt          DateTime         @default(now()) @map("created_at")
   updatedAt          DateTime         @updatedAt @map("updated_at")
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  transactions ContributionTransaction[]
+
   @@map("contributions")
 }
 
-// TODO: Decide on whether to have a single transactions table or separate tables for each transaction type
+model ContributionTransaction {
+  id             Int             @id // will be receipt ID
+  contributionId Int             @map("contribution_id")
+  amount         Float
+  balance        Float
+  type           TransactionType // debit => shares withdrawal (cannot debit welfare), credit => contribution deposit
+  method         PaymentMethod
+  createdAt      DateTime        @default(now()) @map("created_at")
+
+  contribution Contribution @relation(fields: [contributionId], references: [id], onDelete: Cascade)
+
+  @@map("contribution_transactions")
+}
+
+// Option 1: Have a single account table with a type column (Shares, Loans, Welfare) then have a single transaction table
+
+// Option \_2_/: Have 2 separate tables, one for Loans, the other for contributions (Shares, Welfare) then have a separate transaction table for each account type

@@ -14,7 +14,7 @@
     "@mui/icons-material": "^5.11.11",
     "@mui/material": "^5.11.14",
     "@mui/x-data-grid": "^6.0.3",
-    "@prisma/client": "^4.13.0",
+    "@prisma/client": "latest",
     "@supabase/auth-helpers-nextjs": "^0.6.1",
     "@supabase/supabase-js": "^2.21.0",
     "@types/node": "18.15.10",
@@ -33,6 +33,6 @@
     "yup": "^1.0.2"
   },
   "devDependencies": {
-    "prisma": "^4.13.0"
+    "prisma": "latest"
   }
 }
