@@ -37,6 +37,7 @@ import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNone
 import { createNotificationData, getTimeAgo } from "@/utils/helpers";
 import { useToast } from "@/utils/hooks";
 import { useRouter } from "next/navigation";
+import type { UserMetadata } from "@supabase/supabase-js";
 
 const Logo = () => {
   return (
@@ -151,7 +152,7 @@ const notifications = [
   }),
 ];
 
-const Header = () => {
+const Header = ({ user }: { user: UserMetadata }) => {
   const { showToast } = useToast();
   const router = useRouter();
 
@@ -338,7 +339,7 @@ const Header = () => {
                     <ExpandMoreIcon />
                   )}
                   <Typography letterSpacing={"0.15rem"} ml={1}>
-                    Khalifa Fumo
+                    {`${user.firstName} ${user.lastName}`}
                   </Typography>
                 </Button>
               </Tooltip>
