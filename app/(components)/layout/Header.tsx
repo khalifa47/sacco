@@ -36,6 +36,7 @@ import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import { createNotificationData, getTimeAgo } from "@/utils/helpers";
 import { useToast } from "@/utils/hooks";
+import { useRouter } from "next/navigation";
 
 const Logo = () => {
   return (
@@ -152,6 +153,7 @@ const notifications = [
 
 const Header = () => {
   const { showToast } = useToast();
+  const router = useRouter();
 
   const [loggingOut, setLoggingOut] = useState(false);
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -190,6 +192,7 @@ const Header = () => {
     } catch (error: any) {
       showToast(error.toString(), "error");
     } finally {
+      router.replace("/auth");
       setLoggingOut(false);
     }
   };
