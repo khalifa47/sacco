@@ -98,8 +98,11 @@ const Register = () => {
             const msg = await res.text();
             throw new Error(msg === "" ? res.statusText : msg);
           } else {
-            showToast("Account created successfully", "success");
-            // router.push("/dashboard");
+            router.refresh();
+            showToast(
+              "Account created successfully. Check your email for confirmation.",
+              "success"
+            );
           }
         } catch (error: any) {
           showToast(error.toString(), "error");

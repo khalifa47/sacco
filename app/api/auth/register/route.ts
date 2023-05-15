@@ -37,6 +37,13 @@ export async function POST(req: NextRequest) {
   } = await supabase.auth.signUp({
     email: body.email,
     password: body.password,
+    phone: body.phone,
+    options: {
+      data: {
+        firstName: body.firstName,
+        lastName: body.lastName,
+      },
+    },
   });
 
   if (error !== null) {
