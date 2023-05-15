@@ -52,18 +52,17 @@ enum PaymentMethod {
 }
 
 model User {
-  id          String     @id // comes from auth
-  national_id String     @unique @db.VarChar(20)
-  email       String     @unique
-  phone       String     @unique
-  firstName   String     @map("first_name")
-  otherNames  String?    @map("other_names")
-  lastName    String     @map("last_name")
-  role        Role       @default(user)
-  status      UserStatus @default(inactive)
-  password    String
-  lastActive  DateTime   @map("last_active")
-  createdAt   DateTime   @default(now()) @map("created_at")
+  id         String     @id // comes from auth
+  nationalId String     @unique @map("national_id") @db.VarChar(20)
+  email      String     @unique
+  phone      String     @unique
+  firstName  String     @map("first_name")
+  otherNames String?    @map("other_names")
+  lastName   String     @map("last_name")
+  role       Role       @default(user)
+  status     UserStatus @default(inactive)
+  lastActive DateTime?  @map("last_active")
+  createdAt  DateTime   @default(now()) @map("created_at")
 
   notifications Notification[]
   loans         Loan[]
