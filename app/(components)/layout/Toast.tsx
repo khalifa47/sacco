@@ -104,7 +104,7 @@ const Toast: React.FC<ToastProps> = ({
         {message}
         {open && (
           <LinearProgress
-            color="secondary"
+            color={severity}
             variant="determinate"
             value={progress}
             sx={{
