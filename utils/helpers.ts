@@ -21,11 +21,13 @@ export const formatDate = (dateString: string) => {
   return date.toLocaleDateString("en-US", options);
 };
 
-export const getTimeAgo = (dateString: string) => {
+export const getTimeAgo = (date: string | Date) => {
   const currentDate: Date = new Date();
-  const targetDate: Date = new Date(dateString);
+  if (typeof date === "string") {
+    date = new Date(date);
+  }
 
-  const millisecondsAgo: number = currentDate.getTime() - targetDate.getTime();
+  const millisecondsAgo: number = currentDate.getTime() - date.getTime();
   const secondsAgo: number = Math.floor(millisecondsAgo / 1000);
 
   if (secondsAgo < 60) {

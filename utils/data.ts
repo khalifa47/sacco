@@ -73,4 +73,14 @@ for (let i = 0; i < 15; i++) {
   });
 }
 
+// NOTIFICATIONS
+
+// {id: 1,
+// title: "Guarantor Request",
+// content:
+//   "You've got a guarantor request from Khalifa Fumo for a loan amount of Ksh. 200,000",
+// go_to: "/loans/1",
+// isRead: false,
+// created_at: "2023-01-19 10:23:54",}
+
 export { users, loans };

@@ -25,8 +25,10 @@ export default async function PageLayout({
 
   return (
     <section>
-      <Header user={session!.user.user_metadata} />
+      <Header user={session!.user.user_metadata} notifications={[]} />
       {children}
     </section>
   );
 }
+
+// TODO: add notifications API

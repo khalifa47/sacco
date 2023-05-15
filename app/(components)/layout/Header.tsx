@@ -34,10 +34,11 @@ import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
-import { createNotificationData, getTimeAgo } from "@/utils/helpers";
+import { getTimeAgo } from "@/utils/helpers";
 import { useToast } from "@/utils/hooks";
 import { useRouter } from "next/navigation";
 import type { UserMetadata } from "@supabase/supabase-js";
+import type { Notification } from "@prisma/client";
 
 const Logo = () => {
   return (
@@ -67,7 +68,7 @@ const Notifications = ({
   notifications,
 }: {
   anchorEl: null | HTMLElement;
-  notifications: AppNotification[];
+  notifications: Notification[];
 }) => {
   return (
     <Popper
@@ -88,33 +89,37 @@ const Notifications = ({
               maxWidth: 400,
             }}
           >
-            <List>
-              {notifications.map((notification, index) => (
-                <ListItem
-                  key={notification.id}
-                  disablePadding
-                  divider={index !== notifications.length - 1}
-                >
-                  <ListItemButton
-                    component={Link}
-                    href={notification.go_to}
-                    sx={{ flexDirection: "column" }}
+            {notifications.length === 0 ? (
+              <Typography p={{ xs: 1, md: 2 }}>No new notifications</Typography>
+            ) : (
+              <List>
+                {notifications.map((notification, index) => (
+                  <ListItem
+                    key={notification.id}
+                    disablePadding
+                    divider={index !== notifications.length - 1}
                   >
-                    <ListItemText
-                      primary={notification.title}
-                      secondary={notification.content}
-                    />
-                    <Typography
-                      variant="body2"
-                      color="#4f4f4f"
-                      alignSelf="flex-end"
+                    <ListItemButton
+                      component={Link}
+                      href={notification.goTo}
+                      sx={{ flexDirection: "column" }}
                     >
-                      {getTimeAgo(notification.created_at)}
-                    </Typography>
-                  </ListItemButton>
-                </ListItem>
-              ))}
-            </List>
+                      <ListItemText
+                        primary={notification.title}
+                        secondary={notification.content}
+                      />
+                      <Typography
+                        variant="body2"
+                        color="#4f4f4f"
+                        alignSelf="flex-end"
+                      >
+                        {getTimeAgo(notification.createdAt)}
+                      </Typography>
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+              </List>
+            )}
           </Paper>
         </Fade>
       )}
@@ -122,37 +127,13 @@ const Notifications = ({
   );
 };
 
-const notifications = [
-  createNotificationData({
-    id: 1,
-    title: "Guarantor Request",
-    content:
-      "You've got a guarantor request from Khalifa Fumo for a loan amount of Ksh. 200,000",
-    go_to: "/loans/1",
-    isRead: false,
-    created_at: "2023-01-19 10:23:54",
-  }),
-  createNotificationData({
-    id: 2,
-    title: "Guarantor Request",
-    content:
-      "You've got a guarantor request from Khalifa Fumo for a loan amount of Ksh. 200,000",
-    go_to: "/loans/1",
-    isRead: false,
-    created_at: "2023-01-19 10:23:54",
-  }),
-  createNotificationData({
-    id: 3,
-    title: "Guarantor Request",
-    content:
-      "You've got a guarantor request from Khalifa Fumo for a loan amount of Ksh. 200,000",
-    go_to: "/loans/1",
-    isRead: false,
-    created_at: "2023-01-19 10:23:54",
-  }),
-];
-
-const Header = ({ user }: { user: UserMetadata }) => {
+const Header = ({
+  user,
+  notifications,
+}: {
+  user: UserMetadata;
+  notifications: Notification[];
+}) => {
   const { showToast } = useToast();
   const router = useRouter();
 
