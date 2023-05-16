@@ -172,7 +172,7 @@ const Header = ({
         throw new Error(msg === "" ? res.statusText : msg);
       }
     } catch (error: any) {
-      showToast(error.toString(), "error");
+      return showToast(error.toString(), "error");
     } finally {
       router.replace("/auth");
       setLoggingOut(false);

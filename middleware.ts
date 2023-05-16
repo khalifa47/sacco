@@ -6,21 +6,23 @@ import type { NextRequest } from "next/server";
 export async function middleware(req: NextRequest) {
   const res = NextResponse.next();
 
-  const supabase = createMiddlewareSupabaseClient({ req, res });
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
+  // const supabase = createMiddlewareSupabaseClient({ req, res });
+  // const {
+  //   data: { session },
+  // } = await supabase.auth.getSession();
 
-  if (session === null) {
-    return NextResponse.redirect(new URL("/auth", req.nextUrl));
-  }
+  // if (session === null) {
+  //   return NextResponse.redirect(new URL("/auth", req.nextUrl));
+  // }
 
   return res;
 }
 
-export const config = {
-  // match all routes, including /api/auth/logout, except /api/auth/*, /auth/*, /_next/static/*, /_next/image/*, /favicon.ico, and the root route
-  matcher: [
-    "/((?!api/auth(?!/logout)|auth|_next/static|_next/image|favicon.ico|$).*)",
-  ],
-};
+// export const config = {
+//   // match all routes, including /api/auth/logout, except /api/auth/*, /auth/*, /_next/static/*, /_next/image/*, /favicon.ico, and the root route
+//   matcher: [
+//     "/((?!api/auth(?!/logout)|auth|_next/static|_next/image|favicon.ico|$).*)",
+//   ],
+// };
+
+// TODO: fix middleware issue => not running API routes. Maybe need to pass headers and cookies via fetch to validate logged in
