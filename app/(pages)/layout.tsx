@@ -15,7 +15,9 @@ const getNotifications = async (uid: string) => {
   let notifications: Notification[] = [];
 
   try {
-    res = await fetch(`${process.env.BASE_URL}/api/notifications?uid=${uid}`);
+    res = await fetch(`${process.env.BASE_URL}/api/notifications?uid=${uid}`, {
+      headers: headers(),
+    });
     if (!res.ok) {
       const msg = await res.text();
       throw new Error(msg === "" ? res.statusText : msg);
