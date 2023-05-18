@@ -36,7 +36,7 @@ import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
 import { getTimeAgo } from "@/utils/helpers";
 import { useToast } from "@/utils/hooks";
-import { useRouter } from "next/navigation";
+import { useRouter, useSelectedLayoutSegment } from "next/navigation";
 import type { UserMetadata } from "@supabase/supabase-js";
 import type { Notification } from "@prisma/client";
 
@@ -136,6 +136,7 @@ const Header = ({
 }) => {
   const { showToast } = useToast();
   const router = useRouter();
+  const segment = useSelectedLayoutSegment();
 
   const [loggingOut, setLoggingOut] = useState(false);
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null);
@@ -215,7 +216,7 @@ const Header = ({
     },
   ];
 
-  return (
+  return segment !== "auth" ? (
     <>
       <AppBar
         position="absolute"
@@ -361,6 +362,8 @@ const Header = ({
       </AppBar>
       <Toolbar />
     </>
+  ) : (
+    <></>
   );
 };
 export default Header;
