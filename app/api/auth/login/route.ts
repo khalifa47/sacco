@@ -1,6 +1,8 @@
 import { createRouteHandlerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { type NextRequest, NextResponse } from "next/server";
 import { headers, cookies } from "next/headers";
+import prisma from "@/utils/prismadb";
+import { User } from "@prisma/client";
 
 type LoginBody = {
   isEmail: boolean;
@@ -9,24 +11,38 @@ type LoginBody = {
 };
 
 // do not cache this page
-export const revalidate = 0;
+export const revalidate = 60;
 
 export async function POST(req: NextRequest) {
   const body: LoginBody = await req.json();
+  let user: User | null = null;
 
   const supabase = createRouteHandlerSupabaseClient({
     headers,
     cookies,
   });
+
+  try {
+    if (!body.isEmail) {
+      user = await prisma.user.findUnique({
+        where: {
+          nationalId: body.identifier,
+        },
+      });
+    }
+  } catch (error: any) {
+    return new NextResponse(error.message, {
+      status: 500,
+    });
+  }
+
   const {
     data: { session },
     error,
   } = await supabase.auth.signInWithPassword({
-    email: body.identifier,
+    email: body.isEmail ? body.identifier : user ? user.email : "",
     password: body.password,
   });
-
-  // TODO: handle login with national ID
 
   if (error !== null) {
     return new NextResponse(error.message, {
