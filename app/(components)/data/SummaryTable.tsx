@@ -19,6 +19,7 @@ import {
 
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Link from "next/link";
+import type { ContributionTransaction, LoanTransaction } from "@prisma/client";
 
 const StyledTableCell = ({
   children,
@@ -61,7 +62,7 @@ const columns = {
     "Transaction ID",
     "Amount",
     "Balance",
-    "Purpose",
+    "Type",
     "Payment Method",
     "Date and Time",
   ],
@@ -73,7 +74,7 @@ const SummaryTable = ({
   rows,
 }: {
   admin?: boolean;
-  rows: Transaction[] | User[];
+  rows: ContributionTransaction[] | LoanTransaction[] | User[];
 }) => {
   if (rows.length === 0) {
     return (
@@ -114,9 +115,9 @@ const SummaryTable = ({
                   <StyledTableCell>
                     Ksh. {formatNumber(row.balance)}
                   </StyledTableCell>
-                  <StyledTableCell>{capitalize(row.content)}</StyledTableCell>
+                  <StyledTableCell>{capitalize(row.type)}</StyledTableCell>
                   <StyledTableCell>{row.method}</StyledTableCell>
-                  <StyledTableCell>{formatDate(row.dateTime)}</StyledTableCell>
+                  <StyledTableCell>{formatDate(row.createdAt)}</StyledTableCell>
                 </>
               ) : (
                 // if user
