@@ -1,60 +1,61 @@
 import dynamic from "next/dynamic";
 import Title from "@/app/(components)/layout/Title";
-import { createTransactionData } from "@/utils/helpers";
 import Divider from "@/app/(components)/layout/Divider";
 import SummaryTable from "@/app/(components)/data/SummaryTable";
+import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { headers, cookies } from "next/headers";
+import { ContributionTransaction } from "@prisma/client";
+
+const getTransactionData = async (
+  uid: string,
+  limit?: number,
+  content?: Content
+) => {
+  let res: Response;
+  let transactions: ContributionTransaction[] = [];
+
+  try {
+    res = await fetch(
+      `http://localhost:3000/api/transactions?uid=${uid}&limit=${limit}&content=${content}`,
+      { headers: headers() }
+    );
+    if (!res.ok) {
+      const msg = await res.text();
+      throw new Error(msg === "" ? res.statusText : msg);
+    }
+
+    transactions = await res.json();
+  } catch (error: any) {
+    console.error(error);
+  }
+
+  return transactions;
+};
+
+// const getAccountsData = async () => {
+//   const res = await fetch("http://localhost:3000/api/accounts");
+//   const data = await res.json();
+//   return data;
+// };
 
 const InfoCard = dynamic(() => import("@/app/(components)/data/InfoCard"));
 
-const rows = [
-  createTransactionData({
-    id: "281936183",
-    amount: 200000,
-    balance: 200000,
-    type: "credit",
-    content: "shares",
-    method: "MPESA",
-    dateTime: "2004-10-19 10:23:54",
-  }),
-  createTransactionData({
-    id: "282936183",
-    amount: 200000,
-    balance: 200000,
-    type: "credit",
-    content: "shares",
-    method: "MPESA",
-    dateTime: "2004-10-19 10:23:54",
-  }),
-  createTransactionData({
-    id: "283936183",
-    amount: 200000,
-    balance: 200000,
-    type: "credit",
-    content: "shares",
-    method: "MPESA",
-    dateTime: "2004-10-19 10:23:54",
-  }),
-  createTransactionData({
-    id: "284936183",
-    amount: 200000,
-    balance: 200000,
-    type: "credit",
-    content: "shares",
-    method: "MPESA",
-    dateTime: "2004-10-19 10:23:54",
-  }),
-  createTransactionData({
-    id: "285936183",
-    amount: 200000,
-    balance: 200000,
-    type: "credit",
-    content: "shares",
-    method: "MPESA",
-    dateTime: "2004-10-19 10:23:54",
-  }),
-];
+export default async function Dashboard() {
+  let transactions: ContributionTransaction[] = [];
 
-export default function Dashboard() {
+  const supabase = createServerComponentSupabaseClient({
+    headers,
+    cookies,
+  });
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (session !== null) {
+    transactions = await getTransactionData(session.user.id);
+  }
+
   return (
     <main>
       <Title title="My Dashboard" pageTitle />
@@ -73,7 +74,7 @@ export default function Dashboard() {
       </div>
       <Divider />
       <Title title="Recent Transactions" />
-      <SummaryTable rows={rows} />
+      <SummaryTable rows={transactions} />
     </main>
   );
 }
