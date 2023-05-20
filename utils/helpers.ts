@@ -8,8 +8,11 @@ export const capitalize = (sentence: string) => {
 };
 
 // date format function
-export const formatDate = (dateString: string) => {
-  const date = new Date(dateString);
+export const formatDate = (date: string | Date) => {
+  if (typeof date === "string") {
+    date = new Date(date);
+  }
+
   // date.setHours(date.getHours() + 3);
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
