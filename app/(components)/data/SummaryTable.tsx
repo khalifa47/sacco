@@ -75,6 +75,17 @@ const SummaryTable = ({
   admin?: boolean;
   rows: Transaction[] | User[];
 }) => {
+  if (rows.length === 0) {
+    return (
+      <Typography
+        variant="h6"
+        sx={{ textAlign: "center", m: "50px auto", color: "text.disabled" }}
+      >
+        No data to display⚠️
+      </Typography>
+    );
+  }
+
   const col = "type" in rows[0] ? "transactions" : "users";
 
   return (
