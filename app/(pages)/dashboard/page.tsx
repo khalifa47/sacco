@@ -4,7 +4,7 @@ import Divider from "@/app/(components)/layout/Divider";
 import SummaryTable from "@/app/(components)/data/SummaryTable";
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { headers, cookies } from "next/headers";
-import { ContributionTransaction } from "@prisma/client";
+import { ContributionTransaction, Loan } from "@prisma/client";
 
 const getTransactionData = async (
   uid: string,
@@ -17,7 +17,7 @@ const getTransactionData = async (
   try {
     res = await fetch(
       `http://localhost:3000/api/transactions?uid=${uid}&limit=${limit}&content=${content}`,
-      { headers: headers() }
+      { headers: headers(), next: { revalidate: 60 } }
     );
     if (!res.ok) {
       const msg = await res.text();
@@ -32,17 +32,31 @@ const getTransactionData = async (
   return transactions;
 };
 
-// const getAccountsData = async () => {
-//   const res = await fetch("http://localhost:3000/api/accounts");
-//   const data = await res.json();
-//   return data;
-// };
+const getLoanAmount = async (uid: string) => {
+  let res: Response;
+  let loans: Loan[] = [];
+
+  try {
+    res = await fetch(`http://localhost:3000/api/loans?uid=${uid}`, {
+      headers: headers(),
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) {
+      const msg = await res.text();
+      throw new Error(msg === "" ? res.statusText : msg);
+    }
+
+    loans = await res.json();
+  } catch (error: any) {
+    console.error(error);
+  }
+
+  return loans.reduce((acc, loan) => acc + loan.amount, 0);
+};
 
 const InfoCard = dynamic(() => import("@/app/(components)/data/InfoCard"));
 
 export default async function Dashboard() {
-  let transactions: ContributionTransaction[] = [];
-
   const supabase = createServerComponentSupabaseClient({
     headers,
     cookies,
@@ -52,9 +66,17 @@ export default async function Dashboard() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  if (session !== null) {
-    transactions = await getTransactionData(session.user.id);
+  if (session === null) {
+    throw new Error("User not authenticated");
   }
+
+  const loanAmountData = getLoanAmount(session.user.id);
+  const transactionsData = getTransactionData(session.user.id);
+
+  const [loanAmount, transactions] = await Promise.all([
+    loanAmountData,
+    transactionsData,
+  ]);
 
   return (
     <main>
@@ -69,7 +91,7 @@ export default async function Dashboard() {
         }}
       >
         <InfoCard content="shares" amount={20000000} />
-        <InfoCard content="loans" amount={200000} />
+        <InfoCard content="loans" amount={loanAmount} />
         <InfoCard content="welfare" amount={20000} />
       </div>
       <Divider />
