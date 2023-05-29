@@ -6,8 +6,8 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   let transactions: ContributionTransaction[] | LoanTransaction[] = [];
 
-  let uid = searchParams.get("uid");
-  let content = searchParams.get("content");
+  const uid = searchParams.get("uid");
+  const content = searchParams.get("content");
   let limit = searchParams.get("limit");
 
   if (uid === null) {
