@@ -16,8 +16,8 @@ const getTransactionData = async (
 
   try {
     res = await fetch(
-      `http://localhost:3000/api/transactions?uid=${uid}&limit=${limit}&content=${content}`,
-      { headers: headers(), next: { revalidate: 60 } }
+      `http://localhost:3000/api/transactions?uid=${uid}&limit=${limit}&content=${content}`
+      // { headers: headers(), next: { revalidate: 60 } }
     );
     if (!res.ok) {
       const msg = await res.text();
@@ -38,7 +38,7 @@ const getLoanAmount = async (uid: string) => {
 
   try {
     res = await fetch(`http://localhost:3000/api/loans?uid=${uid}`, {
-      headers: headers(),
+      // headers: headers(),
       next: { revalidate: 60 },
     });
     if (!res.ok) {
@@ -67,7 +67,7 @@ const getContributionAmount = async (uid: string) => {
 
   try {
     res = await fetch(`http://localhost:3000/api/contributions?uid=${uid}`, {
-      headers: headers(),
+      // headers: headers(),
       next: { revalidate: 60 },
     });
     if (!res.ok) {
