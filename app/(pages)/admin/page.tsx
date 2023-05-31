@@ -1,58 +1,10 @@
 import Title from "@/app/(components)/layout/Title";
-import { createTransactionData, createUserData } from "@/utils/helpers";
+import { createUserData } from "@/utils/helpers";
 import dynamic from "next/dynamic";
 import Divider from "@/app/(components)/layout/Divider";
 import SummaryTable from "@/app/(components)/data/SummaryTable";
 
 const InfoCard = dynamic(() => import("@/app/(components)/data/InfoCard"));
-
-const transactionRows = [
-  createTransactionData({
-    id: "281936183",
-    amount: 200000,
-    balance: 200000,
-    type: "credit",
-    content: "shares",
-    method: "MPESA",
-    dateTime: "2004-10-19 10:23:54",
-  }),
-  createTransactionData({
-    id: "282936183",
-    amount: 200000,
-    balance: 200000,
-    type: "credit",
-    content: "shares",
-    method: "MPESA",
-    dateTime: "2004-10-19 10:23:54",
-  }),
-  createTransactionData({
-    id: "283936183",
-    amount: 200000,
-    balance: 200000,
-    type: "credit",
-    content: "shares",
-    method: "MPESA",
-    dateTime: "2004-10-19 10:23:54",
-  }),
-  createTransactionData({
-    id: "284936183",
-    amount: 200000,
-    balance: 200000,
-    type: "credit",
-    content: "shares",
-    method: "MPESA",
-    dateTime: "2004-10-19 10:23:54",
-  }),
-  createTransactionData({
-    id: "285936183",
-    amount: 200000,
-    balance: 200000,
-    type: "credit",
-    content: "shares",
-    method: "MPESA",
-    dateTime: "2004-10-19 10:23:54",
-  }),
-];
 
 const userRows = [
   createUserData({
@@ -135,7 +87,7 @@ export default function Admin() {
       <Divider />
       {/* Transactions Summary */}
       <Title title="Recent Transactions" />
-      <SummaryTable admin rows={transactionRows} />
+      <SummaryTable admin rows={[]} />
     </main>
   );
 }
