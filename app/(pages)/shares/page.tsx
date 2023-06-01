@@ -1,109 +1,40 @@
 import Title from "@/app/(components)/layout/Title";
 import DataTable from "@/app/(components)/data/DataTable";
-import { createTransactionData } from "@/utils/helpers";
 import type { GridRowsProp } from "@mui/x-data-grid";
 import dynamic from "next/dynamic";
 import Divider from "@/app/(components)/layout/Divider";
 import Actions from "@/app/(components)/action/Actions";
+import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { headers, cookies } from "next/headers";
+import { getContributionAmount, getTransactionData } from "@/utils/fetchers";
+import type { ContributionTransaction } from "@prisma/client";
 
 const InfoCard = dynamic(() => import("@/app/(components)/data/InfoCard"));
 const Trend = dynamic(() => import("@/app/(components)/data/Trend"));
 
-const rows: GridRowsProp<Transaction> = [
-  createTransactionData({
-    id: "281936183",
-    amount: 200000,
-    balance: 200000,
-    content: "shares",
-    type: "debit",
-    method: "MPESA",
-    dateTime: "2004-10-19 10:23:54",
-  }),
-  createTransactionData({
-    id: "282936183",
-    amount: 200000,
-    balance: 200000,
-    content: "shares",
-    type: "debit",
-    method: "MPESA",
-    dateTime: "2004-10-19 10:23:54",
-  }),
-  createTransactionData({
-    id: "283936183",
-    amount: 200000,
-    balance: 200000,
-    content: "shares",
-    type: "debit",
-    method: "MPESA",
-    dateTime: "2004-10-19 10:23:54",
-  }),
-  createTransactionData({
-    id: "284936183",
-    amount: 200000,
-    balance: 200000,
-    content: "shares",
-    type: "debit",
-    method: "MPESA",
-    dateTime: "2004-10-19 10:23:54",
-  }),
-  createTransactionData({
-    id: "285936183",
-    amount: 200000,
-    balance: 200000,
-    content: "shares",
-    type: "debit",
-    method: "MPESA",
-    dateTime: "2004-10-19 10:23:54",
-  }),
+export default async function Shares() {
+  const supabase = createServerComponentSupabaseClient({
+    headers,
+    cookies,
+  });
 
-  createTransactionData({
-    id: "81936183",
-    amount: 200000,
-    balance: 200000,
-    content: "shares",
-    type: "debit",
-    method: "MPESA",
-    dateTime: "2004-10-19 10:23:54",
-  }),
-  createTransactionData({
-    id: "28293183",
-    amount: 200000,
-    balance: 200000,
-    content: "shares",
-    type: "debit",
-    method: "MPESA",
-    dateTime: "2004-10-19 10:23:54",
-  }),
-  createTransactionData({
-    id: "28393618",
-    amount: 200000,
-    balance: 200000,
-    content: "shares",
-    type: "debit",
-    method: "MPESA",
-    dateTime: "2004-10-19 10:23:54",
-  }),
-  createTransactionData({
-    id: "24936183",
-    amount: 200000,
-    balance: 200000,
-    content: "shares",
-    type: "debit",
-    method: "MPESA",
-    dateTime: "2004-10-19 10:23:54",
-  }),
-  createTransactionData({
-    id: "28593683",
-    amount: 200000,
-    balance: 200000,
-    content: "shares",
-    type: "debit",
-    method: "MPESA",
-    dateTime: "2004-10-19 10:23:54",
-  }),
-];
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
 
-export default function Shares() {
+  if (session === null) {
+    throw new Error("User not authenticated");
+  }
+
+  const contributionAmountData = getContributionAmount(session.user.id);
+  const transactionsData: Promise<GridRowsProp<ContributionTransaction>> =
+    getTransactionData(session.user.id, undefined, "shares");
+
+  const [{ shares }, transactions] = await Promise.all([
+    contributionAmountData,
+    transactionsData,
+  ]);
+
   return (
     <main>
       <Title title="My Shares" pageTitle />
@@ -116,7 +47,7 @@ export default function Shares() {
           gap: 20,
         }}
       >
-        <InfoCard content="shares" amount={200000} />
+        <InfoCard content="shares" amount={shares} />
         <Trend
           content="shares"
           labels={[
@@ -145,7 +76,7 @@ export default function Shares() {
 
       {/* Shares Transactions */}
       <Title title="Shares Transactions" />
-      <DataTable rows={rows} />
+      <DataTable rows={transactions} />
 
       <Divider />
 
