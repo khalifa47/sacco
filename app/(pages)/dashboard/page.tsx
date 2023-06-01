@@ -28,7 +28,7 @@ export default async function Dashboard() {
 
   const contributionAmountData = getContributionAmount(session.user.id);
   const loanAmountData = getLoanAmount(session.user.id);
-  const transactionsData = getTransactionData(session.user.id);
+  const transactionsData = getTransactionData(session.user.id, 5);
 
   const [contributionAmount, loanAmount, transactions] = await Promise.all([
     contributionAmountData,

@@ -15,6 +15,7 @@ import {
   type GridRowsProp,
   type GridRenderCellParams,
 } from "@mui/x-data-grid";
+import type { ContributionTransaction, LoanTransaction } from "@prisma/client";
 
 const loanHistoryColumns: GridColDef[] = [
   {
@@ -89,7 +90,7 @@ const transactionColumns: GridColDef[] = [
   {
     field: "id",
     headerName: "ID",
-    width: 150,
+    width: 100,
     sortable: false,
   },
   {
@@ -112,30 +113,31 @@ const transactionColumns: GridColDef[] = [
     disableColumnMenu: true,
     valueFormatter: ({ value }) => `Ksh. ${formatNumber(value)}`,
   },
-  {
-    field: "content",
-    headerName: "Purpose",
-    width: 150,
-    valueFormatter: ({ value }) => capitalize(value),
-  },
+  // {
+  //   field: "content",
+  //   headerName: "Purpose",
+  //   width: 100,
+  //   valueFormatter: ({ value }) => capitalize(value),
+  // },
   {
     field: "type",
     headerName: "Type",
     width: 100,
-    valueGetter: ({ row }) => {
-      if (row.content === "loans")
-        return row.type === "debit" ? "repayment" : row.type;
-      else return row.type;
-    },
+    // valueGetter: ({ row }) => {
+    //   if (row.content === "loans")
+    //     return row.type === "debit" ? "repayment" : row.type;
+    //   else return row.type;
+    // },
     valueFormatter: ({ value }) => capitalize(value),
   },
   {
     field: "method",
     headerName: "Method",
     width: 100,
+    valueFormatter: ({ value }) => capitalize(value),
   },
   {
-    field: "dateTime",
+    field: "createdAt",
     type: "dateTime",
     headerName: "Date and Time",
     flex: 1,
@@ -182,7 +184,7 @@ const DataTable = ({
   rows,
 }: {
   // content: Content | "all";
-  rows: GridRowsProp;
+  rows: GridRowsProp<ContributionTransaction | LoanTransaction | Loan>;
 }) => {
   const isLoan = "status" in rows[0];
 
