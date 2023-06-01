@@ -1,6 +1,7 @@
 "use client";
 
 import { capitalize, formatDate, formatNumber } from "@/utils/helpers";
+import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import {
@@ -186,6 +187,17 @@ const DataTable = ({
   // content: Content | "all";
   rows: GridRowsProp<ContributionTransaction | LoanTransaction | Loan>;
 }) => {
+  if (rows.length === 0) {
+    return (
+      <Typography
+        variant="h6"
+        sx={{ textAlign: "center", m: "50px auto", color: "text.disabled" }}
+      >
+        No data to display⚠️
+      </Typography>
+    );
+  }
+
   const isLoan = "status" in rows[0];
 
   return (
