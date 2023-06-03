@@ -8,6 +8,7 @@ import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-next
 import { headers, cookies } from "next/headers";
 import { getContributionAmount, getTransactionData } from "@/utils/fetchers";
 import type { ContributionTransaction } from "@prisma/client";
+import { groupTransactionsByMonth } from "@/utils/helpers";
 
 const InfoCard = dynamic(() => import("@/app/(components)/data/InfoCard"));
 const Trend = dynamic(() => import("@/app/(components)/data/Trend"));
@@ -66,7 +67,7 @@ export default async function Shares() {
           ]}
           datasets={[
             {
-              data: [12, 19, 3, 5, 2, 3, 12, 19, 3, 5, 2, 3],
+              data: groupTransactionsByMonth(transactions),
             },
           ]}
         />

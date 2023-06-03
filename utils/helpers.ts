@@ -1,3 +1,5 @@
+import { ContributionTransaction } from "@prisma/client";
+
 export const capitalize = (sentence: string) => {
   const words = sentence.split(" ");
 
@@ -67,6 +69,20 @@ export const isValidSafaricomPhoneNumber = (phoneNumber: string) => {
   return /^(?:254|\+254|0)?((?:7(?:[0129]\d|4[0123568]|5[789]|6[89])|(1(1[0-5])))\d{6})$/.test(
     phoneNumber
   );
+};
+
+export const groupTransactionsByMonth = (
+  transactions: readonly ContributionTransaction[]
+) => {
+  const monthlyTotals = Array(12).fill(0);
+
+  for (const transaction of transactions) {
+    const timestamp = new Date(transaction.createdAt);
+    const month = timestamp.getMonth();
+    monthlyTotals[month] += transaction.amount;
+  }
+
+  return monthlyTotals;
 };
 
 // temp dummy data
