@@ -1,14 +1,13 @@
 import Title from "@/app/(components)/layout/Title";
 import DataTable from "@/app/(components)/data/DataTable";
-import type { GridRowsProp } from "@mui/x-data-grid";
 import dynamic from "next/dynamic";
 import { headers, cookies } from "next/headers";
 import Divider from "@/app/(components)/layout/Divider";
 import Actions from "@/app/(components)/action/Actions";
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { getContributionAmount, getTransactionData } from "@/utils/fetchers";
-import { ContributionTransaction } from "@prisma/client";
 import { groupTransactionsByMonth } from "@/utils/helpers";
+import type { TransactionPromise } from "@/types/othTypes";
 
 const InfoCard = dynamic(() => import("@/app/(components)/data/InfoCard"));
 const Trend = dynamic(() => import("@/app/(components)/data/Trend"));
@@ -28,8 +27,11 @@ export default async function Welfare() {
   }
 
   const contributionAmountData = getContributionAmount(session.user.id);
-  const transactionsData: Promise<GridRowsProp<ContributionTransaction>> =
-    getTransactionData(session.user.id, undefined, "welfare");
+  const transactionsData: TransactionPromise = getTransactionData(
+    session.user.id,
+    undefined,
+    "welfare"
+  );
 
   const [{ welfare }, transactions] = await Promise.all([
     contributionAmountData,
