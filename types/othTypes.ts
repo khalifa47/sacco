@@ -3,6 +3,4 @@ import type { ContributionTransaction, LoanTransaction } from "@prisma/client";
 
 export type Transaction = ContributionTransaction | LoanTransaction;
 
-export type TransactionPromise = Promise<
-  GridRowsProp<ContributionTransaction | LoanTransaction>
->;
+export type TransactionPromise = Promise<GridRowsProp<Transaction>>;

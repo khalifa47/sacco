@@ -19,7 +19,7 @@ import {
 
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Link from "next/link";
-import type { ContributionTransaction, LoanTransaction } from "@prisma/client";
+import type { Transaction } from "@/types/othTypes";
 
 const StyledTableCell = ({
   children,
@@ -74,7 +74,7 @@ const SummaryTable = ({
   rows,
 }: {
   admin?: boolean;
-  rows: ContributionTransaction[] | LoanTransaction[] | User[];
+  rows: Transaction[] | User[];
 }) => {
   if (rows.length === 0) {
     return (
