@@ -116,7 +116,7 @@ const SummaryTable = ({
                     Ksh. {formatNumber(row.balance)}
                   </StyledTableCell>
                   <StyledTableCell>{capitalize(row.type)}</StyledTableCell>
-                  <StyledTableCell>{row.method}</StyledTableCell>
+                  <StyledTableCell>{capitalize(row.method)}</StyledTableCell>
                   <StyledTableCell>{formatDate(row.createdAt)}</StyledTableCell>
                 </>
               ) : (
