@@ -4,11 +4,42 @@ import type { GridRowsProp } from "@mui/x-data-grid";
 import dynamic from "next/dynamic";
 import Divider from "@/app/(components)/layout/Divider";
 import Actions from "@/app/(components)/action/Actions";
+import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { headers, cookies } from "next/headers";
+import { getLoanAmount, getTransactionData } from "@/utils/fetchers";
+import type { LoanTransaction } from "@prisma/client";
+import { groupTransactionsByMonth } from "@/utils/helpers";
+import type { TransactionPromise } from "@/types/othTypes";
 
 const InfoCard = dynamic(() => import("@/app/(components)/data/InfoCard"));
 const Trend = dynamic(() => import("@/app/(components)/data/Trend"));
 
-export default function Loans() {
+export default async function Loans() {
+  const supabase = createServerComponentSupabaseClient({
+    headers,
+    cookies,
+  });
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (session === null) {
+    throw new Error("User not authenticated");
+  }
+
+  const loanAmountData = getLoanAmount(session.user.id);
+  const transactionsData: TransactionPromise = getTransactionData(
+    session.user.id,
+    undefined,
+    "loans"
+  );
+
+  const [loanAmount, transactions] = await Promise.all([
+    loanAmountData,
+    transactionsData,
+  ]);
+
   return (
     <main>
       <Title title="My Loans" pageTitle />
@@ -21,7 +52,7 @@ export default function Loans() {
           gap: 20,
         }}
       >
-        <InfoCard content="loans" amount={200000} />
+        <InfoCard content="loans" amount={loanAmount} />
         <Trend
           content="loans"
           labels={[
@@ -40,7 +71,7 @@ export default function Loans() {
           ]}
           datasets={[
             {
-              data: [12, 19, 3, 5, 2, 3, 12, 19, 3, 5, 2, 3],
+              data: groupTransactionsByMonth(transactions),
             },
           ]}
         />
@@ -50,7 +81,7 @@ export default function Loans() {
 
       {/* Loans Transactions */}
       <Title title="Loans Transactions" />
-      <DataTable rows={[]} />
+      <DataTable rows={transactions} />
 
       <Divider />
 
