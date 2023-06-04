@@ -1,4 +1,4 @@
-import { ContributionTransaction } from "@prisma/client";
+import { Transaction } from "@/types/othTypes";
 
 export const capitalize = (sentence: string) => {
   const words = sentence.split(" ");
@@ -72,7 +72,7 @@ export const isValidSafaricomPhoneNumber = (phoneNumber: string) => {
 };
 
 export const groupTransactionsByMonth = (
-  transactions: readonly ContributionTransaction[]
+  transactions: readonly Transaction[]
 ) => {
   const monthlyTotals = Array(12).fill(0);
 
@@ -86,8 +86,6 @@ export const groupTransactionsByMonth = (
 };
 
 // temp dummy data
-export const createTransactionData = (transaction: Transaction) => transaction;
-
 export const createUserData = (user: User) => user;
 
 export const createNotificationData = (notification: AppNotification) =>

@@ -1,7 +1,9 @@
+import { Transaction } from "@/types/othTypes";
 import type {
   Notification,
   Contribution,
   ContributionTransaction,
+  LoanTransaction,
   Loan,
 } from "@prisma/client";
 
@@ -30,7 +32,7 @@ export const getTransactionData = async (
   content?: Content
 ) => {
   let res: Response;
-  let transactions: ContributionTransaction[] = [];
+  let transactions: Transaction[] = [];
 
   try {
     res = await fetch(

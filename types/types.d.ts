@@ -13,16 +13,6 @@ type User = {
   dateActive: string;
 };
 
-type Transaction = {
-  id: string;
-  amount: number;
-  balance: number;
-  type: "debit" | "credit";
-  method: "Card" | "MPESA" | "PayPal";
-  content: Content;
-  dateTime: string;
-};
-
 type Loan = {
   id: string;
   user: User;
