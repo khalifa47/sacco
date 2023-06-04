@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import prisma from "@/utils/prismadb";
-import type { ContributionTransaction, LoanTransaction } from "@prisma/client";
+import { Transaction } from "@/types/othTypes";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
-  let transactions: ContributionTransaction[] | LoanTransaction[] = [];
+  let transactions: Transaction[] = [];
 
   const uid = searchParams.get("uid");
   const content = searchParams.get("content");
@@ -64,17 +64,34 @@ export async function GET(request: Request) {
         });
         break;
       default:
-        transactions = await prisma.contributionTransaction.findMany({
+        // get contributions and loans then sort in descending
+        const contributionTransactions =
+          await prisma.contributionTransaction.findMany({
+            take: limit ? parseInt(limit) : undefined,
+            where: {
+              contribution: {
+                userId: uid,
+              },
+            },
+          });
+        const loanTransactions = await prisma.loanTransaction.findMany({
           take: limit ? parseInt(limit) : undefined,
           where: {
-            contribution: {
+            loan: {
               userId: uid,
             },
           },
-          orderBy: {
-            createdAt: "desc",
-          },
         });
+
+        transactions = [...contributionTransactions, ...loanTransactions].sort(
+          (a, b) => {
+            return b.createdAt.getTime() - a.createdAt.getTime();
+          }
+        );
+
+        if (limit) {
+          transactions = transactions.slice(0, parseInt(limit));
+        }
         break;
     }
   } catch (error: any) {
@@ -87,5 +104,3 @@ export async function GET(request: Request) {
     status: 200,
   });
 }
-
-// TODO: Handle all transaction requests
