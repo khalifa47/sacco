@@ -1,13 +1,11 @@
 import Title from "@/app/(components)/layout/Title";
 import DataTable from "@/app/(components)/data/DataTable";
-import type { GridRowsProp } from "@mui/x-data-grid";
 import dynamic from "next/dynamic";
 import Divider from "@/app/(components)/layout/Divider";
 import Actions from "@/app/(components)/action/Actions";
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { headers, cookies } from "next/headers";
-import { getLoanAmount, getTransactionData } from "@/utils/fetchers";
-import type { LoanTransaction } from "@prisma/client";
+import { getLoans, getTransactionData } from "@/utils/fetchers";
 import { groupTransactionsByMonth } from "@/utils/helpers";
 import type { TransactionPromise } from "@/types/othTypes";
 
@@ -28,15 +26,15 @@ export default async function Loans() {
     throw new Error("User not authenticated");
   }
 
-  const loanAmountData = getLoanAmount(session.user.id);
+  const loansData = getLoans(session.user.id);
   const transactionsData: TransactionPromise = getTransactionData(
     session.user.id,
     undefined,
     "loans"
   );
 
-  const [loanAmount, transactions] = await Promise.all([
-    loanAmountData,
+  const [loans, transactions] = await Promise.all([
+    loansData,
     transactionsData,
   ]);
 
@@ -52,7 +50,7 @@ export default async function Loans() {
           gap: 20,
         }}
       >
-        <InfoCard content="loans" amount={loanAmount} />
+        <InfoCard content="loans" amount={loans.amount} />
         <Trend
           content="loans"
           labels={[
@@ -86,9 +84,17 @@ export default async function Loans() {
       <Divider />
 
       <Title title="Loans Actions" />
-      <Actions content="loans" />
+      <Actions
+        content="loans"
+        settings={{
+          frequency: "monthly",
+          amount: 10000,
+        }}
+      />
 
       <div style={{ height: "200px" }}></div>
     </main>
   );
 }
+
+// TODO: Fix schema for loans -> frequency and amount per frequency

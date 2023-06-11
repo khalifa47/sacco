@@ -52,7 +52,7 @@ export const getTransactionData = async (
   return transactions;
 };
 
-export const getLoanAmount = async (uid: string) => {
+export const getLoans = async (uid: string) => {
   let res: Response;
   let loans: Loan[] = [];
 
@@ -71,7 +71,10 @@ export const getLoanAmount = async (uid: string) => {
     console.error(error);
   }
 
-  return loans.reduce((acc, loan) => acc + loan.amount, 0);
+  return {
+    loans: loans,
+    amount: loans.reduce((acc, loan) => acc + loan.amount, 0),
+  };
 };
 
 export const getContributions = async (uid: string) => {

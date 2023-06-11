@@ -6,7 +6,7 @@ import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-next
 import { headers, cookies } from "next/headers";
 import {
   getContributions,
-  getLoanAmount,
+  getLoans,
   getTransactionData,
 } from "@/utils/fetchers";
 
@@ -27,12 +27,12 @@ export default async function Dashboard() {
   }
 
   const contributionsData = getContributions(session.user.id);
-  const loanAmountData = getLoanAmount(session.user.id);
+  const loansData = getLoans(session.user.id);
   const transactionsData = getTransactionData(session.user.id, 5);
 
-  const [contributions, loanAmount, transactions] = await Promise.all([
+  const [contributions, loans, transactions] = await Promise.all([
     contributionsData,
-    loanAmountData,
+    loansData,
     transactionsData,
   ]);
 
@@ -49,7 +49,7 @@ export default async function Dashboard() {
         }}
       >
         <InfoCard content="shares" amount={contributions?.shares.amount ?? 0} />
-        <InfoCard content="loans" amount={loanAmount} />
+        <InfoCard content="loans" amount={loans.amount} />
         <InfoCard
           content="welfare"
           amount={contributions?.welfare.amount ?? 0}

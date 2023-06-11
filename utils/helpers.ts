@@ -87,6 +87,3 @@ export const groupTransactionsByMonth = (
 
 // temp dummy data
 export const createUserData = (user: User) => user;
-
-export const createNotificationData = (notification: AppNotification) =>
-  notification;
