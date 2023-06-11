@@ -5,7 +5,7 @@ import SummaryTable from "@/app/(components)/data/SummaryTable";
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { headers, cookies } from "next/headers";
 import {
-  getContributionAmount,
+  getContributions,
   getLoanAmount,
   getTransactionData,
 } from "@/utils/fetchers";
@@ -26,12 +26,12 @@ export default async function Dashboard() {
     throw new Error("User not authenticated");
   }
 
-  const contributionAmountData = getContributionAmount(session.user.id);
+  const contributionsData = getContributions(session.user.id);
   const loanAmountData = getLoanAmount(session.user.id);
   const transactionsData = getTransactionData(session.user.id, 5);
 
-  const [contributionAmount, loanAmount, transactions] = await Promise.all([
-    contributionAmountData,
+  const [contributions, loanAmount, transactions] = await Promise.all([
+    contributionsData,
     loanAmountData,
     transactionsData,
   ]);
@@ -48,9 +48,12 @@ export default async function Dashboard() {
           rowGap: "15px",
         }}
       >
-        <InfoCard content="shares" amount={contributionAmount.shares} />
+        <InfoCard content="shares" amount={contributions?.shares.amount ?? 0} />
         <InfoCard content="loans" amount={loanAmount} />
-        <InfoCard content="welfare" amount={contributionAmount.welfare} />
+        <InfoCard
+          content="welfare"
+          amount={contributions?.welfare.amount ?? 0}
+        />
       </div>
       <Divider />
       <Title title="Recent Transactions" />

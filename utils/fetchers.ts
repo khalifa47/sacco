@@ -74,15 +74,11 @@ export const getLoanAmount = async (uid: string) => {
   return loans.reduce((acc, loan) => acc + loan.amount, 0);
 };
 
-export const getContributionAmount = async (uid: string) => {
+export const getContributions = async (uid: string) => {
   let res: Response;
   let contributions: {
     shares: Contribution;
     welfare: Contribution;
-  };
-  let contributionAmounts: { shares: number; welfare: number } = {
-    shares: 0,
-    welfare: 0,
   };
 
   try {
@@ -96,13 +92,9 @@ export const getContributionAmount = async (uid: string) => {
     }
 
     contributions = await res.json();
-    contributionAmounts = {
-      shares: contributions.shares.amount,
-      welfare: contributions.welfare.amount,
-    };
+
+    return contributions;
   } catch (error: any) {
     console.error(error);
   }
-
-  return contributionAmounts;
 };

@@ -5,7 +5,7 @@ import Divider from "@/app/(components)/layout/Divider";
 import Actions from "@/app/(components)/action/Actions";
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { headers, cookies } from "next/headers";
-import { getContributionAmount, getTransactionData } from "@/utils/fetchers";
+import { getContributions, getTransactionData } from "@/utils/fetchers";
 import type { TransactionPromise } from "@/types/othTypes";
 import { groupTransactionsByMonth } from "@/utils/helpers";
 
@@ -26,15 +26,15 @@ export default async function Shares() {
     throw new Error("User not authenticated");
   }
 
-  const contributionAmountData = getContributionAmount(session.user.id);
+  const contributionsData = getContributions(session.user.id);
   const transactionsData: TransactionPromise = getTransactionData(
     session.user.id,
     undefined,
     "shares"
   );
 
-  const [{ shares }, transactions] = await Promise.all([
-    contributionAmountData,
+  const [contributions, transactions] = await Promise.all([
+    contributionsData,
     transactionsData,
   ]);
 
@@ -50,7 +50,7 @@ export default async function Shares() {
           gap: 20,
         }}
       >
-        <InfoCard content="shares" amount={shares} />
+        <InfoCard content="shares" amount={contributions?.shares.amount ?? 0} />
         <Trend
           content="shares"
           labels={[
@@ -84,7 +84,13 @@ export default async function Shares() {
       <Divider />
 
       <Title title="Shares Actions" />
-      <Actions content="shares" />
+      <Actions
+        content="shares"
+        settings={{
+          frequency: contributions?.shares.frequency ?? "monthly",
+          amount: contributions?.shares.amountPerFrequency ?? 10000,
+        }}
+      />
 
       <div style={{ height: "200px" }}></div>
     </main>

@@ -5,7 +5,7 @@ import { headers, cookies } from "next/headers";
 import Divider from "@/app/(components)/layout/Divider";
 import Actions from "@/app/(components)/action/Actions";
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
-import { getContributionAmount, getTransactionData } from "@/utils/fetchers";
+import { getContributions, getTransactionData } from "@/utils/fetchers";
 import { groupTransactionsByMonth } from "@/utils/helpers";
 import type { TransactionPromise } from "@/types/othTypes";
 
@@ -26,15 +26,15 @@ export default async function Welfare() {
     throw new Error("User not authenticated");
   }
 
-  const contributionAmountData = getContributionAmount(session.user.id);
+  const contributionsData = getContributions(session.user.id);
   const transactionsData: TransactionPromise = getTransactionData(
     session.user.id,
     undefined,
     "welfare"
   );
 
-  const [{ welfare }, transactions] = await Promise.all([
-    contributionAmountData,
+  const [contributions, transactions] = await Promise.all([
+    contributionsData,
     transactionsData,
   ]);
 
@@ -50,7 +50,10 @@ export default async function Welfare() {
           gap: 20,
         }}
       >
-        <InfoCard content="welfare" amount={welfare} />
+        <InfoCard
+          content="welfare"
+          amount={contributions?.welfare.amount ?? 0}
+        />
         <Trend
           content="welfare"
           labels={[
@@ -84,7 +87,13 @@ export default async function Welfare() {
       <Divider />
 
       <Title title="Welfare Actions" />
-      <Actions content="welfare" />
+      <Actions
+        content="welfare"
+        settings={{
+          frequency: contributions?.welfare.frequency ?? "monthly",
+          amount: contributions?.welfare.amountPerFrequency ?? 10000,
+        }}
+      />
 
       <div style={{ height: "200px" }}></div>
     </main>
