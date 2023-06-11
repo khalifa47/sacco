@@ -27,15 +27,6 @@ type Loan = {
   updatedAt: string;
 };
 
-type AppNotification = {
-  id: number;
-  title: string;
-  content: string;
-  go_to: string;
-  isRead: boolean;
-  created_at: string;
-};
-
 type ShareActions =
   | "deposit shares"
   | "withdraw"
@@ -45,5 +36,3 @@ type LoanActions = "loan history" | "request" | "payment" | "loan settings";
 type WelfareActions = "deposit welfare" | "welfare settings";
 
 type Action = ShareActions | LoanActions | WelfareActions;
-
-type Frequency = "weekly" | "monthly" | "quarterly" | "yearly";
