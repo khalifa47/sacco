@@ -8,13 +8,7 @@ import SettingsForm from "./SettingsForm";
 import RequestForm from "./RequestForm";
 import DataTable from "../data/DataTable";
 import { loans } from "@/utils/data";
-
-const frequencyToInitialAmount = {
-  weekly: 1000,
-  monthly: 10000,
-  quarterly: 100000,
-  yearly: 300000,
-};
+import type { Frequency } from "@prisma/client";
 
 // TODO: Add confirm box for verifying transaction
 
@@ -224,12 +218,12 @@ export const DepositWelfare = ({ phone }: { phone: string }) => {
 };
 
 // all settings
-export const Settings = ({
+export const SettingsArea = ({
   action,
-  frequency,
+  initialValues,
 }: {
   action: Action;
-  frequency: Frequency;
+  initialValues: { frequency: Frequency; amount: number };
 }) => {
   const validationSchema = yup.object({
     frequency: yup
@@ -247,10 +241,7 @@ export const Settings = ({
   return (
     <SettingsForm
       action={action}
-      initialValues={{
-        frequency: frequency,
-        amount: frequencyToInitialAmount[frequency],
-      }}
+      initialValues={initialValues}
       validationSchema={validationSchema}
     />
   );

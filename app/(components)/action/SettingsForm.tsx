@@ -4,6 +4,7 @@ import { TextField, Select } from "formik-mui";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import type { ObjectSchema } from "yup";
+import type { Frequency } from "@prisma/client";
 
 type Values = {
   frequency: Frequency;

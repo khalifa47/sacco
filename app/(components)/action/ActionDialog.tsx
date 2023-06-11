@@ -18,9 +18,10 @@ import {
   RequestLoans,
   RepayLoans,
   DepositWelfare,
-  Settings,
+  SettingsArea,
   HistoryLoans,
 } from "./ActionContent";
+import type { Settings } from "@/types/othTypes";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -32,8 +33,9 @@ const Transition = forwardRef(function Transition(
 });
 
 const getDialogContent = (
-  action: Action
-): { contentText: string; content: React.ReactNode } => {
+  action: Action,
+  settings: Settings
+): { contentText: string; content: JSX.Element } => {
   switch (action) {
     // shares
     case "deposit shares":
@@ -57,7 +59,9 @@ const getDialogContent = (
     case "share settings":
       return {
         contentText: "Change your shares depositing frequency settings.",
-        content: <Settings action="share settings" frequency="monthly" />,
+        content: (
+          <SettingsArea action="share settings" initialValues={settings} />
+        ),
       };
 
     // loans
@@ -80,7 +84,9 @@ const getDialogContent = (
     case "loan settings":
       return {
         contentText: "Change your loan repayment frequency settings.",
-        content: <Settings action="loan settings" frequency="monthly" />,
+        content: (
+          <SettingsArea action="loan settings" initialValues={settings} />
+        ),
       };
 
     // welfare
@@ -93,7 +99,9 @@ const getDialogContent = (
     case "welfare settings":
       return {
         contentText: "Change your welfare frequency settings.",
-        content: <Settings action="welfare settings" frequency="monthly" />,
+        content: (
+          <SettingsArea action="welfare settings" initialValues={settings} />
+        ),
       };
     default:
       return {
@@ -105,14 +113,16 @@ const getDialogContent = (
 
 const ActionDialog = ({
   action,
+  settings,
   open,
   handleClose,
 }: {
   action: Action;
+  settings: Settings;
   open: boolean;
   handleClose: () => void;
 }) => {
-  const { contentText, content } = getDialogContent(action);
+  const { contentText, content } = getDialogContent(action, settings);
   return (
     <Dialog
       open={open}

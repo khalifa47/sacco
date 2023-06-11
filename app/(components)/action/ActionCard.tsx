@@ -7,6 +7,7 @@ import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import { blue, green, purple, red } from "@mui/material/colors";
 import ActionDialog from "./ActionDialog";
+import type { Settings } from "@/types/othTypes";
 
 const getResource = (action: Action) => {
   switch (action) {
@@ -105,11 +106,13 @@ const getResource = (action: Action) => {
 
 const ActionCard = ({
   action,
+  settings,
   selectedAction,
   handleDialogOpen,
   handleDialogClose,
 }: {
   action: Action;
+  settings: Settings;
   selectedAction: Action | null;
   handleDialogOpen: (action: Action) => void;
   handleDialogClose: () => void;
@@ -161,6 +164,7 @@ const ActionCard = ({
       </Card>
       <ActionDialog
         action={action}
+        settings={settings}
         open={action === selectedAction}
         handleClose={handleDialogClose}
       />
