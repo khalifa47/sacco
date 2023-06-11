@@ -54,7 +54,7 @@ export async function GET(request: Request) {
           take: limit ? parseInt(limit) : undefined,
           where: {
             contribution: {
-              type: "shares",
+              type: "welfare",
               userId: uid,
             },
           },
