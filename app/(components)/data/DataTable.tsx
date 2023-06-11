@@ -114,21 +114,28 @@ const transactionColumns: GridColDef[] = [
     disableColumnMenu: true,
     valueFormatter: ({ value }) => `Ksh. ${formatNumber(value)}`,
   },
-  // {
-  //   field: "content",
-  //   headerName: "Purpose",
-  //   width: 100,
-  //   valueFormatter: ({ value }) => capitalize(value),
-  // },
+  {
+    field: "content",
+    headerName: "Purpose",
+    width: 100,
+    valueGetter: ({ row }) => {
+      if ("contributionId" in row) {
+        return row.contributionId % 2 === 0 ? "welfare" : "shares";
+      } else {
+        return "loan";
+      }
+    },
+    valueFormatter: ({ value }) => capitalize(value),
+  },
   {
     field: "type",
     headerName: "Type",
     width: 100,
-    // valueGetter: ({ row }) => {
-    //   if (row.content === "loans")
-    //     return row.type === "debit" ? "repayment" : row.type;
-    //   else return row.type;
-    // },
+    valueGetter: ({ row }) => {
+      if (row.content === "loan")
+        return row.type === "debit" ? "repayment" : row.type;
+      else return row.type;
+    },
     valueFormatter: ({ value }) => capitalize(value),
   },
   {
@@ -181,10 +188,8 @@ const SpacedToolbar = () => {
 };
 
 const DataTable = ({
-  // content,
   rows,
 }: {
-  // content: Content | "all";
   rows: GridRowsProp<ContributionTransaction | LoanTransaction | Loan>;
 }) => {
   if (rows.length === 0) {
@@ -227,17 +232,6 @@ const DataTable = ({
         pageSizeOptions={[10, 25, 50]}
         initialState={{
           pagination: { paginationModel: { pageSize: 10 } },
-          // sorting: {
-          //   sortModel: [{ field: "dateTime", sort: "desc" }],
-          // },
-          // filter: {
-          //   filterModel: {
-          //     items:
-          //       content === "all"
-          //         ? []
-          //         : [{ field: "content", operator: "equals", value: content }],
-          //   },
-          // },
         }}
       />
     </Box>
