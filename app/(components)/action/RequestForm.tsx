@@ -181,8 +181,8 @@ const RequestForm = ({
           style={{
             marginTop: 12,
             display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            flexWrap: "wrap",
+            justifyContent: "center",
             gap: 12,
           }}
         >
@@ -192,30 +192,16 @@ const RequestForm = ({
             name="amount"
             type="number"
             label="Amount"
+            style={{ width: "48%" }}
           />
 
-          <Field
-            component={Select}
-            color="secondary"
-            name="frequency"
-            type="string"
-            label="Frequency"
-            formHelperText={{
-              children:
-                "How often would you like to be notified about a payment?",
-            }}
-          >
-            <MenuItem value="weekly">Weekly</MenuItem>
-            <MenuItem value="monthly">Monthly</MenuItem>
-            <MenuItem value="quarterly">Quarterly</MenuItem>
-            <MenuItem value="yearly">Yearly</MenuItem>
-          </Field>
           <Field
             component={TextField}
             color="secondary"
             name="amount_per_frequency"
             type="number"
             label="Amount Per Frequency"
+            style={{ width: "48%" }}
             validate={(amount: number) => {
               if (values.frequency === "weekly") {
                 if (amount > 10000)
@@ -241,7 +227,22 @@ const RequestForm = ({
             name="purpose"
             type="string"
             label="Purpose"
+            style={{ width: "48%" }}
           />
+
+          <Field
+            component={Select}
+            color="secondary"
+            name="frequency"
+            type="string"
+            label="Frequency"
+            style={{ width: "calc(26vw + 20px)" }}
+          >
+            <MenuItem value="weekly">Weekly</MenuItem>
+            <MenuItem value="monthly">Monthly</MenuItem>
+            <MenuItem value="quarterly">Quarterly</MenuItem>
+            <MenuItem value="yearly">Yearly</MenuItem>
+          </Field>
           {values.amount > sharesAmount && (
             <>
               <Divider />
@@ -264,11 +265,12 @@ const RequestForm = ({
                     option.otherNames ? option.otherNames + " " : ""
                   }${option.lastName}`
                 }
-                style={{ width: 300 }}
+                style={{ width: "98%", margin: "0 auto" }}
                 renderInput={(params: AutocompleteRenderInputParams) => {
                   return (
                     <TextFieldAlt
                       {...params}
+                      fullWidth
                       name="guarantor"
                       type="string"
                       color="secondary"
