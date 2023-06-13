@@ -5,8 +5,10 @@ import {
   Autocomplete,
   type AutocompleteRenderInputParams,
   TextField,
+  Select,
 } from "formik-mui";
 import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
 import TextFieldAlt from "@mui/material/TextField";
 import { formatNumber } from "@/utils/helpers";
 import Divider from "../layout/Divider";
@@ -135,6 +137,17 @@ const RequestForm = ({
         `Amount cannot exceed Ksh. ${formatNumber(allowedLoanMax)}`
       )
       .moreThan(99, "Amount cannot be less than Ksh. 100"),
+    frequency: yup
+      .string()
+      .required("Frequency is required")
+      .oneOf(
+        ["weekly", "monthly", "quarterly", "yearly"],
+        "Invalid frequency value"
+      ),
+    amount_per_frequency: yup
+      .number()
+      .moreThan(999, "Amount cannot be less than Ksh. 1,000")
+      .required("Amount per frequency is required"),
     purpose: yup.string().required("Purpose is required."),
     guarantor: yup.object().when("amount", {
       is: (amount: number) => amount > sharesAmount,
@@ -148,7 +161,13 @@ const RequestForm = ({
   });
   return (
     <Formik
-      initialValues={{ amount: 100, purpose: "", guarantor: userData[0] }}
+      initialValues={{
+        amount: 100,
+        purpose: "",
+        frequency: "",
+        amount_per_frequency: 0,
+        guarantor: userData[0],
+      }}
       validationSchema={validationSchema}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
@@ -174,6 +193,46 @@ const RequestForm = ({
             type="number"
             label="Amount"
           />
+
+          <Field
+            component={Select}
+            color="secondary"
+            name="frequency"
+            type="string"
+            label="Frequency"
+            formHelperText={{
+              children:
+                "How often would you like to be notified about a payment?",
+            }}
+          >
+            <MenuItem value="weekly">Weekly</MenuItem>
+            <MenuItem value="monthly">Monthly</MenuItem>
+            <MenuItem value="quarterly">Quarterly</MenuItem>
+            <MenuItem value="yearly">Yearly</MenuItem>
+          </Field>
+          <Field
+            component={TextField}
+            color="secondary"
+            name="amount_per_frequency"
+            type="number"
+            label="Amount Per Frequency"
+            validate={(amount: number) => {
+              if (values.frequency === "weekly") {
+                if (amount > 10000)
+                  return "Amount cannot be more than 10,000 for the selected frequency";
+              } else if (values.frequency === "monthly") {
+                if (amount > 100000 || amount < 10000)
+                  return "Amount cannot be less than 10,000 or more than 100,000 for the selected frequency";
+              } else if (values.frequency === "quarterly") {
+                if (amount > 300000 || amount < 100000)
+                  return "Amount cannot be less than 100,000 or more than 300,000 for the selected frequency";
+              } else if (values.frequency === "yearly") {
+                if (amount > 1000000 || amount < 300000)
+                  return "Amount cannot be less than 300,000 or more than 1,000,000 for the selected frequency";
+              }
+            }}
+          />
+
           <Field
             component={TextField}
             multiline

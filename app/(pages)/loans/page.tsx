@@ -97,4 +97,4 @@ export default async function Loans() {
   );
 }
 
-// TODO: Fix schema for loans -> frequency and amount per frequency
+// TODO: Change layout -> no loan settings, put frequency and amount per frequency in the loan application form

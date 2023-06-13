@@ -9,10 +9,9 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
     <div
       style={{
         display: "flex",
-        justifyContent: "space-between",
+        justifyContent: "center",
         flexWrap: "wrap",
-        columnGap: 0,
-        rowGap: "10px",
+        gap: 10,
       }}
     >
       {children}
@@ -94,25 +93,18 @@ const Actions = ({
           handleDialogOpen={handleDialogOpen}
           handleDialogClose={handleDialogClose}
         />
-        <ActionCard
+        {/* <ActionCard
           action="loan settings"
           settings={settings}
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
           handleDialogClose={handleDialogClose}
-        />
+        /> */}
       </Wrapper>
     );
   }
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        flexWrap: "wrap",
-        gap: 10,
-      }}
-    >
+    <Wrapper>
       <ActionCard
         action="deposit welfare"
         settings={settings}
@@ -127,7 +119,7 @@ const Actions = ({
         handleDialogOpen={handleDialogOpen}
         handleDialogClose={handleDialogClose}
       />
-    </div>
+    </Wrapper>
   );
 };
 

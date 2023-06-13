@@ -81,13 +81,15 @@ const getDialogContent = (
         contentText: "Make a direct loan repayment.",
         content: <RepayLoans phone="254711144488" loanBalance={90000} />,
       };
-    case "loan settings":
-      return {
-        contentText: "Change your loan repayment frequency settings.",
-        content: (
-          <SettingsArea action="loan settings" initialValues={settings} />
-        ),
-      };
+    // case "loan settings":
+    //   return {
+    //     contentText: "Change your loan repayment frequency settings.",
+    //     content: (
+    //       <SettingsArea action="loan settings" initialValues={settings} />
+    //     ),
+    //   };
+
+    // TODO: can keep loan settings if idea is to change loan settings for all active loans
 
     // welfare
     case "deposit welfare":
