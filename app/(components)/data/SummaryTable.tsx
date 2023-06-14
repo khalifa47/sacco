@@ -20,6 +20,7 @@ import {
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import Link from "next/link";
 import type { Transaction } from "@/types/othTypes";
+import type { User } from "@prisma/client";
 
 const StyledTableCell = ({
   children,
@@ -66,7 +67,14 @@ const columns = {
     "Payment Method",
     "Date and Time",
   ],
-  users: ["User ID", "Full Name", "Email", "Date Joined", "Last Active"],
+  users: [
+    "National ID",
+    "Full Name",
+    "Email",
+    "Phone",
+    "Date Joined",
+    "Last Active",
+  ],
 };
 
 const SummaryTable = ({
@@ -102,11 +110,10 @@ const SummaryTable = ({
         <TableBody>
           {rows.map((row) => (
             <StyledTableRow key={row.id}>
-              <StyledTableCell color="#4C3FE4">{row.id}</StyledTableCell>
-
               {"type" in row ? (
                 // if transaction
                 <>
+                  <StyledTableCell color="#4C3FE4">{row.id}</StyledTableCell>
                   <StyledTableCell
                     color={row.type === "debit" ? "error.main" : "success.main"}
                   >
@@ -122,6 +129,9 @@ const SummaryTable = ({
               ) : (
                 // if user
                 <>
+                  <StyledTableCell color="#4C3FE4">
+                    {row.nationalId}
+                  </StyledTableCell>
                   <StyledTableCell>
                     {capitalize(
                       `${row.firstName} 
@@ -137,9 +147,8 @@ const SummaryTable = ({
                       {row.email}
                     </Link>
                   </StyledTableCell>
-                  <StyledTableCell>
-                    {formatDate(row.dateJoined)}
-                  </StyledTableCell>
+                  <StyledTableCell>{row.phone}</StyledTableCell>
+                  <StyledTableCell>{formatDate(row.createdAt)}</StyledTableCell>
                   <StyledTableCell color="#5f5f5f">
                     <div
                       style={{
@@ -148,7 +157,7 @@ const SummaryTable = ({
                         alignItems: "center",
                       }}
                     >
-                      {getTimeAgo(row.dateActive)}
+                      {row.lastActive ? getTimeAgo(row.lastActive) : "Never"}
                       <Tooltip title={capitalize(row.status)}>
                         <Chip
                           color={row.status === "active" ? "success" : "error"}

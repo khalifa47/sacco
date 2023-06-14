@@ -1,4 +1,5 @@
 import { Transaction } from "@/types/othTypes";
+import { User } from "@prisma/client";
 
 export const capitalize = (sentence: string) => {
   const words = sentence.split(" ");
