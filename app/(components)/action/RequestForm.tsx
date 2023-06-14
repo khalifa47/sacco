@@ -9,8 +9,9 @@ import {
 } from "formik-mui";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
 import TextFieldAlt from "@mui/material/TextField";
-import { formatNumber } from "@/utils/helpers";
+import { capitalize, formatNumber } from "@/utils/helpers";
 import Divider from "../layout/Divider";
 import type { AutocompleteRenderOptionState } from "@mui/material";
 
@@ -195,12 +196,39 @@ const RequestForm = ({
             style={{ width: "48%" }}
           />
 
+          <FormControl style={{ width: "48%" }}>
+            <Field
+              component={Select}
+              color="secondary"
+              name="frequency"
+              type="string"
+              label="Frequency"
+            >
+              <MenuItem value="weekly">Weekly</MenuItem>
+              <MenuItem value="monthly">Monthly</MenuItem>
+              <MenuItem value="quarterly">Quarterly</MenuItem>
+              <MenuItem value="yearly">Yearly</MenuItem>
+            </Field>
+          </FormControl>
+
+          <Field
+            component={TextField}
+            multiline
+            maxRows={4}
+            color="secondary"
+            name="purpose"
+            type="string"
+            label="Purpose"
+            style={{ width: "48%" }}
+          />
           <Field
             component={TextField}
             color="secondary"
             name="amount_per_frequency"
             type="number"
-            label="Amount Per Frequency"
+            label={`Amount Per ${
+              capitalize(values.frequency.split("ly")[0]) || "Frequency"
+            }`}
             style={{ width: "48%" }}
             validate={(amount: number) => {
               if (values.frequency === "weekly") {
@@ -219,30 +247,6 @@ const RequestForm = ({
             }}
           />
 
-          <Field
-            component={TextField}
-            multiline
-            maxRows={4}
-            color="secondary"
-            name="purpose"
-            type="string"
-            label="Purpose"
-            style={{ width: "48%" }}
-          />
-
-          <Field
-            component={Select}
-            color="secondary"
-            name="frequency"
-            type="string"
-            label="Frequency"
-            style={{ width: "calc(26vw + 20px)" }}
-          >
-            <MenuItem value="weekly">Weekly</MenuItem>
-            <MenuItem value="monthly">Monthly</MenuItem>
-            <MenuItem value="quarterly">Quarterly</MenuItem>
-            <MenuItem value="yearly">Yearly</MenuItem>
-          </Field>
           {values.amount > sharesAmount && (
             <>
               <Divider />
