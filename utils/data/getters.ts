@@ -1,11 +1,5 @@
 import { Transaction } from "@/types/othTypes";
-import type {
-  Notification,
-  Contribution,
-  ContributionTransaction,
-  LoanTransaction,
-  Loan,
-} from "@prisma/client";
+import type { Notification, Contribution, Loan } from "@prisma/client";
 
 export const getNotifications = async (uid: string) => {
   let res: Response;

@@ -5,7 +5,7 @@ import Divider from "@/app/(components)/layout/Divider";
 import Actions from "@/app/(components)/action/Actions";
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { headers, cookies } from "next/headers";
-import { getLoans, getTransactionData } from "@/utils/fetchers";
+import { getLoans, getTransactionData } from "@/utils/data/getters";
 import { groupTransactionsByMonth } from "@/utils/helpers";
 import type { TransactionPromise } from "@/types/othTypes";
 
@@ -96,5 +96,3 @@ export default async function Loans() {
     </main>
   );
 }
-
-// TODO: Change layout -> no loan settings, put frequency and amount per frequency in the loan application form

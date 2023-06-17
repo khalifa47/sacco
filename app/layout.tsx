@@ -4,7 +4,7 @@ import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-next
 import { headers, cookies } from "next/headers";
 import Header from "./(components)/layout/Header";
 import type { Notification } from "@prisma/client";
-import { getNotifications } from "@/utils/fetchers";
+import { getNotifications } from "@/utils/data/getters";
 
 export const metadata = {
   title: "Kadhi Sacco",

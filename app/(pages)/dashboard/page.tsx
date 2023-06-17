@@ -8,7 +8,7 @@ import {
   getContributions,
   getLoans,
   getTransactionData,
-} from "@/utils/fetchers";
+} from "@/utils/data/getters";
 
 const InfoCard = dynamic(() => import("@/app/(components)/data/InfoCard"));
 
