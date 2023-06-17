@@ -21,9 +21,11 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
 
 const Actions = ({
   content,
+  phone,
   settings,
 }: {
   content: Content;
+  phone: string;
   settings: Settings;
 }) => {
   const [selectedAction, setSelectedAction] = useState<Action | null>(null);
@@ -41,6 +43,7 @@ const Actions = ({
       <Wrapper>
         <ActionCard
           action="deposit shares"
+          phone={phone}
           settings={settings}
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
@@ -48,6 +51,7 @@ const Actions = ({
         />
         <ActionCard
           action="withdraw"
+          phone={phone}
           settings={settings}
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
@@ -81,6 +85,7 @@ const Actions = ({
         />
         <ActionCard
           action="request"
+          phone={phone}
           settings={settings}
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
@@ -88,6 +93,7 @@ const Actions = ({
         />
         <ActionCard
           action="payment"
+          phone={phone}
           settings={settings}
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
@@ -107,6 +113,7 @@ const Actions = ({
     <Wrapper>
       <ActionCard
         action="deposit welfare"
+        phone={phone}
         settings={settings}
         selectedAction={selectedAction}
         handleDialogOpen={handleDialogOpen}

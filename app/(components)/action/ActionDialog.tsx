@@ -34,7 +34,8 @@ const Transition = forwardRef(function Transition(
 
 const getDialogContent = (
   action: Action,
-  settings: Settings
+  settings: Settings,
+  phone: string
 ): { contentText: string; content: JSX.Element } => {
   switch (action) {
     // shares
@@ -42,13 +43,13 @@ const getDialogContent = (
       return {
         contentText:
           "Deposit an amount between Ksh. 100 and Ksh. 100,000 to your shares account.",
-        content: <DepositShares phone="254711144488" />,
+        content: <DepositShares phone={phone} />,
       };
     case "withdraw":
       return {
         contentText:
           "Withdraw an amount between Ksh. 100 and (60% of your shares) to a specified phone number by MPESA.",
-        content: <WithdrawShares sharesAmount={50000} phone="254711144488" />,
+        content: <WithdrawShares sharesAmount={50000} phone={phone} />,
       };
     case "transfer":
       return {
@@ -79,7 +80,7 @@ const getDialogContent = (
     case "payment":
       return {
         contentText: "Make a direct loan repayment.",
-        content: <RepayLoans phone="254711144488" loanBalance={90000} />,
+        content: <RepayLoans phone={phone} loanBalance={90000} />,
       };
     // case "loan settings":
     //   return {
@@ -96,7 +97,7 @@ const getDialogContent = (
       return {
         contentText:
           "Deposit an amount between Ksh. 100 and Ksh. 100,000 to your welfare account.",
-        content: <DepositWelfare phone="254711144488" />,
+        content: <DepositWelfare phone={phone} />,
       };
     case "welfare settings":
       return {
@@ -115,16 +116,22 @@ const getDialogContent = (
 
 const ActionDialog = ({
   action,
+  phone,
   settings,
   open,
   handleClose,
 }: {
   action: Action;
+  phone?: string;
   settings: Settings;
   open: boolean;
   handleClose: () => void;
 }) => {
-  const { contentText, content } = getDialogContent(action, settings);
+  const { contentText, content } = getDialogContent(
+    action,
+    settings,
+    phone || ""
+  );
   return (
     <Dialog
       open={open}

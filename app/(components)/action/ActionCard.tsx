@@ -106,12 +106,14 @@ const getResource = (action: Action) => {
 
 const ActionCard = ({
   action,
+  phone,
   settings,
   selectedAction,
   handleDialogOpen,
   handleDialogClose,
 }: {
   action: Action;
+  phone?: string;
   settings: Settings;
   selectedAction: Action | null;
   handleDialogOpen: (action: Action) => void;
@@ -164,6 +166,7 @@ const ActionCard = ({
       </Card>
       <ActionDialog
         action={action}
+        phone={phone}
         settings={settings}
         open={action === selectedAction}
         handleClose={handleDialogClose}

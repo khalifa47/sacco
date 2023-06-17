@@ -86,6 +86,7 @@ export default async function Shares() {
       <Title title="Shares Actions" />
       <Actions
         content="shares"
+        phone={session.user.user_metadata.phone || ""}
         settings={{
           frequency: contributions?.shares.frequency ?? "monthly",
           amount: contributions?.shares.amountPerFrequency ?? 10000,
