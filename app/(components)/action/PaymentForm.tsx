@@ -3,6 +3,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { TextField } from "formik-mui";
 import Button from "@mui/material/Button";
 import type { ObjectSchema } from "yup";
+import { depositShares } from "@/utils/data/posters";
+import { useSupabaseClient, useToast } from "@/utils/hooks";
 
 type Values = {
   amount: number;
@@ -20,15 +22,23 @@ const PaymentForm = ({
   validationSchema: ObjectSchema<any>;
   sharesToWelfare?: boolean;
 }) => {
+  const supabase = useSupabaseClient();
+  const userPromise = supabase.auth.getUser();
+  const { showToast } = useToast();
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
+      onSubmit={async (values, { setSubmitting, resetForm }) => {
+        try {
+          await depositShares(values.amount, values.phone!, userPromise);
+          showToast(`Successfully deposited Ksh. ${values.amount}`, "success");
+        } catch (error: any) {
+          showToast(error.toString(), "error");
+        } finally {
           setSubmitting(false);
-          alert(JSON.stringify(values, null, 2));
-        }, 500);
+          resetForm();
+        }
       }}
     >
       {({ submitForm, isSubmitting, isValid }) => (
