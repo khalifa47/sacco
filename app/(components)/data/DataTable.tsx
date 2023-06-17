@@ -14,15 +14,17 @@ import {
   GridToolbarQuickFilter,
   type GridColDef,
   type GridRowsProp,
-  type GridRenderCellParams,
+  // type GridRenderCellParams,
 } from "@mui/x-data-grid";
-import type { ContributionTransaction, LoanTransaction } from "@prisma/client";
+import type { Loan } from "@prisma/client";
+import { Transaction } from "@/types/othTypes";
 
+// TODO: loan history to include guarantors
 const loanHistoryColumns: GridColDef[] = [
   {
     field: "id",
     headerName: "ID",
-    width: 100,
+    width: 50,
     sortable: false,
   },
   {
@@ -31,35 +33,50 @@ const loanHistoryColumns: GridColDef[] = [
     headerName: "Amount",
     headerAlign: "left",
     align: "left",
-    width: 150,
+    width: 100,
     disableColumnMenu: true,
     valueFormatter: ({ value }) => `Ksh. ${formatNumber(value)}`,
   },
   {
-    field: "guarantors",
-    headerName: "Guarantors",
+    field: "frequency",
+    headerName: "Frequency",
+    width: 100,
+    valueFormatter: ({ value }) => capitalize(value),
+  },
+  {
+    field: "amountPerFrequency",
+    headerName: "Amount Per Frequency",
     headerAlign: "left",
     align: "left",
-    width: 150,
+    width: 100,
     disableColumnMenu: true,
-    sortable: false,
-    renderCell: (params: GridRenderCellParams<Loan>) => (
-      <span>
-        {params.value.map(
-          (guarantor: User) =>
-            `${guarantor.firstName} ${guarantor.lastName}${
-              params.value[params.value.length - 1] === guarantor ? "" : ", "
-            }`
-        )}
-      </span>
-    ),
+    valueFormatter: ({ value }) => `Ksh. ${formatNumber(value)}`,
   },
+  // {
+  //   field: "guarantors",
+  //   headerName: "Guarantors",
+  //   headerAlign: "left",
+  //   align: "left",
+  //   width: 150,
+  //   disableColumnMenu: true,
+  //   sortable: false,
+  //   renderCell: (params: GridRenderCellParams<Loan>) => (
+  //     <span>
+  //       {params.value.map(
+  //         (guarantor: User) =>
+  //           `${guarantor.firstName} ${guarantor.lastName}${
+  //             params.value[params.value.length - 1] === guarantor ? "" : ", "
+  //           }`
+  //       )}
+  //     </span>
+  //   ),
+  // },
   {
     field: "purpose",
     headerName: "Purpose",
     headerAlign: "left",
     align: "left",
-    width: 150,
+    flex: 1,
     disableColumnMenu: true,
     sortable: false,
   },
@@ -187,11 +204,7 @@ const SpacedToolbar = () => {
   );
 };
 
-const DataTable = ({
-  rows,
-}: {
-  rows: GridRowsProp<ContributionTransaction | LoanTransaction | Loan>;
-}) => {
+const DataTable = ({ rows }: { rows: GridRowsProp<Transaction | Loan> }) => {
   if (rows.length === 0) {
     return (
       <Typography
