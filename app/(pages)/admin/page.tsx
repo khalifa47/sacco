@@ -1,78 +1,10 @@
 import Title from "@/app/(components)/layout/Title";
-import { createUserData } from "@/utils/helpers";
 import dynamic from "next/dynamic";
 import Divider from "@/app/(components)/layout/Divider";
 import SummaryTable from "@/app/(components)/data/SummaryTable";
+import { users } from "@/utils/data";
 
 const InfoCard = dynamic(() => import("@/app/(components)/data/InfoCard"));
-
-const userRows = [
-  createUserData({
-    id: "1",
-    firstName: "khalifa",
-    otherNames: "bakari",
-    lastName: "fumo",
-    email: "khalifafumo5@gmail.com",
-    phone: "0712345678",
-    role: "user",
-    nationalId: "39386977",
-    status: "active",
-    createdAt: new Date("2004-10-19 10:23:54"),
-    lastActive: new Date("2014-10-19 10:23:54"),
-  }),
-  createUserData({
-    id: "2",
-    firstName: "khalifa",
-    otherNames: "bakari",
-    lastName: "fumo",
-    email: "khalifafumo5@gmail.com",
-    phone: "0712345678",
-    role: "user",
-    nationalId: "39386977",
-    status: "active",
-    createdAt: new Date("2004-10-19 10:23:54"),
-    lastActive: new Date("2014-10-19 10:23:54"),
-  }),
-  createUserData({
-    id: "3",
-    firstName: "khalifa",
-    otherNames: "bakari",
-    lastName: "fumo",
-    email: "khalifafumo5@gmail.com",
-    phone: "0712345678",
-    role: "user",
-    nationalId: "39386977",
-    status: "active",
-    createdAt: new Date("2004-10-19 10:23:54"),
-    lastActive: new Date("2014-10-19 10:23:54"),
-  }),
-  createUserData({
-    id: "4",
-    firstName: "khalifa",
-    otherNames: "bakari",
-    lastName: "fumo",
-    email: "khalifafumo5@gmail.com",
-    phone: "0712345678",
-    role: "user",
-    nationalId: "39386977",
-    status: "active",
-    createdAt: new Date("2004-10-19 10:23:54"),
-    lastActive: new Date("2014-10-19 10:23:54"),
-  }),
-  createUserData({
-    id: "5",
-    firstName: "khalifa",
-    otherNames: "bakari",
-    lastName: "fumo",
-    email: "khalifafumo5@gmail.com",
-    phone: "0712345678",
-    role: "user",
-    nationalId: "39386977",
-    status: "active",
-    createdAt: new Date("2004-10-19 10:23:54"),
-    lastActive: new Date("2014-10-19 10:23:54"),
-  }),
-];
 
 export default function Admin() {
   return (
@@ -99,7 +31,7 @@ export default function Admin() {
 
       {/* User Summary */}
       <Title title="Recent Users" />
-      <SummaryTable admin rows={userRows} />
+      <SummaryTable admin rows={users} />
 
       <Divider />
       {/* Transactions Summary */}
