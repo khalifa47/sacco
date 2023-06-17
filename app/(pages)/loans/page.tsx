@@ -86,6 +86,7 @@ export default async function Loans() {
       <Title title="Loans Actions" />
       <Actions
         content="loans"
+        phone={session.user.user_metadata.phone || ""}
         settings={{
           frequency: "monthly",
           amount: 10000,
