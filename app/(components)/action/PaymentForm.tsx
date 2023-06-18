@@ -3,7 +3,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { TextField } from "formik-mui";
 import Button from "@mui/material/Button";
 import type { ObjectSchema } from "yup";
-import { sharesAction } from "@/utils/data/posters";
+import { contributionAction } from "@/utils/data/posters";
 import { useSupabaseClient, useToast } from "@/utils/hooks";
 
 type Values = {
@@ -26,8 +26,7 @@ const PaymentForm = ({
   validationSchema: ObjectSchema<any>;
   sharesToWelfare?: boolean;
 }) => {
-  const supabase = useSupabaseClient();
-  const userPromise = supabase.auth.getUser();
+  const supabaseClient = useSupabaseClient();
   const { showToast } = useToast();
 
   return (
@@ -36,17 +35,19 @@ const PaymentForm = ({
       validationSchema={validationSchema}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
         try {
-          if (isShareAction(action)) {
-            await sharesAction(
-              action as ShareActions,
+          if (isShareAction(action) || action === "deposit welfare") {
+            await contributionAction(
+              action as ShareActions | WelfareActions,
               values.amount,
               values.phone!,
-              userPromise
+              supabaseClient
             );
             const actionText =
               action === "withdraw" ? "withdrawn" : "deposited";
             showToast(
-              `Successfully ${actionText} Ksh. ${values.amount}`,
+              `Successfully ${actionText} Ksh. ${values.amount} in ${
+                isShareAction(action) ? "shares" : "welfare"
+              }`,
               "success"
             );
           }

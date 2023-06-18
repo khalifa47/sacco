@@ -1,21 +1,34 @@
-import type { UserResponse } from "@supabase/supabase-js";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
-export const sharesAction = async (
-  action: ShareActions,
+export const contributionAction = async (
+  action: ShareActions | WelfareActions,
   amount: number,
   phone: string,
-  userPromise: Promise<UserResponse>
+  supabaseClient: SupabaseClient
 ) => {
   let res: Response;
 
   try {
-    const user = await userPromise;
+    const userId = (await supabaseClient.auth.getUser()).data.user?.id;
 
-    if (!user || !user.data.user) {
+    if (!userId) {
       throw new Error("User not found");
     }
 
-    res = await fetch(`/api/users/${user.data.user.id}/transactions/shares`, {
+    const { data: contribution, error } = await supabaseClient
+      .from("contributions")
+      .select("id")
+      .match({
+        user_id: userId,
+        type: action === "deposit welfare" ? "welfare" : "shares",
+      })
+      .single();
+
+    if (error || !contribution) {
+      throw new Error(error.message || "Contribution not found");
+    }
+
+    res = await fetch(`/api/users/${userId}/contributions/${contribution.id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,4 +48,6 @@ export const sharesAction = async (
   } catch (error: any) {
     console.error(error);
   }
+
+  throw new Error("Something went wrong");
 };

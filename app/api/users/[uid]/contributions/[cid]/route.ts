@@ -3,18 +3,19 @@ import { NextResponse } from "next/server";
 import prisma from "@/utils/prismadb";
 
 type Params = {
-  uid: string;
+  cid: string;
 };
 
 type Fields = {
-  action: ShareActions;
+  action: ShareActions | WelfareActions;
   amount: number;
   phone: string;
 };
 
-// deposit shares
+// TODO: maybe split into separate routes: GET, POST, PATCH
+
 export async function POST(request: Request, { params }: { params: Params }) {
-  const uid = params.uid;
+  const cid = parseInt(params.cid);
   const { action, amount, phone }: Fields = await request.json();
 
   if (!amount || !phone) {
@@ -29,7 +30,7 @@ export async function POST(request: Request, { params }: { params: Params }) {
     });
   }
 
-  if (action === "deposit shares" && (amount < 1000 || amount > 100000)) {
+  if (action.startsWith("deposit") && (amount < 1000 || amount > 100000)) {
     return new NextResponse("Amount must be between 1000 and 100000", {
       status: 400,
     });
@@ -42,10 +43,12 @@ export async function POST(request: Request, { params }: { params: Params }) {
   }
 
   try {
-    const contribution = await prisma.contribution.findFirstOrThrow({
+    const contribution = await prisma.contribution.findUniqueOrThrow({
       where: {
-        userId: uid,
-        type: "shares",
+        id: cid,
+      },
+      select: {
+        amount: true,
       },
     });
 
@@ -60,11 +63,10 @@ export async function POST(request: Request, { params }: { params: Params }) {
         }
       );
     }
-
     await prisma.contributionTransaction.create({
       data: {
         id: Math.floor(Math.random() * 1000000000),
-        contributionId: contribution.id,
+        contributionId: cid,
         amount: amount,
         balance:
           action === "withdraw"
@@ -77,7 +79,7 @@ export async function POST(request: Request, { params }: { params: Params }) {
 
     await prisma.contribution.update({
       where: {
-        id: contribution.id,
+        id: cid,
       },
       data: {
         amount:
@@ -92,7 +94,7 @@ export async function POST(request: Request, { params }: { params: Params }) {
     });
   }
 
-  return new NextResponse(JSON.stringify({ action, amount, phone, uid }), {
+  return new NextResponse(JSON.stringify({ action, amount, phone, cid }), {
     status: 200,
   });
 }
