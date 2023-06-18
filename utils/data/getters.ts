@@ -51,7 +51,7 @@ export const getLoans = async (uid: string) => {
   let loans: Loan[] = [];
 
   try {
-    res = await fetch(`${process.env.BASE_URL}/api/loans?uid=${uid}`, {
+    res = await fetch(`${process.env.BASE_URL}/api/users/${uid}/loans`, {
       // headers: headers(),
       next: { revalidate: 60 },
     });

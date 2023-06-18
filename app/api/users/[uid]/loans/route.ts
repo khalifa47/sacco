@@ -2,11 +2,20 @@ import { NextResponse } from "next/server";
 import prisma from "@/utils/prismadb";
 import type { Loan } from "@prisma/client";
 
-export async function GET(request: Request) {
+type Params = {
+  uid: string;
+};
+
+export async function GET(request: Request, { params }: { params: Params }) {
+  const uid = params.uid;
   let loans: Loan[] = [];
 
   try {
-    loans = await prisma.loan.findMany();
+    loans = await prisma.loan.findMany({
+      where: {
+        userId: uid,
+      },
+    });
   } catch (error: any) {
     return new NextResponse(error.message, {
       status: 500,
