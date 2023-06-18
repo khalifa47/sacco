@@ -64,7 +64,8 @@ const columns = {
     "Amount",
     "Balance",
     "Type",
-    "Payment Method",
+    "Purpose",
+    "Payment",
     "Date and Time",
   ],
   users: [
@@ -123,6 +124,13 @@ const SummaryTable = ({
                     Ksh. {formatNumber(row.balance)}
                   </StyledTableCell>
                   <StyledTableCell>{capitalize(row.type)}</StyledTableCell>
+                  <StyledTableCell>
+                    {"loanId" in row
+                      ? "Loan"
+                      : row.contributionId % 2 === 0
+                      ? "Welfare"
+                      : "Shares"}
+                  </StyledTableCell>
                   <StyledTableCell>{capitalize(row.method)}</StyledTableCell>
                   <StyledTableCell>{formatDate(row.createdAt)}</StyledTableCell>
                 </>
