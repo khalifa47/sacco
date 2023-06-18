@@ -2,11 +2,16 @@ import { NextResponse } from "next/server";
 import prisma from "@/utils/prismadb";
 import { Transaction } from "@/types/othTypes";
 
-export async function GET(request: Request) {
+type Params = {
+  uid: string;
+};
+
+export async function GET(request: Request, { params }: { params: Params }) {
+  const uid = params.uid;
   const { searchParams } = new URL(request.url);
   let transactions: Transaction[] = [];
 
-  const content = searchParams.get("content");
+  const content = searchParams.get("content") as Content | null;
   let limit = searchParams.get("limit");
 
   if (limit === null || isNaN(parseInt(limit))) {
@@ -21,6 +26,7 @@ export async function GET(request: Request) {
           where: {
             contribution: {
               type: "shares",
+              userId: uid,
             },
           },
           orderBy: {
@@ -31,6 +37,11 @@ export async function GET(request: Request) {
       case "loans":
         transactions = await prisma.loanTransaction.findMany({
           take: limit ? parseInt(limit) : undefined,
+          where: {
+            loan: {
+              userId: uid,
+            },
+          },
           orderBy: {
             createdAt: "desc",
           },
@@ -42,6 +53,7 @@ export async function GET(request: Request) {
           where: {
             contribution: {
               type: "welfare",
+              userId: uid,
             },
           },
           orderBy: {
@@ -54,9 +66,19 @@ export async function GET(request: Request) {
         const contributionTransactions =
           await prisma.contributionTransaction.findMany({
             take: limit ? parseInt(limit) : undefined,
+            where: {
+              contribution: {
+                userId: uid,
+              },
+            },
           });
         const loanTransactions = await prisma.loanTransaction.findMany({
           take: limit ? parseInt(limit) : undefined,
+          where: {
+            loan: {
+              userId: uid,
+            },
+          },
         });
 
         transactions = [...contributionTransactions, ...loanTransactions].sort(

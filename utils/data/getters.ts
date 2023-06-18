@@ -30,7 +30,7 @@ export const getTransactionData = async (
 
   try {
     res = await fetch(
-      `${process.env.BASE_URL}/api/transactions?uid=${uid}&limit=${limit}&content=${content}`
+      `${process.env.BASE_URL}/api/users/${uid}/transactions?limit=${limit}&content=${content}`
       // { headers: headers(), next: { revalidate: 60 } }
     );
     if (!res.ok) {
