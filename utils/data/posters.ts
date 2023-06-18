@@ -1,6 +1,7 @@
 import type { UserResponse } from "@supabase/supabase-js";
 
-export const depositShares = async (
+export const sharesAction = async (
+  action: ShareActions,
   amount: number,
   phone: string,
   userPromise: Promise<UserResponse>
@@ -20,6 +21,7 @@ export const depositShares = async (
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        action,
         amount,
         phone,
         userId: user.data.user.id,

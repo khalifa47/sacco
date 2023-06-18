@@ -3,12 +3,16 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { TextField } from "formik-mui";
 import Button from "@mui/material/Button";
 import type { ObjectSchema } from "yup";
-import { depositShares } from "@/utils/data/posters";
+import { sharesAction } from "@/utils/data/posters";
 import { useSupabaseClient, useToast } from "@/utils/hooks";
 
 type Values = {
   amount: number;
   phone?: string;
+};
+
+const isShareAction = (action: string): action is ShareActions => {
+  return ["deposit shares", "withdraw"].includes(action);
 };
 
 const PaymentForm = ({
@@ -25,14 +29,27 @@ const PaymentForm = ({
   const supabase = useSupabaseClient();
   const userPromise = supabase.auth.getUser();
   const { showToast } = useToast();
+
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={validationSchema}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
         try {
-          await depositShares(values.amount, values.phone!, userPromise);
-          showToast(`Successfully deposited Ksh. ${values.amount}`, "success");
+          if (isShareAction(action)) {
+            await sharesAction(
+              action as ShareActions,
+              values.amount,
+              values.phone!,
+              userPromise
+            );
+            const actionText =
+              action === "withdraw" ? "withdrawn" : "deposited";
+            showToast(
+              `Successfully ${actionText} Ksh. ${values.amount}`,
+              "success"
+            );
+          }
         } catch (error: any) {
           showToast(error.toString(), "error");
         } finally {

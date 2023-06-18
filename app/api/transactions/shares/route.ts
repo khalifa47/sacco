@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/utils/prismadb";
 
 type Fields = {
+  action: ShareActions;
   amount: number;
   phone: string;
   userId: string;
@@ -10,7 +11,7 @@ type Fields = {
 
 // deposit shares
 export async function POST(request: Request) {
-  const { amount, phone, userId }: Fields = await request.json();
+  const { action, amount, phone, userId }: Fields = await request.json();
 
   if (!amount || !phone) {
     return new NextResponse("Missing fields", {
@@ -18,7 +19,19 @@ export async function POST(request: Request) {
     });
   }
 
-  if (amount < 1000 || amount > 100000) {
+  if (!action) {
+    return new NextResponse("Invalid action", {
+      status: 400,
+    });
+  }
+
+  if (!userId) {
+    return new NextResponse("User not found", {
+      status: 404,
+    });
+  }
+
+  if ((action === "deposit shares" && amount < 1000) || amount > 100000) {
     return new NextResponse("Amount must be between 1000 and 100000", {
       status: 400,
     });
@@ -38,13 +51,28 @@ export async function POST(request: Request) {
       },
     });
 
+    if (
+      (action === "withdraw" && amount < 100) ||
+      amount > 0.6 * contribution.amount
+    ) {
+      return new NextResponse(
+        "Amount must be between 100 and 60% of your shares",
+        {
+          status: 400,
+        }
+      );
+    }
+
     await prisma.contributionTransaction.create({
       data: {
         id: Math.floor(Math.random() * 1000000000),
         contributionId: contribution.id,
         amount: amount,
-        balance: contribution.amount + amount,
-        type: "credit",
+        balance:
+          action === "withdraw"
+            ? contribution.amount - amount
+            : contribution.amount + amount,
+        type: action === "withdraw" ? "debit" : "credit",
         method: "mpesa",
       },
     });
@@ -54,7 +82,10 @@ export async function POST(request: Request) {
         id: contribution.id,
       },
       data: {
-        amount: contribution.amount + amount,
+        amount:
+          action === "withdraw"
+            ? contribution.amount - amount
+            : contribution.amount + amount,
       },
     });
   } catch (error: any) {
@@ -63,7 +94,7 @@ export async function POST(request: Request) {
     });
   }
 
-  return new NextResponse(JSON.stringify({ amount, phone, userId }), {
+  return new NextResponse(JSON.stringify({ action, amount, phone, userId }), {
     status: 200,
   });
 }
