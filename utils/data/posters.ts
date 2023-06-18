@@ -15,7 +15,7 @@ export const sharesAction = async (
       throw new Error("User not found");
     }
 
-    res = await fetch(`/api/transactions/shares`, {
+    res = await fetch(`/api/users/${user.data.user.id}/transactions/shares`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -24,7 +24,6 @@ export const sharesAction = async (
         action,
         amount,
         phone,
-        userId: user.data.user.id,
       }),
     });
     if (!res.ok) {
