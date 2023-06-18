@@ -2,11 +2,20 @@ import { NextResponse } from "next/server";
 import prisma from "@/utils/prismadb";
 import type { Contribution } from "@prisma/client";
 
-export async function GET(request: Request) {
+type Params = {
+  uid: string;
+};
+
+export async function GET(request: Request, { params }: { params: Params }) {
+  const uid = params.uid;
   let contributions: Contribution[] = [];
 
   try {
-    contributions = await prisma.contribution.findMany();
+    contributions = await prisma.contribution.findMany({
+      where: {
+        userId: uid,
+      },
+    });
   } catch (error: any) {
     return new NextResponse(error.message, {
       status: 500,

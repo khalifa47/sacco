@@ -79,10 +79,13 @@ export const getContributions = async (uid: string) => {
   };
 
   try {
-    res = await fetch(`${process.env.BASE_URL}/api/contributions?uid=${uid}`, {
-      // headers: headers(),
-      next: { revalidate: 60 },
-    });
+    res = await fetch(
+      `${process.env.BASE_URL}/api/users/${uid}/contributions`,
+      {
+        // headers: headers(),
+        next: { revalidate: 60 },
+      }
+    );
     if (!res.ok) {
       const msg = await res.text();
       throw new Error(msg === "" ? res.statusText : msg);
