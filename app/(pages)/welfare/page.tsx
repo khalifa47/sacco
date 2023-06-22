@@ -8,6 +8,12 @@ import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-next
 import { getContributions, getTransactionData } from "@/utils/data/getters";
 import { groupTransactionsByMonth } from "@/utils/helpers";
 import type { TransactionPromise } from "@/types/othTypes";
+import type { Contribution } from "@prisma/client";
+
+type ContributionData = {
+  shares: Contribution;
+  welfare: Contribution;
+};
 
 const InfoCard = dynamic(() => import("@/app/(components)/data/InfoCard"));
 const Trend = dynamic(() => import("@/app/(components)/data/Trend"));
@@ -26,7 +32,9 @@ export default async function Welfare() {
     throw new Error("User not authenticated");
   }
 
-  const contributionsData = getContributions(session.user.id);
+  const contributionsData = getContributions(
+    session.user.id
+  ) as Promise<ContributionData>;
   const transactionsData: TransactionPromise = getTransactionData(
     session.user.id,
     undefined,

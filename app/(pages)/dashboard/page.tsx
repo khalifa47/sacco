@@ -9,6 +9,12 @@ import {
   getLoans,
   getTransactionData,
 } from "@/utils/data/getters";
+import type { Contribution } from "@prisma/client";
+
+type ContributionData = {
+  shares: Contribution;
+  welfare: Contribution;
+};
 
 const InfoCard = dynamic(() => import("@/app/(components)/data/InfoCard"));
 
@@ -26,7 +32,9 @@ export default async function Dashboard() {
     throw new Error("User not authenticated");
   }
 
-  const contributionsData = getContributions(session.user.id);
+  const contributionsData = getContributions(
+    session.user.id
+  ) as Promise<ContributionData>;
   const loansData = getLoans(session.user.id);
   const transactionsData = getTransactionData(session.user.id, 5);
 
@@ -48,12 +56,9 @@ export default async function Dashboard() {
           rowGap: "15px",
         }}
       >
-        <InfoCard content="shares" amount={contributions?.shares.amount ?? 0} />
+        <InfoCard content="shares" amount={contributions.shares.amount} />
         <InfoCard content="loans" amount={loans.amount} />
-        <InfoCard
-          content="welfare"
-          amount={contributions?.welfare.amount ?? 0}
-        />
+        <InfoCard content="welfare" amount={contributions.welfare.amount} />
       </div>
       <Divider />
       <Title title="Recent Transactions" />

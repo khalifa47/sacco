@@ -8,7 +8,12 @@ import { headers, cookies } from "next/headers";
 import { getContributions, getTransactionData } from "@/utils/data/getters";
 import type { TransactionPromise } from "@/types/othTypes";
 import { groupTransactionsByMonth } from "@/utils/helpers";
+import type { Contribution } from "@prisma/client";
 
+type ContributionData = {
+  shares: Contribution;
+  welfare: Contribution;
+};
 const InfoCard = dynamic(() => import("@/app/(components)/data/InfoCard"));
 const Trend = dynamic(() => import("@/app/(components)/data/Trend"));
 
@@ -26,7 +31,9 @@ export default async function Shares() {
     throw new Error("User not authenticated");
   }
 
-  const contributionsData = getContributions(session.user.id);
+  const contributionsData = getContributions(
+    session.user.id
+  ) as Promise<ContributionData>;
   const transactionsData: TransactionPromise = getTransactionData(
     session.user.id,
     undefined,
@@ -50,7 +57,7 @@ export default async function Shares() {
           gap: 20,
         }}
       >
-        <InfoCard content="shares" amount={contributions?.shares.amount ?? 0} />
+        <InfoCard content="shares" amount={contributions.shares.amount ?? 0} />
         <Trend
           content="shares"
           labels={[
