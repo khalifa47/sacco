@@ -71,11 +71,10 @@ export const WithdrawShares = ({
 };
 
 export const TransferShares = ({ sharesAmount }: { sharesAmount: number }) => {
-  type Choice = "welfare" | "other shares";
-  const [selectedValue, setSelectedValue] = useState<Choice>("welfare");
+  const [choice, setChoice] = useState<TransferChoice>("welfare");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedValue(event.target.value as Choice);
+    setChoice(event.target.value as TransferChoice);
   };
 
   // transfer to other share account or to welfare
@@ -92,14 +91,14 @@ export const TransferShares = ({ sharesAmount }: { sharesAmount: number }) => {
       .required("Amount is required.")
       .lessThan(0.6 * sharesAmount, "Amount cannot exceed 60% of your shares")
       .moreThan(99, "Amount cannot be less than Ksh. 100"),
-    id: yup
+    nationalId: yup
       .string()
       .test({
         name: "is-valid-id",
-        message: "Invalid ID number.",
+        message: "Invalid National ID.",
         test: (value) => value?.length === 8,
       })
-      .required("ID number is required."),
+      .required("National ID is required."),
   });
 
   return (
@@ -108,7 +107,7 @@ export const TransferShares = ({ sharesAmount }: { sharesAmount: number }) => {
         <FormControlLabel
           control={
             <Radio
-              checked={selectedValue === "welfare"}
+              checked={choice === "welfare"}
               onChange={handleChange}
               value="welfare"
             />
@@ -118,7 +117,7 @@ export const TransferShares = ({ sharesAmount }: { sharesAmount: number }) => {
         <FormControlLabel
           control={
             <Radio
-              checked={selectedValue === "other shares"}
+              checked={choice === "other shares"}
               onChange={handleChange}
               value="other shares"
             />
@@ -130,11 +129,11 @@ export const TransferShares = ({ sharesAmount }: { sharesAmount: number }) => {
         action="transfer"
         initialValues={{ amount: 100 }}
         validationSchema={
-          selectedValue === "welfare"
+          choice === "welfare"
             ? validationSchemaWelfare
             : validationSchemaOtherShares
         }
-        sharesToWelfare={selectedValue === "welfare" ? true : false}
+        choice={choice}
       />
     </>
   );

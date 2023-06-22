@@ -5,26 +5,28 @@ import Button from "@mui/material/Button";
 import type { ObjectSchema } from "yup";
 import { postContributionTransaction } from "@/utils/data/posters";
 import { useSupabaseClient, useToast } from "@/utils/hooks";
+import { transferContribution } from "@/utils/data/patchers";
 
 type Values = {
   amount: number;
   phone?: string;
+  nationalId?: string;
 };
 
-const isShareAction = (action: string): action is ShareActions => {
-  return ["deposit shares", "withdraw"].includes(action);
+const isContributionDepWitAction = (action: string) => {
+  return ["deposit shares", "withdraw", "deposit welfare"].includes(action);
 };
 
 const PaymentForm = ({
   action,
   initialValues,
   validationSchema,
-  sharesToWelfare,
+  choice,
 }: {
   action: Action;
   initialValues: Values;
   validationSchema: ObjectSchema<any>;
-  sharesToWelfare?: boolean;
+  choice?: TransferChoice;
 }) => {
   const supabaseClient = useSupabaseClient();
   const { showToast } = useToast();
@@ -35,7 +37,8 @@ const PaymentForm = ({
       validationSchema={validationSchema}
       onSubmit={async (values, { setSubmitting, resetForm }) => {
         try {
-          if (isShareAction(action) || action === "deposit welfare") {
+          // if deposit or withdraw shares or deposit welfare
+          if (isContributionDepWitAction(action)) {
             await postContributionTransaction(
               action as ShareActions | WelfareActions,
               values.amount,
@@ -46,8 +49,23 @@ const PaymentForm = ({
               action === "withdraw" ? "withdrawn" : "deposited";
             showToast(
               `Successfully ${actionText} Ksh. ${values.amount} in ${
-                isShareAction(action) ? "shares" : "welfare"
+                isContributionDepWitAction(action) ? "shares" : "welfare"
               }`,
+              "success"
+            );
+          } else if (action === "transfer") {
+            await transferContribution(
+              choice!,
+              values.amount,
+              supabaseClient,
+              values.nationalId
+            );
+            const actionText =
+              choice === "welfare"
+                ? "welfare"
+                : `National ID: ${values.nationalId}}`;
+            showToast(
+              `Successfully transferred shares to ${actionText}`,
               "success"
             );
           }
@@ -77,15 +95,15 @@ const PaymentForm = ({
             label="Amount"
           />
           {action === "transfer" ? (
-            sharesToWelfare ? (
+            choice === "welfare" ? (
               <></>
             ) : (
               <Field
                 component={TextField}
                 color="secondary"
-                name="id"
+                name="nationalId"
                 type="string"
-                label="ID Number"
+                label="National ID"
               />
             )
           ) : (
