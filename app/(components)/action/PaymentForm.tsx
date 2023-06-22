@@ -3,7 +3,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { TextField } from "formik-mui";
 import Button from "@mui/material/Button";
 import type { ObjectSchema } from "yup";
-import { contributionAction } from "@/utils/data/posters";
+import { postContributionTransaction } from "@/utils/data/posters";
 import { useSupabaseClient, useToast } from "@/utils/hooks";
 
 type Values = {
@@ -36,7 +36,7 @@ const PaymentForm = ({
       onSubmit={async (values, { setSubmitting, resetForm }) => {
         try {
           if (isShareAction(action) || action === "deposit welfare") {
-            await contributionAction(
+            await postContributionTransaction(
               action as ShareActions | WelfareActions,
               values.amount,
               values.phone!,

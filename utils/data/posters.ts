@@ -1,6 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-export const contributionAction = async (
+export const postContributionTransaction = async (
   action: ShareActions | WelfareActions,
   amount: number,
   phone: string,
