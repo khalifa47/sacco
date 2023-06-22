@@ -17,12 +17,16 @@ type Fields = {
 
 // TODO: maybe split into separate routes: GET, POST, PATCH
 
-const getContributionAmount = async (uid: string, cid: number) => {
+const getContributionAmount = async (uid: string, cid?: number) => {
   const contributionAmount: number | undefined = await getContributions(
     uid
-  ).then((data) =>
-    data?.shares.id === cid ? data.shares.amount : data?.welfare.amount
-  );
+  ).then((data) => {
+    if (!cid) return data?.shares.amount;
+    else
+      return data?.shares.id === cid
+        ? data.shares.amount
+        : data?.welfare.amount;
+  });
 
   if (!contributionAmount) {
     throw new Error("Contribution not found");
@@ -115,21 +119,96 @@ export async function PATCH(request: Request, { params }: { params: Params }) {
 
   try {
     const contributionAmount = await getContributionAmount(uid, cid);
+    if (amount > contributionAmount) {
+      throw new NextResponse("Amount must be less than your shares", {
+        status: 400,
+      });
+    }
 
-    // if (action === "transfer") {
-    // }
+    if (action === "transfer") {
+      const { searchParams } = new URL(request.url);
+      const transferChoice = searchParams.get(
+        "transferchoice"
+      ) as TransferChoice;
+      const toId = searchParams.get("toid");
 
-    await prisma.contribution.update({
-      where: {
-        id: cid,
-      },
-      data: {
-        amount:
-          action === "withdraw"
-            ? contributionAmount - amount
-            : contributionAmount + amount,
-      },
-    });
+      if (transferChoice === "other shares") {
+        if (!toId || toId.length !== 8) {
+          return new NextResponse("Invalid ID", {
+            status: 400,
+          });
+        }
+
+        const toUserId = await prisma.user
+          .findUniqueOrThrow({
+            where: {
+              nationalId: toId,
+            },
+            select: {
+              id: true,
+            },
+          })
+          .then((data) => data.id);
+
+        if (toUserId === uid) {
+          return new NextResponse("You cannot transfer to yourself", {
+            status: 400,
+          });
+        }
+
+        const toContributions = await getContributions(toUserId);
+        if (!toContributions?.shares) throw new Error("Shares not found");
+
+        await prisma.contribution.update({
+          where: {
+            id: cid,
+          },
+          data: {
+            amount: contributionAmount - amount,
+          },
+        });
+        await prisma.contribution.update({
+          where: {
+            id: toContributions.shares.id,
+          },
+          data: {
+            amount: toContributions.shares.amount + amount,
+          },
+        });
+      } else {
+        const contributions = await getContributions(uid);
+        if (!contributions?.welfare) throw new Error("Welfare not found");
+
+        await prisma.contribution.update({
+          where: {
+            id: cid,
+          },
+          data: {
+            amount: contributionAmount - amount,
+          },
+        });
+        await prisma.contribution.update({
+          where: {
+            id: contributions.welfare.id,
+          },
+          data: {
+            amount: contributions.welfare.amount + amount,
+          },
+        });
+      }
+    } else {
+      await prisma.contribution.update({
+        where: {
+          id: cid,
+        },
+        data: {
+          amount:
+            action === "withdraw"
+              ? contributionAmount - amount
+              : contributionAmount + amount,
+        },
+      });
+    }
   } catch (error: any) {
     return new NextResponse(error.message, {
       status: 500,
