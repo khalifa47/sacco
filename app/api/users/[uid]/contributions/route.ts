@@ -16,6 +16,10 @@ export async function GET(request: Request, { params }: { params: Params }) {
         userId: uid,
       },
     });
+
+    if (!contributions) {
+      throw new Error("No contributions found");
+    }
   } catch (error: any) {
     return new NextResponse(error.message, {
       status: 500,

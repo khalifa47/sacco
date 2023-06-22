@@ -1,20 +1,38 @@
 import { isValidSafaricomPhoneNumber } from "@/utils/helpers";
 import { NextResponse } from "next/server";
 import prisma from "@/utils/prismadb";
+import { getContributions } from "@/utils/data/getters";
+import { updateContribution } from "@/utils/data/patchers";
 
 type Params = {
+  uid: string;
   cid: string;
 };
 
 type Fields = {
-  action: ShareActions | WelfareActions;
+  action: "deposit shares" | "withdraw" | "transfer" | "deposit welfare";
   amount: number;
   phone: string;
 };
 
 // TODO: maybe split into separate routes: GET, POST, PATCH
 
+const getContributionAmount = async (uid: string, cid: number) => {
+  const contributionAmount: number | undefined = await getContributions(
+    uid
+  ).then((data) =>
+    data?.shares.id === cid ? data.shares.amount : data?.welfare.amount
+  );
+
+  if (!contributionAmount) {
+    throw new Error("Contribution not found");
+  }
+
+  return contributionAmount;
+};
+
 export async function POST(request: Request, { params }: { params: Params }) {
+  const uid = params.uid;
   const cid = parseInt(params.cid);
   const { action, amount, phone }: Fields = await request.json();
 
@@ -43,24 +61,19 @@ export async function POST(request: Request, { params }: { params: Params }) {
   }
 
   try {
-    const contribution = await prisma.contribution.findUniqueOrThrow({
-      where: {
-        id: cid,
-      },
-      select: {
-        amount: true,
-      },
-    });
+    const contributionAmount = await getContributionAmount(uid, cid);
+
+    if (!contributionAmount) {
+      throw new Error("Contribution not found");
+    }
 
     if (
       action === "withdraw" &&
-      (amount < 100 || amount > 0.6 * contribution.amount)
+      (amount < 100 || amount > 0.6 * contributionAmount)
     ) {
       throw new NextResponse(
         "Amount must be between 100 and 60% of your shares",
-        {
-          status: 400,
-        }
+        { status: 400 }
       );
     }
     await prisma.contributionTransaction.create({
@@ -70,12 +83,41 @@ export async function POST(request: Request, { params }: { params: Params }) {
         amount: amount,
         balance:
           action === "withdraw"
-            ? contribution.amount - amount
-            : contribution.amount + amount,
+            ? contributionAmount - amount
+            : contributionAmount + amount,
         type: action === "withdraw" ? "debit" : "credit",
         method: "mpesa",
       },
     });
+
+    await updateContribution(action, amount, uid, cid);
+  } catch (error: any) {
+    return new NextResponse(error.message, {
+      status: 500,
+    });
+  }
+
+  return new NextResponse(JSON.stringify({ action, amount, phone, cid }), {
+    status: 200,
+  });
+}
+
+export async function PATCH(request: Request, { params }: { params: Params }) {
+  const uid = params.uid;
+  const cid = parseInt(params.cid);
+  const { action, amount }: Fields = await request.json();
+
+  if (!amount || !action) {
+    return new NextResponse("Missing fields", {
+      status: 400,
+    });
+  }
+
+  try {
+    const contributionAmount = await getContributionAmount(uid, cid);
+
+    // if (action === "transfer") {
+    // }
 
     await prisma.contribution.update({
       where: {
@@ -84,8 +126,8 @@ export async function POST(request: Request, { params }: { params: Params }) {
       data: {
         amount:
           action === "withdraw"
-            ? contribution.amount - amount
-            : contribution.amount + amount,
+            ? contributionAmount - amount
+            : contributionAmount + amount,
       },
     });
   } catch (error: any) {
@@ -94,7 +136,7 @@ export async function POST(request: Request, { params }: { params: Params }) {
     });
   }
 
-  return new NextResponse(JSON.stringify({ action, amount, phone, cid }), {
+  return new NextResponse(JSON.stringify(`Update Successful: ${cid}`), {
     status: 200,
   });
 }
