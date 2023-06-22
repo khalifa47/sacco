@@ -15,10 +15,10 @@ export async function GET(request: Request) {
 
   return new NextResponse(
     JSON.stringify({
-      shares: contributions.find(
+      shares: contributions.filter(
         (contribution) => contribution.type === "shares"
       ),
-      welfare: contributions.find(
+      welfare: contributions.filter(
         (contribution) => contribution.type === "welfare"
       ),
     }),

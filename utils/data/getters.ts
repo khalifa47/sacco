@@ -21,7 +21,7 @@ export const getNotifications = async (uid: string) => {
 };
 
 export const getTransactionData = async (
-  uid: string,
+  uid?: string,
   limit?: number,
   content?: Content
 ) => {
@@ -30,7 +30,9 @@ export const getTransactionData = async (
 
   try {
     res = await fetch(
-      `${process.env.BASE_URL}/api/users/${uid}/transactions?limit=${limit}&content=${content}`
+      `${process.env.BASE_URL}/api/${
+        uid ? `users/${uid}/` : ""
+      }transactions?limit=${limit}&content=${content}`
       // { headers: headers(), next: { revalidate: 60 } }
     );
     if (!res.ok) {
@@ -46,15 +48,18 @@ export const getTransactionData = async (
   return transactions;
 };
 
-export const getLoans = async (uid: string) => {
+export const getLoans = async (uid?: string) => {
   let res: Response;
   let loans: Loan[] = [];
 
   try {
-    res = await fetch(`${process.env.BASE_URL}/api/users/${uid}/loans`, {
-      // headers: headers(),
-      next: { revalidate: 60 },
-    });
+    res = await fetch(
+      `${process.env.BASE_URL}/api/${uid ? `users/${uid}/` : ""}loans`,
+      {
+        // headers: headers(),
+        next: { revalidate: 60 },
+      }
+    );
     if (!res.ok) {
       const msg = await res.text();
       throw new Error(msg === "" ? res.statusText : msg);
@@ -71,16 +76,16 @@ export const getLoans = async (uid: string) => {
   };
 };
 
-export const getContributions = async (uid: string) => {
+export const getContributions = async (uid?: string) => {
   let res: Response;
   let contributions: {
-    shares: Contribution;
-    welfare: Contribution;
+    shares: Contribution | Contribution[];
+    welfare: Contribution | Contribution[];
   };
 
   try {
     res = await fetch(
-      `${process.env.BASE_URL}/api/users/${uid}/contributions`,
+      `${process.env.BASE_URL}/api/${uid ? `users/${uid}/` : ""}contributions`,
       {
         // headers: headers(),
         next: { revalidate: 60 },
