@@ -61,7 +61,7 @@ export default async function AdminLoans() {
 
       {/* Admin Loans Transactions */}
       <Title title="Admin Loans Transactions" />
-      <DataTable rows={transactions} />
+      <DataTable admin rows={transactions} />
 
       <div style={{ height: "200px" }}></div>
     </main>

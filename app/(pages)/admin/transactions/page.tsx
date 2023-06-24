@@ -7,7 +7,7 @@ export default async function AdminTransactions() {
   return (
     <main>
       <Title title="Admin Transactions" pageTitle />
-      <DataTable rows={transactions} />
+      <DataTable admin rows={transactions} />
     </main>
   );
 }

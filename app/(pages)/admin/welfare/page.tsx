@@ -72,7 +72,7 @@ export default async function AdminWelfare() {
 
       {/* Admin Welfare Transactions */}
       <Title title="Admin Welfare Transactions" />
-      <DataTable rows={transactions} />
+      <DataTable admin rows={transactions} />
 
       <div style={{ height: "200px" }}></div>
     </main>

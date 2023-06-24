@@ -104,7 +104,7 @@ const loanHistoryColumns: GridColDef[] = [
   },
 ];
 
-const transactionColumns: GridColDef[] = [
+let transactionColumns: GridColDef[] = [
   {
     field: "id",
     headerName: "ID",
@@ -204,7 +204,13 @@ const SpacedToolbar = () => {
   );
 };
 
-const DataTable = ({ rows }: { rows: GridRowsProp<Transaction | Loan> }) => {
+const DataTable = ({
+  rows,
+  admin,
+}: {
+  rows: GridRowsProp<Transaction | Loan>;
+  admin?: boolean;
+}) => {
   if (rows.length === 0) {
     return (
       <Typography
@@ -214,6 +220,11 @@ const DataTable = ({ rows }: { rows: GridRowsProp<Transaction | Loan> }) => {
         No data to display⚠️
       </Typography>
     );
+  }
+  if (admin) {
+    transactionColumns = transactionColumns.filter(
+      (column) => column.field !== "balance"
+    )!;
   }
 
   const isLoan = "status" in rows[0];
