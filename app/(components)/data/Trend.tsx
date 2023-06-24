@@ -62,7 +62,7 @@ const Trend = ({
       }}
     >
       <Typography textAlign="center" fontWeight={600}>
-        {`My ${capitalize(content)} ${
+        {`${capitalize(content)} ${
           content == "loans" ? "Payments" : "Deposits"
         } Distribution`}
       </Typography>
