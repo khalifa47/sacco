@@ -1,5 +1,5 @@
 import { Transaction } from "@/types/othTypes";
-import type { Notification, Contribution, Loan } from "@prisma/client";
+import type { Notification, Contribution, Loan, User } from "@prisma/client";
 
 export const getNotifications = async (uid: string) => {
   let res: Response;
@@ -102,4 +102,42 @@ export const getContributions = async (uid?: string) => {
   } catch (error: any) {
     console.error(error);
   }
+};
+
+export const getUsers = async (limit?: number) => {
+  let res: Response;
+  let users: User[] = [];
+
+  try {
+    res = await fetch(`${process.env.BASE_URL}/api/users?limit=${limit}`);
+    if (!res.ok) {
+      const msg = await res.text();
+      throw new Error(msg === "" ? res.statusText : msg);
+    }
+
+    users = await res.json();
+  } catch (error: any) {
+    console.error(error);
+  }
+
+  return users;
+};
+
+export const getUser = async (uid: string) => {
+  let res: Response;
+  let user: User | null = null;
+
+  try {
+    res = await fetch(`${process.env.BASE_URL}/api/users/${uid}`);
+    if (!res.ok) {
+      const msg = await res.text();
+      throw new Error(msg === "" ? res.statusText : msg);
+    }
+
+    user = await res.json();
+  } catch (error: any) {
+    console.error(error);
+  }
+
+  return user;
 };
