@@ -2,11 +2,11 @@ import Title from "@/app/(components)/layout/Title";
 import dynamic from "next/dynamic";
 import Divider from "@/app/(components)/layout/Divider";
 import SummaryTable from "@/app/(components)/data/SummaryTable";
-import { users } from "@/utils/data";
 import {
   getContributions,
   getLoans,
   getTransactionData,
+  getUsers,
 } from "@/utils/data/getters";
 import type { Contribution } from "@prisma/client";
 
@@ -21,11 +21,13 @@ export default async function Admin() {
   const contributionsData = getContributions() as Promise<ContributionData>;
   const loansData = getLoans();
   const transactionsData = getTransactionData(undefined, 5);
+  const usersData = getUsers(5);
 
-  const [contributions, loans, transactions] = await Promise.all([
+  const [contributions, loans, transactions, users] = await Promise.all([
     contributionsData,
     loansData,
     transactionsData,
+    usersData,
   ]);
 
   const sharesTotal = contributions?.shares.reduce(
@@ -71,5 +73,3 @@ export default async function Admin() {
     </main>
   );
 }
-
-// TODO: User API routes and finish up admin dashboard

@@ -74,7 +74,7 @@ const columns = {
     "Email",
     "Phone",
     "Date Joined",
-    "Last Active",
+    "Last Logged",
   ],
 };
 
