@@ -6,6 +6,12 @@ type Params = {
   uid: string;
 };
 
+type Fields = {
+  firstName: string;
+  otherNames: string;
+  lastName: string;
+};
+
 export async function GET(request: Request, { params }: { params: Params }) {
   const uid = params.uid;
   let user: User | null = null;
@@ -25,4 +31,16 @@ export async function GET(request: Request, { params }: { params: Params }) {
   return new NextResponse(JSON.stringify(user), {
     status: 200,
   });
+}
+
+export async function PATCH(request: Request, { params }: { params: Params }) {
+  const uid = params.uid;
+  const { firstName, otherNames, lastName }: Fields = await request.json();
+
+  return new NextResponse(
+    JSON.stringify({ uid, firstName, otherNames, lastName }),
+    {
+      status: 200,
+    }
+  );
 }

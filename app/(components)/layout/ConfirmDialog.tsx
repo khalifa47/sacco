@@ -4,22 +4,29 @@ import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
+import { computeMutation } from "@/utils/helpers";
 
 const ConfirmDialog = ({
-  open,
+  promiseArgs,
   handleNo,
   handleYes,
-  content,
 }: {
-  open: boolean;
+  promiseArgs: any;
   handleNo: () => void;
   handleYes: () => void;
-  content: string;
 }) => {
+  if (!promiseArgs) {
+    return null;
+  }
+
+  const { newRow, oldRow } = promiseArgs;
+  const mutation = computeMutation(newRow, oldRow);
   return (
-    <Dialog open={open} fullWidth maxWidth="xs">
+    <Dialog open={!!promiseArgs} fullWidth maxWidth="xs">
       <DialogTitle>Are you Sure?</DialogTitle>
-      <DialogContent dividers>{content}</DialogContent>
+      <DialogContent
+        dividers
+      >{`Pressing 'Yes' will change ${mutation}.`}</DialogContent>
       <DialogActions>
         <Button onClick={handleNo}>No</Button>
         <Button onClick={handleYes}>Yes</Button>

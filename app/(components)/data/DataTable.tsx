@@ -23,23 +23,8 @@ import {
   getUserColumns,
 } from "./columns";
 import ConfirmDialog from "@/app/(components)/layout/ConfirmDialog";
-import { useToast } from "@/utils/hooks";
-
-const useFakeMutation = () => {
-  return useCallback(
-    (user: Partial<User>) =>
-      new Promise<Partial<User>>((resolve, reject) => {
-        setTimeout(() => {
-          if (user.otherNames?.trim() === "") {
-            reject();
-          } else {
-            resolve(user);
-          }
-        }, 200);
-      }),
-    []
-  );
-};
+import { useMutation, useToast } from "@/utils/hooks";
+import { computeMutation, handleNo, handleYes } from "@/utils/helpers";
 
 const SpacedToolbar = () => {
   return (
@@ -82,24 +67,9 @@ const DataTable = ({
   admin?: boolean;
 }) => {
   const { showToast } = useToast();
-  const mutateRow = useFakeMutation();
+  const mutate = useMutation();
 
   const [promiseArguments, setPromiseArguments] = useState<any>(null);
-
-  const computeMutation = (newRow: GridRowModel, oldRow: GridRowModel) => {
-    if (newRow.firstName.toLowerCase() !== oldRow.firstName.toLowerCase()) {
-      return `First Name from '${oldRow.firstName}' to '${newRow.firstName}'`;
-    }
-    if (newRow.otherNames.toLowerCase() !== oldRow.otherNames.toLowerCase()) {
-      return `Other Names from '${oldRow.otherNames || ""}' to '${
-        newRow.otherNames || ""
-      }'`;
-    }
-    if (newRow.lastName.toLowerCase() !== oldRow.lastName.toLowerCase()) {
-      return `Last Name from '${oldRow.lastName}' to '${newRow.lastName}'`;
-    }
-    return null;
-  };
 
   const processRowUpdate = useCallback(
     (newRow: GridRowModel, oldRow: GridRowModel) =>
@@ -114,46 +84,6 @@ const DataTable = ({
       }),
     []
   );
-
-  const handleNo = () => {
-    const { oldRow, resolve } = promiseArguments;
-    resolve(oldRow); // Resolve with the old row to not update the internal state
-    setPromiseArguments(null);
-  };
-
-  const handleYes = async () => {
-    const { newRow, oldRow, reject, resolve } = promiseArguments;
-
-    try {
-      // Make the HTTP request to save in the backend
-      const response = await mutateRow(newRow);
-      showToast("User successfully saved", "success");
-      resolve(response);
-    } catch (error) {
-      showToast("Name can't be empty", "error");
-      reject(oldRow);
-    } finally {
-      setPromiseArguments(null);
-    }
-  };
-
-  const renderConfirmDialog = () => {
-    if (!promiseArguments) {
-      return null;
-    }
-
-    const { newRow, oldRow } = promiseArguments;
-    const mutation = computeMutation(newRow, oldRow);
-
-    return (
-      <ConfirmDialog
-        open={!!promiseArguments}
-        handleNo={handleNo}
-        handleYes={handleYes}
-        content={`Pressing 'Yes' will change ${mutation}.`}
-      />
-    );
-  };
 
   if (rows.length === 0) {
     return (
@@ -193,7 +123,13 @@ const DataTable = ({
         },
       }}
     >
-      {renderConfirmDialog()}
+      <ConfirmDialog
+        promiseArgs={promiseArguments}
+        handleNo={() => handleNo(promiseArguments, setPromiseArguments)}
+        handleYes={() =>
+          handleYes(promiseArguments, showToast, setPromiseArguments, mutate)
+        }
+      />
       <DataGrid
         rows={rows}
         columns={columns}

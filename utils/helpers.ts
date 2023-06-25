@@ -1,5 +1,7 @@
-import { Transaction } from "@/types/othTypes";
-import { User } from "@prisma/client";
+import type { Transaction } from "@/types/othTypes";
+import type { AlertColor } from "@mui/material/Alert";
+import type { GridRowModel } from "@mui/x-data-grid";
+import type { User } from "@prisma/client";
 
 export const capitalize = (sentence: string) => {
   const words = sentence.split(" ");
@@ -88,3 +90,48 @@ export const groupTransactionsByMonth = (
 
 // temp dummy data
 export const createUserData = (user: User) => user;
+
+// data editing on datatable
+export const computeMutation = (newRow: GridRowModel, oldRow: GridRowModel) => {
+  if (newRow.firstName.toLowerCase() !== oldRow.firstName.toLowerCase()) {
+    return `First Name from '${oldRow.firstName}' to '${newRow.firstName}'`;
+  }
+  if (newRow.otherNames.toLowerCase() !== oldRow.otherNames.toLowerCase()) {
+    return `Other Names from '${oldRow.otherNames || ""}' to '${
+      newRow.otherNames || ""
+    }'`;
+  }
+  if (newRow.lastName.toLowerCase() !== oldRow.lastName.toLowerCase()) {
+    return `Last Name from '${oldRow.lastName}' to '${newRow.lastName}'`;
+  }
+  return null;
+};
+
+export const handleNo = (
+  promiseArguments: any,
+  setPromiseArguments: (val: any) => void
+) => {
+  const { oldRow, resolve } = promiseArguments;
+  resolve(oldRow); // Resolve with the old row to not update the internal state
+  setPromiseArguments(null);
+};
+
+export const handleYes = async (
+  promiseArguments: any,
+  toast: (message: string, severity: AlertColor | undefined) => void,
+  setPromiseArguments: (val: any) => void,
+  mutate: (user: Partial<User>) => Promise<Partial<User>>
+) => {
+  const { newRow, oldRow, reject, resolve } = promiseArguments;
+
+  try {
+    const response = await mutate(newRow);
+    toast("User successfully saved", "success");
+    resolve(response);
+  } catch (error: any) {
+    toast(error.toString() || "An error occurred", "error");
+    reject(oldRow);
+  } finally {
+    setPromiseArguments(null);
+  }
+};

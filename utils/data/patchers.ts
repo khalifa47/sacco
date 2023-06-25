@@ -73,3 +73,35 @@ export const updateContribution = async (
     throw new Error(error || "Something went wrong");
   }
 };
+
+export const updateUser = async (
+  uid: string,
+  data: {
+    firstName: string;
+    otherNames?: string | null;
+    lastName: string;
+  }
+) => {
+  let res: Response;
+
+  try {
+    res = await fetch(
+      `${process.env.BASE_URL || "http://localhost:3000"}/api/users/${uid}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    if (!res.ok) {
+      const msg = await res.text();
+      throw new Error(msg === "" ? res.statusText : msg);
+    }
+
+    return res.text();
+  } catch (error: any) {
+    throw new Error(error || "Something went wrong");
+  }
+};
