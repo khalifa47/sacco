@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/utils/prismadb";
 import { getContributions } from "@/utils/data/getters";
 import { updateContribution } from "@/utils/data/patchers";
+import { Contribution } from "@prisma/client";
 
 type Params = {
   uid: string;
@@ -15,24 +16,26 @@ type Fields = {
   phone: string;
 };
 
+type UserContribution =
+  | {
+      shares: Contribution;
+      welfare: Contribution;
+    }
+  | undefined;
+
 // TODO: maybe split into separate routes: GET, POST, PATCH
 
 const getContributionAmount = async (uid: string, cid?: number) => {
-  const contributionAmount: number | undefined = await getContributions(
-    uid
-  ).then((data) => {
-    if (!cid) return data?.shares.amount;
-    else
-      return data?.shares.id === cid
-        ? data.shares.amount
-        : data?.welfare.amount;
-  });
+  const contribution = (await getContributions(uid)) as UserContribution;
 
-  if (!contributionAmount) {
+  if (!contribution) {
     throw new Error("Contribution not found");
   }
 
-  return contributionAmount;
+  if (!cid) return contribution.shares.amount;
+  return contribution.shares.id === cid
+    ? contribution.shares.amount
+    : contribution.welfare.amount;
 };
 
 export async function POST(request: Request, { params }: { params: Params }) {
@@ -156,7 +159,9 @@ export async function PATCH(request: Request, { params }: { params: Params }) {
           });
         }
 
-        const toContributions = await getContributions(toUserId);
+        const toContributions = (await getContributions(
+          toUserId
+        )) as UserContribution;
         if (!toContributions?.shares) throw new Error("Shares not found");
 
         await prisma.contribution.update({
@@ -176,7 +181,7 @@ export async function PATCH(request: Request, { params }: { params: Params }) {
           },
         });
       } else {
-        const contributions = await getContributions(uid);
+        const contributions = (await getContributions(uid)) as UserContribution;
         if (!contributions?.welfare) throw new Error("Welfare not found");
 
         await prisma.contribution.update({
