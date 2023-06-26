@@ -43,6 +43,7 @@ const PaymentForm = ({
               action as ShareActions | WelfareActions,
               values.amount,
               values.phone!,
+              "mpesa",
               supabaseClient
             );
             const actionText =

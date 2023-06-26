@@ -1,9 +1,11 @@
+import type { PaymentMethod } from "@prisma/client";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 export const postContributionTransaction = async (
   action: ShareActions | WelfareActions,
   amount: number,
   phone: string,
+  method: PaymentMethod,
   supabaseClient: SupabaseClient
 ) => {
   let res: Response;
@@ -37,6 +39,7 @@ export const postContributionTransaction = async (
         action,
         amount,
         phone,
+        method,
       }),
     });
     if (!res.ok) {

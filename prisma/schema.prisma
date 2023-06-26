@@ -49,6 +49,7 @@ enum PaymentMethod {
   card
   mpesa
   paypal
+  transfer
 }
 
 model User {
