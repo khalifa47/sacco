@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/utils/prismadb";
 import { getContributions } from "@/utils/data/getters";
 import { updateContribution } from "@/utils/data/patchers";
-import { Contribution } from "@prisma/client";
+import type { Contribution, PaymentMethod } from "@prisma/client";
 
 type Params = {
   uid: string;
@@ -14,6 +14,7 @@ type Fields = {
   action: "deposit shares" | "withdraw" | "transfer" | "deposit welfare";
   amount: number;
   phone: string;
+  method: PaymentMethod;
 };
 
 type UserContribution =
@@ -22,8 +23,6 @@ type UserContribution =
       welfare: Contribution;
     }
   | undefined;
-
-// TODO: maybe split into separate routes: GET, POST, PATCH
 
 const getContributionAmount = async (uid: string, cid?: number) => {
   const contribution = (await getContributions(uid)) as UserContribution;
@@ -41,9 +40,9 @@ const getContributionAmount = async (uid: string, cid?: number) => {
 export async function POST(request: Request, { params }: { params: Params }) {
   const uid = params.uid;
   const cid = parseInt(params.cid);
-  const { action, amount, phone }: Fields = await request.json();
+  const { action, amount, phone, method }: Fields = await request.json();
 
-  if (!amount || !phone) {
+  if (!amount || !phone || !method) {
     return new NextResponse("Missing fields", {
       status: 400,
     });
@@ -93,7 +92,7 @@ export async function POST(request: Request, { params }: { params: Params }) {
             ? contributionAmount - amount
             : contributionAmount + amount,
         type: action === "withdraw" ? "debit" : "credit",
-        method: "mpesa",
+        method: method,
       },
     });
 
@@ -164,7 +163,7 @@ export async function PATCH(request: Request, { params }: { params: Params }) {
         )) as UserContribution;
         if (!toContributions?.shares) throw new Error("Shares not found");
 
-        await prisma.contribution.update({
+        const updateLoggedUser = prisma.contribution.update({
           where: {
             id: cid,
           },
@@ -172,7 +171,8 @@ export async function PATCH(request: Request, { params }: { params: Params }) {
             amount: contributionAmount - amount,
           },
         });
-        await prisma.contribution.update({
+
+        const updateToUser = prisma.contribution.update({
           where: {
             id: toContributions.shares.id,
           },
@@ -180,11 +180,38 @@ export async function PATCH(request: Request, { params }: { params: Params }) {
             amount: toContributions.shares.amount + amount,
           },
         });
+
+        const createTransactions = prisma.contributionTransaction.createMany({
+          data: [
+            {
+              id: Math.floor(Math.random() * 1000000000),
+              contributionId: cid,
+              amount: amount,
+              balance: contributionAmount - amount,
+              type: "debit",
+              method: "transfer",
+            },
+            {
+              id: Math.floor(Math.random() * 1000000000),
+              contributionId: toContributions.shares.id,
+              amount: amount,
+              balance: toContributions.shares.amount + amount,
+              type: "credit",
+              method: "transfer",
+            },
+          ],
+        });
+
+        await prisma.$transaction([
+          updateLoggedUser,
+          updateToUser,
+          createTransactions,
+        ]);
       } else {
         const contributions = (await getContributions(uid)) as UserContribution;
         if (!contributions?.welfare) throw new Error("Welfare not found");
 
-        await prisma.contribution.update({
+        const updateContribution = prisma.contribution.update({
           where: {
             id: cid,
           },
@@ -192,7 +219,7 @@ export async function PATCH(request: Request, { params }: { params: Params }) {
             amount: contributionAmount - amount,
           },
         });
-        await prisma.contribution.update({
+        const updateWelfare = prisma.contribution.update({
           where: {
             id: contributions.welfare.id,
           },
@@ -200,6 +227,33 @@ export async function PATCH(request: Request, { params }: { params: Params }) {
             amount: contributions.welfare.amount + amount,
           },
         });
+
+        const createTransactions = prisma.contributionTransaction.createMany({
+          data: [
+            {
+              id: Math.floor(Math.random() * 1000000000),
+              contributionId: cid,
+              amount: amount,
+              balance: contributionAmount - amount,
+              type: "debit",
+              method: "transfer",
+            },
+            {
+              id: Math.floor(Math.random() * 1000000000),
+              contributionId: contributions.welfare.id,
+              amount: amount,
+              balance: contributions.welfare.amount + amount,
+              type: "credit",
+              method: "transfer",
+            },
+          ],
+        });
+
+        await prisma.$transaction([
+          updateContribution,
+          updateWelfare,
+          createTransactions,
+        ]);
       }
     } else {
       await prisma.contribution.update({
