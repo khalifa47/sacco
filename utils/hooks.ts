@@ -27,6 +27,7 @@ export const useMutation = () => {
             firstName: user.firstName,
             otherNames: user.otherNames,
             lastName: user.lastName,
+            admin: true, // TODO: how to handle this?
           })
             .catch((error) => {
               reject(error.toString() || "An error occurred");

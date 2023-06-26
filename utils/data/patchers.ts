@@ -80,6 +80,7 @@ export const updateUser = async (
     firstName: string;
     otherNames?: string | null;
     lastName: string;
+    admin: boolean;
   }
 ) => {
   let res: Response;
