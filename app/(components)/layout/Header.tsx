@@ -144,6 +144,8 @@ const Header = ({
   const [anchorElNotification, setAnchorElNotification] =
     useState<null | HTMLElement>(null);
 
+  if (segment === "auth") return null;
+
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -216,7 +218,7 @@ const Header = ({
     },
   ];
 
-  return segment !== "auth" ? (
+  return (
     <>
       <AppBar
         position="absolute"
@@ -362,8 +364,6 @@ const Header = ({
       </AppBar>
       <Toolbar />
     </>
-  ) : (
-    <></>
   );
 };
 export default Header;
