@@ -24,10 +24,21 @@ export async function POST(req: NextRequest) {
 
   try {
     if (!body.isEmail) {
-      user = await prisma.user.findUnique({
+      user = await prisma.user.findUniqueOrThrow({
         where: {
           nationalId: body.identifier,
         },
+      });
+    } else {
+      user = await prisma.user.findUniqueOrThrow({
+        where: {
+          email: body.identifier,
+        },
+      });
+    }
+    if (user.status == "inactive") {
+      return new NextResponse("User status is inactive.", {
+        status: 403,
       });
     }
   } catch (error: any) {
@@ -40,7 +51,7 @@ export async function POST(req: NextRequest) {
     data: { session },
     error,
   } = await supabase.auth.signInWithPassword({
-    email: body.isEmail ? body.identifier : user ? user.email : "",
+    email: body.isEmail ? body.identifier : user.email,
     password: body.password,
   });
 
