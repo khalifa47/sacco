@@ -1,6 +1,6 @@
 import { Context } from "@/app/(components)/layout/Providers";
 import { ToastContext } from "@/app/(components)/layout/Toast";
-import type { User } from "@prisma/client";
+import type { Role, User, UserStatus } from "@prisma/client";
 import { useContext, useCallback } from "react";
 import { updateUser } from "./data/patchers";
 
@@ -27,6 +27,8 @@ export const useMutation = () => {
             firstName: user.firstName,
             otherNames: user.otherNames,
             lastName: user.lastName,
+            role: user.role as Role,
+            status: user.status as UserStatus,
             admin: true, // TODO: how to handle this?
           })
             .catch((error) => {

@@ -1,3 +1,4 @@
+import type { Role, UserStatus } from "@prisma/client";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 type TransferProps = {
@@ -80,6 +81,8 @@ export const updateUser = async (
     firstName: string;
     otherNames?: string | null;
     lastName: string;
+    role: Role;
+    status: UserStatus;
     admin: boolean;
   }
 ) => {

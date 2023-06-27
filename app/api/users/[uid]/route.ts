@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import prisma from "@/utils/prismadb";
-import type { User } from "@prisma/client";
+import type { Role, User, UserStatus } from "@prisma/client";
 import { createRouteHandlerSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { headers, cookies } from "next/headers";
 
@@ -12,6 +12,8 @@ type Fields = {
   firstName: string;
   otherNames: string;
   lastName: string;
+  role: Role;
+  status: UserStatus;
   admin: boolean;
 };
 
@@ -38,7 +40,7 @@ export async function GET(request: Request, { params }: { params: Params }) {
 
 export async function PATCH(request: Request, { params }: { params: Params }) {
   const uid = params.uid;
-  const { firstName, otherNames, lastName, admin }: Fields =
+  const { firstName, otherNames, lastName, role, status, admin }: Fields =
     await request.json();
 
   const supabase = createRouteHandlerSupabaseClient({
@@ -55,6 +57,8 @@ export async function PATCH(request: Request, { params }: { params: Params }) {
           firstName,
           otherNames,
           lastName,
+          role,
+          status,
         },
       })
       .then(() => {

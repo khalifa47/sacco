@@ -97,12 +97,18 @@ export const computeMutation = (newRow: GridRowModel, oldRow: GridRowModel) => {
     return `First Name from '${oldRow.firstName}' to '${newRow.firstName}'`;
   }
   if (newRow.otherNames.toLowerCase() !== oldRow.otherNames.toLowerCase()) {
-    return `Other Names from '${oldRow.otherNames || ""}' to '${
+    return `Other Names from '${oldRow.otherNames || " "}' to '${
       newRow.otherNames || ""
     }'`;
   }
   if (newRow.lastName.toLowerCase() !== oldRow.lastName.toLowerCase()) {
     return `Last Name from '${oldRow.lastName}' to '${newRow.lastName}'`;
+  }
+  if (newRow.role !== oldRow.role) {
+    return `Role from '${oldRow.role}' to '${newRow.role}'`;
+  }
+  if (newRow.status !== oldRow.status) {
+    return `Status from '${oldRow.status}' to '${newRow.status}'`;
   }
   return null;
 };
