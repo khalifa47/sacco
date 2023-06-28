@@ -1,9 +1,11 @@
-import { formatDate, formatNumber, getTimeAgo } from "@/utils/helpers";
-import { capitalize } from "@mui/material";
-import { GridColDef } from "@mui/x-data-grid";
-// type GridRenderCellParams,
-
-// TODO: loan history to include guarantors
+import {
+  capitalize,
+  formatDate,
+  formatNumber,
+  getTimeAgo,
+} from "@/utils/helpers";
+import type { GridColDef } from "@mui/x-data-grid";
+import type { User } from "@prisma/client";
 
 export const getLoanHistoryColumns = (admin: boolean): GridColDef[] => [
   {
@@ -37,25 +39,24 @@ export const getLoanHistoryColumns = (admin: boolean): GridColDef[] => [
     disableColumnMenu: true,
     valueFormatter: ({ value }) => `Ksh. ${formatNumber(value)}`,
   },
-  // {
-  //   field: "guarantors",
-  //   headerName: "Guarantors",
-  //   headerAlign: "left",
-  //   align: "left",
-  //   width: 150,
-  //   disableColumnMenu: true,
-  //   sortable: false,
-  //   renderCell: (params: GridRenderCellParams<Loan>) => (
-  //     <span>
-  //       {params.value.map(
-  //         (guarantor: User) =>
-  //           `${guarantor.firstName} ${guarantor.lastName}${
-  //             params.value[params.value.length - 1] === guarantor ? "" : ", "
-  //           }`
-  //       )}
-  //     </span>
-  //   ),
-  // },
+  {
+    field: "guarantors",
+    headerName: "Guarantors",
+    headerAlign: "left",
+    align: "left",
+    minWidth: 150,
+    flex: 1,
+    disableColumnMenu: true,
+    sortable: false,
+    valueGetter: ({ value }) => {
+      if (value) {
+        return (value as User[])
+          .map((user) => capitalize(`${user.firstName} ${user.lastName}`))
+          .join(", ");
+      }
+      return "N/A";
+    },
+  },
   {
     field: "purpose",
     headerName: "Purpose",
