@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
 import {
   DataGrid,
+  GridActionsCellItem,
   GridToolbarContainer,
   GridToolbarColumnsButton,
   GridToolbarFilterButton,
@@ -25,6 +26,9 @@ import {
 import ConfirmDialog from "@/app/(components)/layout/ConfirmDialog";
 import { useMutation, useToast } from "@/utils/hooks";
 import { computeMutation, handleNo, handleYes } from "@/utils/helpers";
+
+import BlockIcon from "@mui/icons-material/Block";
+import DoneIcon from "@mui/icons-material/Done";
 
 const SpacedToolbar = () => {
   return (
@@ -100,14 +104,42 @@ const DataTable = ({
   const loanHistoryColumns = getLoanHistoryColumns(admin ?? false);
   const userColumns = getUserColumns();
 
+  const isLoan = "frequency" in rows[0];
+  const isUser = "email" in rows[0];
+
   if (admin) {
     transactionColumns = transactionColumns.filter(
       (column) => column.field !== "balance"
     )!;
-  }
 
-  const isLoan = "frequency" in rows[0];
-  const isUser = "email" in rows[0];
+    if (isLoan) {
+      loanHistoryColumns.push({
+        field: "actions",
+        type: "actions",
+        headerName: "Action",
+        width: 65,
+        getActions: ({ id, row }) =>
+          row.status === "pending"
+            ? [
+                <GridActionsCellItem
+                  key={1}
+                  icon={<DoneIcon />}
+                  label="Approve"
+                  onClick={() => console.log("Approve ", id)}
+                  showInMenu
+                />,
+                <GridActionsCellItem
+                  key={2}
+                  icon={<BlockIcon />}
+                  label="Reject"
+                  onClick={() => console.log("Reject ", id)}
+                  showInMenu
+                />,
+              ]
+            : [],
+      });
+    }
+  }
 
   const columns = isLoan
     ? loanHistoryColumns

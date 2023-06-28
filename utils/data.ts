@@ -101,7 +101,7 @@ for (let i = 0; i < 15; i++) {
     // guarantors: guarantors,
     // payments: payments,
     amount: Math.floor(Math.random() * 100000),
-    status: ["pending", "approved", "rejected", "disbursed", "paid"][
+    status: ["pending", "disbursed", "rejected", "approved", "paid"][
       Math.floor(Math.random() * 5)
     ] as LoanStatus,
     frequency: ["weekly", "monthly", "quarterly", "yearly"][

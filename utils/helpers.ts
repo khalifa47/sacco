@@ -82,6 +82,7 @@ export const groupTransactionsByMonth = (
   for (const transaction of transactions) {
     const timestamp = new Date(transaction.createdAt);
     const month = timestamp.getMonth();
+    if (transaction.type === "debit") transaction.amount *= -1;
     monthlyTotals[month] += transaction.amount;
   }
 

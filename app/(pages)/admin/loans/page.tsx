@@ -5,6 +5,7 @@ import Divider from "@/app/(components)/layout/Divider";
 import { getLoans, getTransactionData } from "@/utils/data/getters";
 import type { TransactionPromise } from "@/types/othTypes";
 import { groupTransactionsByMonth } from "@/utils/helpers";
+import { loans as dummyLoans } from "@/utils/data";
 
 const InfoCard = dynamic(() => import("@/app/(components)/data/InfoCard"));
 const Trend = dynamic(() => import("@/app/(components)/data/Trend"));
@@ -62,6 +63,10 @@ export default async function AdminLoans() {
       {/* Admin Loans Transactions */}
       <Title title="Admin Loans Transactions" />
       <DataTable admin rows={transactions} />
+
+      {/* Admin Loan History */}
+      <Title title="Loan History" />
+      <DataTable admin rows={dummyLoans} />
 
       <div style={{ height: "200px" }}></div>
     </main>
