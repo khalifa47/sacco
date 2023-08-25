@@ -1,0 +1,16 @@
+{
+  "data": {
+    "credit.policy": 1,
+    "purpose": "all_other",
+    "installment": 130.54,
+    "log.annual.inc": 10.37349118,
+    "dti": 0.38,
+    "fico": 682,
+    "days.with.cr.line": 1290.041667,
+    "revol.bal": 887,
+    "revol.util": 38.6,
+    "inq.last.6mths": 0,
+    "delinq.2yrs": 0,
+    "pub.rec": 0
+  }
+}
