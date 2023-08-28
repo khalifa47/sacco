@@ -95,6 +95,7 @@ model Loan {
   frequency          Frequency
   amountPerFrequency Float      @map("amount_per_frequency")
   purpose            String
+  loanRisk           Float      @map("loan_risk")
   createdAt          DateTime   @default(now()) @map("created_at")
   updatedAt          DateTime   @updatedAt @map("updated_at")
 

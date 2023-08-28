@@ -113,33 +113,57 @@ const DataTable = ({
     )!;
 
     if (isLoan) {
-      loanHistoryColumns.push({
-        field: "actions",
-        type: "actions",
-        headerName: "Action",
-        width: 65,
-        getActions: ({ id, row }) =>
-          row.status === "pending"
-            ? [
-                <GridActionsCellItem
-                  key={1}
-                  icon={<DoneIcon />}
-                  label="Approve"
-                  onClick={() => console.log("Approve ", id)}
-                  showInMenu
-                />,
-                <GridActionsCellItem
-                  key={2}
-                  icon={<BlockIcon />}
-                  label="Reject"
-                  onClick={() => console.log("Reject ", id)}
-                  showInMenu
-                />,
-              ]
-            : [],
-      });
+      loanHistoryColumns.push(
+        {
+          field: "loanRisk",
+          headerName: "Risk",
+          width: 60,
+          disableColumnMenu: true,
+          renderCell: ({ value }) => (
+            <Typography
+              variant="body2"
+              sx={{
+                color:
+                  value < 40
+                    ? "success.main"
+                    : value < 60
+                    ? "warning.main"
+                    : "error.main",
+              }}
+            >
+              {value}%
+            </Typography>
+          ),
+        },
+        {
+          field: "actions",
+          type: "actions",
+          headerName: "Action",
+          width: 65,
+          getActions: ({ id, row }) =>
+            row.status === "pending"
+              ? [
+                  <GridActionsCellItem
+                    key={1}
+                    icon={<DoneIcon />}
+                    label="Approve"
+                    onClick={() => console.log("Approve ", id)}
+                    showInMenu
+                  />,
+                  <GridActionsCellItem
+                    key={2}
+                    icon={<BlockIcon />}
+                    label="Reject"
+                    onClick={() => console.log("Reject ", id)}
+                    showInMenu
+                  />,
+                ]
+              : [],
+        }
+      );
     }
   }
+  console.log(rows[0]);
 
   const columns = isLoan
     ? loanHistoryColumns
