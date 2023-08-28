@@ -163,7 +163,6 @@ const DataTable = ({
       );
     }
   }
-  console.log(rows[0]);
 
   const columns = isLoan
     ? loanHistoryColumns
