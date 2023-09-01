@@ -40,8 +40,6 @@ def predict_default_probability():
         prob_default = (0.4 * model1.predict_proba(input_df)
                         [:, 1][0]) + (0.6 * model2.predict_proba(input_df)[:, 1][0])
 
-        print(f"Input: {input_df}\nProbability of default: {prob_default}")
-
         return jsonify({'probability_of_default': prob_default})
 
     except Exception as e:
