@@ -20,23 +20,27 @@ columns_order = [
 
 app = Flask(__name__)
 
-model1 = joblib.load('loan_default/loan_predict.joblib')
-model2 = joblib.load('loan_default/loan_predict_resampled.joblib')
+model1 = joblib.load('./loan_default/loan_predict.joblib')
+model2 = joblib.load('./loan_default/loan_predict_resampled.joblib')
 
 
 @app.route('/predict_default', methods=['POST'])
 def predict_default_probability():
     try:
         data = request.json['data']
+        if data['purpose'] not in mapping:
+            data['purpose'] = "all_other"
         data['purpose'] = mapping[data['purpose']]
 
         input_df = pd.DataFrame([data], columns=columns_order)
 
-        scaler = joblib.load('loan_default/scaler.pkl')
+        scaler = joblib.load('./loan_default/scaler.pkl')
         input_df = scaler.transform(input_df)
 
         prob_default = (0.4 * model1.predict_proba(input_df)
                         [:, 1][0]) + (0.6 * model2.predict_proba(input_df)[:, 1][0])
+
+        print(f"Input: {input_df}\nProbability of default: {prob_default}")
 
         return jsonify({'probability_of_default': prob_default})
 

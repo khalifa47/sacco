@@ -16,6 +16,8 @@ import Divider from "../layout/Divider";
 import type { AutocompleteRenderOptionState } from "@mui/material";
 import type { User } from "@prisma/client";
 import { users } from "@/utils/data";
+import { useSupabaseClient, useToast } from "@/utils/hooks";
+import { getCreditData } from "@/utils/credit/calculateCredit";
 
 const defaultUser: User = {
   id: "0",
@@ -40,6 +42,9 @@ const RequestForm = ({
   sharesAmount: number;
   outStandingLoan: number;
 }) => {
+  const supabaseClient = useSupabaseClient();
+  const { showToast } = useToast();
+
   const allowedLoanMax = 3 * sharesAmount - outStandingLoan;
   const validationSchema = yup.object({
     amount: yup
@@ -82,11 +87,29 @@ const RequestForm = ({
         guarantor: users[0],
       }}
       validationSchema={validationSchema}
-      onSubmit={(values, { setSubmitting }) => {
-        setTimeout(() => {
+      // TODO: tidy up and take this to posters
+      onSubmit={async (values, { setSubmitting, resetForm }) => {
+        try {
+          const userId = (await supabaseClient.auth.getUser()).data.user?.id;
+          if (!userId) throw new Error("User not authenticated");
+
+          const creditData = await getCreditData(userId);
+          await fetch(`/api/users/${userId}/loans`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              ...values,
+              creditData,
+            }),
+          });
+        } catch (error: any) {
+          showToast(error.toString(), "error");
+        } finally {
           setSubmitting(false);
-          alert(JSON.stringify(values, null, 2));
-        }, 500);
+          resetForm();
+        }
       }}
     >
       {({ submitForm, isSubmitting, values, isValid }) => (

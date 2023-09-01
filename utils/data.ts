@@ -109,7 +109,7 @@ for (let i = 0; i < 15; i++) {
     ] as Frequency,
     amountPerFrequency: Math.floor(Math.random() * 10000),
     purpose: "Lorem ipsum dolor sit amet",
-    loanRisk: Math.floor(Math.random() * 100),
+    loanRisk: Math.random(),
     createdAt: new Date(Date.now() - Math.floor(Math.random() * 86400000)),
     updatedAt: new Date(Date.now() - Math.floor(Math.random() * 86400000)),
     guarantors: guarantors,

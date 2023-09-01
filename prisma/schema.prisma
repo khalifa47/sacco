@@ -102,7 +102,7 @@ model Loan {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   transactions LoanTransaction[]
-  guarantors   Guarantor[]
+  guarantor   Guarantor?
 
   @@map("loans")
 }
@@ -124,7 +124,7 @@ model LoanTransaction {
 model Guarantor {
   id        Int      @id @default(autoincrement())
   userId    String   @map("user_id")
-  loanId    Int      @map("loan_id")
+  loanId    Int      @map("loan_id") @unique
   approved  Boolean  @default(false)
   createdAt DateTime @default(now()) @map("created_at")
 

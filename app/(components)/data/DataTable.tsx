@@ -124,14 +124,14 @@ const DataTable = ({
               variant="body2"
               sx={{
                 color:
-                  value < 40
+                  value < 0.4
                     ? "success.main"
-                    : value < 60
+                    : value < 0.6
                     ? "warning.main"
                     : "error.main",
               }}
             >
-              {value}%
+              {Math.floor(value * 100)}%
             </Typography>
           ),
         },
