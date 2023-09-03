@@ -104,6 +104,12 @@ const RequestForm = ({
               creditData,
             }),
           });
+          showToast(
+            `Loan request for Ksh. ${formatNumber(
+              values.amount
+            )} has been sent for approval.`,
+            "success"
+          );
         } catch (error: any) {
           showToast(error.toString(), "error");
         } finally {

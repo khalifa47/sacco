@@ -117,39 +117,38 @@ export async function POST(request: Request, { params }: { params: Params }) {
       },
     };
 
-    const predict_default_res = await fetch(
-      "http://127.0.0.1:5000/predict_default",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(predictBody),
-      }
-    ).then((res) => res.json());
-
-    return new NextResponse(JSON.stringify(predict_default_res), {
-      status: 200,
-    });
+    const res = await fetch("http://127.0.0.1:5000/predict_default", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(predictBody),
+    }).then((res) => res.json());
 
     // add to db
-    // const createdLoan = await prisma.loan.create({
-    //   data: {
-    //     userId: uid,
-    //     amount: amount,
-    //     purpose: purpose,
-    //     frequency: frequency,
-    //     amountPerFrequency: amount_per_frequency,
-    //     loanRisk: probability_of_default.toFixed(2),
-    //     guarantor: guarantor
-    //       ? {
-    //           create: {
-    //             userId: guarantor.id,
-    //           },
-    //         }
-    //       : undefined,
-    //   },
-    // });
+    const dataToAdd: any = {
+      userId: uid,
+      amount: amount,
+      purpose: purpose,
+      frequency: frequency,
+      amountPerFrequency: amount_per_frequency,
+      loanRisk: parseFloat(res.probability_of_default.toFixed(2)),
+    };
+
+    if (guarantor!.id != "0") {
+      dataToAdd.guarantor = {
+        create: {
+          userId: guarantor!.id,
+        },
+      };
+    }
+
+    const createdLoan = await prisma.loan.create({
+      data: dataToAdd,
+    });
+    return new NextResponse(JSON.stringify(createdLoan), {
+      status: 200,
+    });
   } catch (error: any) {
     return new NextResponse(error.message, {
       status: 500,
