@@ -1,5 +1,5 @@
-import { Transaction } from "@/types/othTypes";
-import type { Notification, Contribution, Loan, User } from "@prisma/client";
+import type { LoanWithGuarantor, Transaction } from "@/types/othTypes";
+import type { Notification, Contribution, User } from "@prisma/client";
 
 export const getNotifications = async (uid: string) => {
   let res: Response;
@@ -50,7 +50,7 @@ export const getTransactionData = async (
 
 export const getLoans = async (uid?: string) => {
   let res: Response;
-  let loans: Loan[] = [];
+  let loans: LoanWithGuarantor[] = [];
 
   try {
     res = await fetch(

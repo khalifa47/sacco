@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import ActionCard from "./ActionCard";
-import type { Settings } from "@/types/othTypes";
+import type { LoanWithGuarantor, Settings } from "@/types/othTypes";
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -22,10 +22,12 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
 const Actions = ({
   content,
   phone,
+  loans,
   settings,
 }: {
   content: Content;
   phone: string;
+  loans: LoanWithGuarantor[];
   settings: Settings;
 }) => {
   const [selectedAction, setSelectedAction] = useState<Action | null>(null);
@@ -45,6 +47,7 @@ const Actions = ({
           action="deposit shares"
           phone={phone}
           settings={settings}
+          loans={loans}
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
           handleDialogClose={handleDialogClose}
@@ -52,6 +55,7 @@ const Actions = ({
         <ActionCard
           action="withdraw"
           phone={phone}
+          loans={loans}
           settings={settings}
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
@@ -60,6 +64,7 @@ const Actions = ({
         <ActionCard
           action="transfer"
           settings={settings}
+          loans={loans}
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
           handleDialogClose={handleDialogClose}
@@ -67,6 +72,7 @@ const Actions = ({
         <ActionCard
           action="share settings"
           settings={settings}
+          loans={loans}
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
           handleDialogClose={handleDialogClose}
@@ -79,6 +85,7 @@ const Actions = ({
         <ActionCard
           action="loan history"
           settings={settings}
+          loans={loans}
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
           handleDialogClose={handleDialogClose}
@@ -87,6 +94,7 @@ const Actions = ({
           action="request"
           phone={phone}
           settings={settings}
+          loans={loans}
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
           handleDialogClose={handleDialogClose}
@@ -95,6 +103,7 @@ const Actions = ({
           action="payment"
           phone={phone}
           settings={settings}
+          loans={loans}
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
           handleDialogClose={handleDialogClose}
@@ -115,6 +124,7 @@ const Actions = ({
         action="deposit welfare"
         phone={phone}
         settings={settings}
+        loans={loans}
         selectedAction={selectedAction}
         handleDialogOpen={handleDialogOpen}
         handleDialogClose={handleDialogClose}
@@ -122,6 +132,7 @@ const Actions = ({
       <ActionCard
         action="welfare settings"
         settings={settings}
+        loans={loans}
         selectedAction={selectedAction}
         handleDialogOpen={handleDialogOpen}
         handleDialogClose={handleDialogClose}

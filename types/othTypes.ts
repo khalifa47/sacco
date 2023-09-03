@@ -16,6 +16,13 @@ export type Settings = {
   amount: number;
 };
 
-export type LoanWithGuarantors = Loan & {
-  guarantors: User[];
+export type LoanWithGuarantor = Loan & {
+  guarantor: {
+    id: number;
+    approved: boolean;
+    user: {
+      firstName: string;
+      lastName: string;
+    };
+  } | null;
 };

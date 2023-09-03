@@ -7,8 +7,8 @@ import PaymentForm from "./PaymentForm";
 import SettingsForm from "./SettingsForm";
 import RequestForm from "./RequestForm";
 import DataTable from "../data/DataTable";
-import { loans } from "@/utils/data";
 import type { Frequency } from "@prisma/client";
+import type { LoanWithGuarantor } from "@/types/othTypes";
 
 // TODO: Add confirm box for verifying transaction
 
@@ -140,7 +140,7 @@ export const TransferShares = ({ sharesAmount }: { sharesAmount: number }) => {
 };
 
 // loans
-export const HistoryLoans = () => {
+export const HistoryLoans = ({ loans }: { loans: LoanWithGuarantor[] }) => {
   return <DataTable rows={loans} />;
 };
 

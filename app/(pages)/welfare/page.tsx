@@ -97,6 +97,7 @@ export default async function Welfare() {
       <Title title="Welfare Actions" />
       <Actions
         content="welfare"
+        loans={[]}
         phone={session.user.user_metadata.phone || ""}
         settings={{
           frequency: contributions?.welfare.frequency ?? "monthly",

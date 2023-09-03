@@ -7,7 +7,7 @@ import Card from "@mui/material/Card";
 import Typography from "@mui/material/Typography";
 import { blue, green, purple, red } from "@mui/material/colors";
 import ActionDialog from "./ActionDialog";
-import type { Settings } from "@/types/othTypes";
+import type { LoanWithGuarantor, Settings } from "@/types/othTypes";
 
 const getResource = (action: Action) => {
   switch (action) {
@@ -107,6 +107,7 @@ const getResource = (action: Action) => {
 const ActionCard = ({
   action,
   phone,
+  loans,
   settings,
   selectedAction,
   handleDialogOpen,
@@ -114,6 +115,7 @@ const ActionCard = ({
 }: {
   action: Action;
   phone?: string;
+  loans: LoanWithGuarantor[];
   settings: Settings;
   selectedAction: Action | null;
   handleDialogOpen: (action: Action) => void;
@@ -167,6 +169,7 @@ const ActionCard = ({
       <ActionDialog
         action={action}
         phone={phone}
+        loans={loans}
         settings={settings}
         open={action === selectedAction}
         handleClose={handleDialogClose}

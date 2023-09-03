@@ -21,7 +21,7 @@ import {
   SettingsArea,
   HistoryLoans,
 } from "./ActionContent";
-import type { Settings } from "@/types/othTypes";
+import type { LoanWithGuarantor, Settings } from "@/types/othTypes";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -35,6 +35,7 @@ const Transition = forwardRef(function Transition(
 const getDialogContent = (
   action: Action,
   settings: Settings,
+  loans: LoanWithGuarantor[],
   phone: string
 ): { contentText: string; content: JSX.Element } => {
   switch (action) {
@@ -69,7 +70,7 @@ const getDialogContent = (
     case "loan history":
       return {
         contentText: "View your loan history.",
-        content: <HistoryLoans />,
+        content: <HistoryLoans loans={loans} />,
       };
     case "request":
       return {
@@ -117,12 +118,14 @@ const getDialogContent = (
 const ActionDialog = ({
   action,
   phone,
+  loans,
   settings,
   open,
   handleClose,
 }: {
   action: Action;
   phone?: string;
+  loans: LoanWithGuarantor[];
   settings: Settings;
   open: boolean;
   handleClose: () => void;
@@ -130,6 +133,7 @@ const ActionDialog = ({
   const { contentText, content } = getDialogContent(
     action,
     settings,
+    loans,
     phone || ""
   );
   return (

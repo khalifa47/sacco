@@ -17,7 +17,7 @@ import {
   type GridRowModel,
 } from "@mui/x-data-grid";
 import type { User } from "@prisma/client";
-import type { LoanWithGuarantors, Transaction } from "@/types/othTypes";
+import type { LoanWithGuarantor, Transaction } from "@/types/othTypes";
 import {
   getLoanHistoryColumns,
   getTransactionColumns,
@@ -67,7 +67,7 @@ const DataTable = ({
   rows,
   admin,
 }: {
-  rows: GridRowsProp<Transaction | LoanWithGuarantors | User>;
+  rows: GridRowsProp<Transaction | LoanWithGuarantor | User>;
   admin?: boolean;
 }) => {
   const { showToast } = useToast();

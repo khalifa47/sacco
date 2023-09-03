@@ -5,7 +5,6 @@ import {
   getTimeAgo,
 } from "@/utils/helpers";
 import type { GridColDef } from "@mui/x-data-grid";
-import type { User } from "@prisma/client";
 
 export const getLoanHistoryColumns = (admin: boolean): GridColDef[] => [
   {
@@ -40,19 +39,17 @@ export const getLoanHistoryColumns = (admin: boolean): GridColDef[] => [
     valueFormatter: ({ value }) => `Ksh. ${formatNumber(value)}`,
   },
   {
-    field: "guarantors",
-    headerName: "Guarantors",
+    field: "guarantor",
+    headerName: "Guarantor",
     headerAlign: "left",
     align: "left",
-    minWidth: 150,
+    minWidth: 120,
     flex: 1,
     disableColumnMenu: true,
     sortable: false,
     valueGetter: ({ value }) => {
       if (value) {
-        return (value as User[])
-          .map((user) => capitalize(`${user.firstName} ${user.lastName}`))
-          .join(", ");
+        return capitalize(`${value.user.firstName} ${value.user.lastName}`);
       }
       return "N/A";
     },

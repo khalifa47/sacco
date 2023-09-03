@@ -6,7 +6,7 @@ import type {
   LoanStatus,
 } from "@prisma/client";
 import { createUserData } from "./helpers";
-import { LoanWithGuarantors } from "@/types/othTypes";
+import { LoanWithGuarantor } from "@/types/othTypes";
 
 const users: User[] = [
   createUserData({
@@ -76,11 +76,11 @@ const users: User[] = [
   }),
 ];
 
-const loans: LoanWithGuarantors[] = [];
+const loans: LoanWithGuarantor[] = [];
 
 for (let i = 0; i < 15; i++) {
   const user = users[Math.floor(Math.random() * users.length)];
-  const guarantors = users.filter((u) => u.id !== user.id).slice(0, 2);
+  const guarantor = users[Math.floor(Math.random() * users.length)];
   // const payments: LoanTransaction[] = [];
 
   // for (let j = 0; j < Math.floor(Math.random() * 5); j++) {
@@ -112,7 +112,14 @@ for (let i = 0; i < 15; i++) {
     loanRisk: Math.random(),
     createdAt: new Date(Date.now() - Math.floor(Math.random() * 86400000)),
     updatedAt: new Date(Date.now() - Math.floor(Math.random() * 86400000)),
-    guarantors: guarantors,
+    guarantor: {
+      id: Math.floor(Math.random() * 1000000000),
+      approved: false,
+      user: {
+        firstName: guarantor.firstName,
+        lastName: guarantor.lastName,
+      },
+    },
   });
 }
 
