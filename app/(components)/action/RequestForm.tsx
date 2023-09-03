@@ -94,7 +94,7 @@ const RequestForm = ({
           if (!userId) throw new Error("User not authenticated");
 
           const creditData = await getCreditData(userId);
-          await fetch(`/api/users/${userId}/loans`, {
+          const res = await fetch(`/api/users/${userId}/loans`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -104,6 +104,12 @@ const RequestForm = ({
               creditData,
             }),
           });
+          if (!res.ok) {
+            if ((await res.text()) == "fetch failed") {
+              throw new Error("Server error. Prediction model failed");
+            }
+            throw new Error("Failed to request for a loan");
+          }
           showToast(
             `Loan request for Ksh. ${formatNumber(
               values.amount

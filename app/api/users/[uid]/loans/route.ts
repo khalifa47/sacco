@@ -16,7 +16,7 @@ type Fields = {
   guarantor?: User;
 };
 
-export async function GET({ params }: { params: Params }) {
+export async function GET(request: Request, { params }: { params: Params }) {
   const uid = params.uid;
   let loans: Loan[] = [];
 
@@ -25,9 +25,23 @@ export async function GET({ params }: { params: Params }) {
       where: {
         userId: uid,
       },
+      include: {
+        guarantor: {
+          select: {
+            id: true,
+            approved: true,
+            user: {
+              select: {
+                firstName: true,
+                lastName: true,
+              },
+            },
+          },
+        },
+      },
     });
   } catch (error: any) {
-    return new NextResponse(error.message, {
+    throw new NextResponse(error.message, {
       status: 500,
     });
   }
@@ -124,6 +138,10 @@ export async function POST(request: Request, { params }: { params: Params }) {
       },
       body: JSON.stringify(predictBody),
     }).then((res) => res.json());
+
+    if (res.error) {
+      throw new Error(`${res.error}: Model error`);
+    }
 
     // add to db
     const dataToAdd: any = {
