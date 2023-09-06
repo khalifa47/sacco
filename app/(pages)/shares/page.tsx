@@ -95,6 +95,7 @@ export default async function Shares() {
         content="shares"
         phone={session.user.user_metadata.phone || ""}
         loans={[]}
+        users={[]}
         settings={{
           frequency: contributions?.shares.frequency ?? "monthly",
           amount: contributions?.shares.amountPerFrequency ?? 10000,

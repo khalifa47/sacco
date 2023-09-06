@@ -5,7 +5,7 @@ import Divider from "@/app/(components)/layout/Divider";
 import Actions from "@/app/(components)/action/Actions";
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { headers, cookies } from "next/headers";
-import { getLoans, getTransactionData } from "@/utils/data/getters";
+import { getLoans, getTransactionData, getUsers } from "@/utils/data/getters";
 import { groupTransactionsByMonth } from "@/utils/helpers";
 import type { TransactionPromise } from "@/types/othTypes";
 
@@ -32,10 +32,12 @@ export default async function Loans() {
     undefined,
     "loans"
   );
+  const usersData = getUsers();
 
-  const [loans, transactions] = await Promise.all([
+  const [loans, transactions, users] = await Promise.all([
     loansData,
     transactionsData,
+    usersData,
   ]);
 
   return (
@@ -88,6 +90,7 @@ export default async function Loans() {
         content="loans"
         phone={session.user.user_metadata.phone || ""}
         loans={loans.loans}
+        users={users}
         settings={{
           frequency: "monthly",
           amount: 10000,

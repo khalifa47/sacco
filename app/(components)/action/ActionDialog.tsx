@@ -22,6 +22,7 @@ import {
   HistoryLoans,
 } from "./ActionContent";
 import type { LoanWithGuarantor, Settings } from "@/types/othTypes";
+import type { User } from "@prisma/client";
 
 const Transition = forwardRef(function Transition(
   props: TransitionProps & {
@@ -36,6 +37,7 @@ const getDialogContent = (
   action: Action,
   settings: Settings,
   loans: LoanWithGuarantor[],
+  users: User[],
   phone: string
 ): { contentText: string; content: JSX.Element } => {
   switch (action) {
@@ -76,8 +78,14 @@ const getDialogContent = (
       return {
         contentText:
           "Apply for a loan. The guarantor you select will be notified.",
-        content: <RequestLoans sharesAmount={50000} outStandingLoan={10000} />,
-      };
+        content: (
+          <RequestLoans
+            users={users}
+            sharesAmount={50000}
+            outStandingLoan={10000}
+          />
+        ),
+      }; // TODO: Do sth about this
     case "payment":
       return {
         contentText: "Make a direct loan repayment.",
@@ -119,6 +127,7 @@ const ActionDialog = ({
   action,
   phone,
   loans,
+  users,
   settings,
   open,
   handleClose,
@@ -126,6 +135,7 @@ const ActionDialog = ({
   action: Action;
   phone?: string;
   loans: LoanWithGuarantor[];
+  users: User[];
   settings: Settings;
   open: boolean;
   handleClose: () => void;
@@ -134,6 +144,7 @@ const ActionDialog = ({
     action,
     settings,
     loans,
+    users,
     phone || ""
   );
   return (

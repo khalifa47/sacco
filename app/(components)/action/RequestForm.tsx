@@ -15,7 +15,6 @@ import { capitalize, formatNumber } from "@/utils/helpers";
 import Divider from "../layout/Divider";
 import type { AutocompleteRenderOptionState } from "@mui/material";
 import type { User } from "@prisma/client";
-import { users } from "@/utils/data";
 import { useSupabaseClient, useToast } from "@/utils/hooks";
 import { getCreditData } from "@/utils/credit/calculateCredit";
 
@@ -33,17 +32,19 @@ const defaultUser: User = {
   lastActive: new Date(""),
 };
 
-users.unshift(defaultUser);
-
 const RequestForm = ({
   sharesAmount,
   outStandingLoan,
+  users,
 }: {
   sharesAmount: number;
   outStandingLoan: number;
+  users: User[];
 }) => {
   const supabaseClient = useSupabaseClient();
   const { showToast } = useToast();
+
+  users.unshift(defaultUser);
 
   const allowedLoanMax = 3 * sharesAmount - outStandingLoan;
   const validationSchema = yup.object({

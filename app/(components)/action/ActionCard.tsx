@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import { blue, green, purple, red } from "@mui/material/colors";
 import ActionDialog from "./ActionDialog";
 import type { LoanWithGuarantor, Settings } from "@/types/othTypes";
+import type { User } from "@prisma/client";
 
 const getResource = (action: Action) => {
   switch (action) {
@@ -108,6 +109,7 @@ const ActionCard = ({
   action,
   phone,
   loans,
+  users,
   settings,
   selectedAction,
   handleDialogOpen,
@@ -116,6 +118,7 @@ const ActionCard = ({
   action: Action;
   phone?: string;
   loans: LoanWithGuarantor[];
+  users: User[];
   settings: Settings;
   selectedAction: Action | null;
   handleDialogOpen: (action: Action) => void;
@@ -170,6 +173,7 @@ const ActionCard = ({
         action={action}
         phone={phone}
         loans={loans}
+        users={users}
         settings={settings}
         open={action === selectedAction}
         handleClose={handleDialogClose}

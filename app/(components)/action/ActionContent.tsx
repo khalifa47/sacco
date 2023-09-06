@@ -7,7 +7,7 @@ import PaymentForm from "./PaymentForm";
 import SettingsForm from "./SettingsForm";
 import RequestForm from "./RequestForm";
 import DataTable from "../data/DataTable";
-import type { Frequency } from "@prisma/client";
+import type { Frequency, User } from "@prisma/client";
 import type { LoanWithGuarantor } from "@/types/othTypes";
 
 // TODO: Add confirm box for verifying transaction
@@ -147,12 +147,15 @@ export const HistoryLoans = ({ loans }: { loans: LoanWithGuarantor[] }) => {
 export const RequestLoans = ({
   sharesAmount,
   outStandingLoan,
+  users,
 }: {
   sharesAmount: number;
   outStandingLoan: number;
+  users: User[];
 }) => {
   return (
     <RequestForm
+      users={users}
       sharesAmount={sharesAmount}
       outStandingLoan={outStandingLoan}
     />

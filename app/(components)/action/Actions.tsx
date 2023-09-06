@@ -3,6 +3,7 @@
 import { useState } from "react";
 import ActionCard from "./ActionCard";
 import type { LoanWithGuarantor, Settings } from "@/types/othTypes";
+import type { User } from "@prisma/client";
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -23,11 +24,13 @@ const Actions = ({
   content,
   phone,
   loans,
+  users,
   settings,
 }: {
   content: Content;
   phone: string;
   loans: LoanWithGuarantor[];
+  users: User[];
   settings: Settings;
 }) => {
   const [selectedAction, setSelectedAction] = useState<Action | null>(null);
@@ -48,6 +51,7 @@ const Actions = ({
           phone={phone}
           settings={settings}
           loans={loans}
+          users={users}
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
           handleDialogClose={handleDialogClose}
@@ -56,6 +60,7 @@ const Actions = ({
           action="withdraw"
           phone={phone}
           loans={loans}
+          users={users}
           settings={settings}
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
@@ -65,6 +70,7 @@ const Actions = ({
           action="transfer"
           settings={settings}
           loans={loans}
+          users={users}
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
           handleDialogClose={handleDialogClose}
@@ -73,6 +79,7 @@ const Actions = ({
           action="share settings"
           settings={settings}
           loans={loans}
+          users={users}
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
           handleDialogClose={handleDialogClose}
@@ -86,6 +93,7 @@ const Actions = ({
           action="loan history"
           settings={settings}
           loans={loans}
+          users={users}
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
           handleDialogClose={handleDialogClose}
@@ -95,6 +103,7 @@ const Actions = ({
           phone={phone}
           settings={settings}
           loans={loans}
+          users={users}
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
           handleDialogClose={handleDialogClose}
@@ -104,6 +113,7 @@ const Actions = ({
           phone={phone}
           settings={settings}
           loans={loans}
+          users={users}
           selectedAction={selectedAction}
           handleDialogOpen={handleDialogOpen}
           handleDialogClose={handleDialogClose}
@@ -125,6 +135,7 @@ const Actions = ({
         phone={phone}
         settings={settings}
         loans={loans}
+        users={users}
         selectedAction={selectedAction}
         handleDialogOpen={handleDialogOpen}
         handleDialogClose={handleDialogClose}
@@ -133,6 +144,7 @@ const Actions = ({
         action="welfare settings"
         settings={settings}
         loans={loans}
+        users={users}
         selectedAction={selectedAction}
         handleDialogOpen={handleDialogOpen}
         handleDialogClose={handleDialogClose}
