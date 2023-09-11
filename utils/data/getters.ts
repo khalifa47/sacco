@@ -1,5 +1,5 @@
 import type { LoanWithGuarantor, Transaction } from "@/types/othTypes";
-import type { Notification, Contribution, User } from "@prisma/client";
+import type { Notification, Contribution, User, Loan } from "@prisma/client";
 
 export const getNotifications = async (uid: string) => {
   let res: Response;
@@ -74,6 +74,25 @@ export const getLoans = async (uid?: string) => {
     loans: loans,
     amount: loans.reduce((acc, loan) => acc + loan.amount, 0),
   };
+};
+
+export const getLoan = async (lid: number) => {
+  let res: Response;
+  let loan: Loan | null = null;
+
+  try {
+    res = await fetch(`${process.env.BASE_URL}/api/loans/${lid}`);
+    if (!res.ok) {
+      const msg = await res.text();
+      throw new Error(msg === "" ? res.statusText : msg);
+    }
+
+    loan = await res.json();
+  } catch (error: any) {
+    console.error(error);
+  }
+
+  return loan;
 };
 
 export const getContributions = async (uid?: string) => {

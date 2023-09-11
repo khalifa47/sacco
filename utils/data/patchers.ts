@@ -1,4 +1,4 @@
-import type { Role, UserStatus } from "@prisma/client";
+import type { LoanStatus, Role, UserStatus } from "@prisma/client";
 import type { SupabaseClient } from "@supabase/supabase-js";
 
 type TransferProps = {
@@ -107,5 +107,34 @@ export const updateUser = async (
     return res.text();
   } catch (error: any) {
     throw new Error(error || "Something went wrong");
+  }
+};
+
+export const updateLoanStatus = async (lid: number, status: LoanStatus) => {
+  let res: Response;
+
+  try {
+    res = await fetch(
+      `${process.env.BASE_URL || "http://localhost:3000"}/api/loans/${lid}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          status,
+        }),
+      }
+    );
+    if (!res.ok) {
+      const msg = await res.text();
+      throw new Error(msg === "" ? res.statusText : msg);
+    }
+
+    return res.json();
+  } catch (error: any) {
+    throw new Error(
+      error.message ? error.message.toString() : "Something went wrong"
+    );
   }
 };

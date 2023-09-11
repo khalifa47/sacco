@@ -15,8 +15,9 @@ import {
   GridToolbarQuickFilter,
   type GridRowsProp,
   type GridRowModel,
+  type GridRowId,
 } from "@mui/x-data-grid";
-import type { User } from "@prisma/client";
+import type { Loan, User } from "@prisma/client";
 import type { LoanWithGuarantor, Transaction } from "@/types/othTypes";
 import {
   getLoanHistoryColumns,
@@ -29,6 +30,7 @@ import { computeMutation, handleNo, handleYes } from "@/utils/helpers";
 
 import BlockIcon from "@mui/icons-material/Block";
 import DoneIcon from "@mui/icons-material/Done";
+import { updateLoanStatus } from "@/utils/data/patchers";
 
 const SpacedToolbar = () => {
   return (
@@ -88,6 +90,23 @@ const DataTable = ({
       }),
     []
   );
+
+  const loanAction = async (id: GridRowId, isApproved: boolean) => {
+    try {
+      const newLoan: Loan = await updateLoanStatus(
+        parseInt(id.toString()),
+        isApproved ? "approved" : "rejected"
+      );
+      showToast(
+        `Successfully ${isApproved ? "approved" : "rejected"} loan of Ksh. ${
+          newLoan.amount
+        }.`,
+        "success"
+      );
+    } catch (error: any) {
+      showToast(error.toString(), "error");
+    }
+  };
 
   if (rows.length === 0) {
     return (
@@ -149,14 +168,14 @@ const DataTable = ({
                   key={1}
                   icon={<DoneIcon />}
                   label="Approve"
-                  onClick={() => console.log("Approve ", id)}
+                  onClick={() => loanAction(id, true)}
                   showInMenu
                 />,
                 <GridActionsCellItem
                   key={2}
                   icon={<BlockIcon />}
                   label="Reject"
-                  onClick={() => console.log("Reject ", id)}
+                  onClick={() => loanAction(id, false)}
                   showInMenu
                 />,
               ]

@@ -3,9 +3,13 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { TextField } from "formik-mui";
 import Button from "@mui/material/Button";
 import type { ObjectSchema } from "yup";
-import { postContributionTransaction } from "@/utils/data/posters";
+import {
+  postContributionTransaction,
+  postLoanTransaction,
+} from "@/utils/data/posters";
 import { useSupabaseClient, useToast } from "@/utils/hooks";
 import { transferContribution } from "@/utils/data/patchers";
+import type { LoanTransaction } from "@prisma/client";
 
 type Values = {
   amount: number;
@@ -67,6 +71,17 @@ const PaymentForm = ({
                 : `National ID: ${values.nationalId}}`;
             showToast(
               `Successfully transferred shares to ${actionText}`,
+              "success"
+            );
+          } else if (action === "payment") {
+            const loanTransaction: LoanTransaction = await postLoanTransaction(
+              values.amount,
+              values.phone!,
+              "mpesa",
+              supabaseClient
+            );
+            showToast(
+              `Successfully made loan payment of Ksh. ${values.amount}. Balance: Ksh. ${loanTransaction.balance}`,
               "success"
             );
           }
