@@ -107,60 +107,61 @@ const DataTable = ({
   const isLoan = "frequency" in rows[0];
   const isUser = "email" in rows[0];
 
+  if (isLoan) {
+    loanHistoryColumns.push({
+      field: "loanRisk",
+      headerName: "Risk",
+      width: 60,
+      disableColumnMenu: true,
+      renderCell: ({ value }) => (
+        <Typography
+          variant="body2"
+          sx={{
+            color:
+              value < 0.4
+                ? "success.main"
+                : value < 0.6
+                ? "warning.main"
+                : "error.main",
+          }}
+        >
+          {Math.floor(value * 100)}%
+        </Typography>
+      ),
+    });
+  }
+
   if (admin) {
     transactionColumns = transactionColumns.filter(
       (column) => column.field !== "balance"
     )!;
 
     if (isLoan) {
-      loanHistoryColumns.push(
-        {
-          field: "loanRisk",
-          headerName: "Risk",
-          width: 60,
-          disableColumnMenu: true,
-          renderCell: ({ value }) => (
-            <Typography
-              variant="body2"
-              sx={{
-                color:
-                  value < 0.4
-                    ? "success.main"
-                    : value < 0.6
-                    ? "warning.main"
-                    : "error.main",
-              }}
-            >
-              {Math.floor(value * 100)}%
-            </Typography>
-          ),
-        },
-        {
-          field: "actions",
-          type: "actions",
-          headerName: "Action",
-          width: 65,
-          getActions: ({ id, row }) =>
-            row.status === "pending"
-              ? [
-                  <GridActionsCellItem
-                    key={1}
-                    icon={<DoneIcon />}
-                    label="Approve"
-                    onClick={() => console.log("Approve ", id)}
-                    showInMenu
-                  />,
-                  <GridActionsCellItem
-                    key={2}
-                    icon={<BlockIcon />}
-                    label="Reject"
-                    onClick={() => console.log("Reject ", id)}
-                    showInMenu
-                  />,
-                ]
-              : [],
-        }
-      );
+      loanHistoryColumns.push({
+        field: "actions",
+        type: "actions",
+        headerName: "Action",
+        width: 65,
+        getActions: ({ id, row }) =>
+          row.status === "pending"
+            ? [
+                <GridActionsCellItem
+                  key={1}
+                  icon={<DoneIcon />}
+                  label="Approve"
+                  onClick={() => console.log("Approve ", id)}
+                  showInMenu
+                />,
+                <GridActionsCellItem
+                  key={2}
+                  icon={<BlockIcon />}
+                  label="Reject"
+                  onClick={() => console.log("Reject ", id)}
+                  showInMenu
+                />,
+              ]
+            : [],
+      });
     }
   }
 
