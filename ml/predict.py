@@ -24,6 +24,11 @@ model1 = joblib.load('./loan_default/loan_predict.joblib')
 model2 = joblib.load('./loan_default/loan_predict_resampled.joblib')
 
 
+@app.route('/', methods=['GET'])
+def hello():
+    return 'hello'
+
+
 @app.route('/predict_default', methods=['POST'])
 def predict_default_probability():
     try:

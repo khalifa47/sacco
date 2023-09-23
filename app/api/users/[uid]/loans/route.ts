@@ -138,13 +138,31 @@ export async function POST(request: Request, { params }: { params: Params }) {
       },
     };
 
-    const res = await fetch("http://127.0.0.1:5000/predict_default", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(predictBody),
-    }).then((res) => res.json());
+    const localServerURL = "http://127.0.0.1:5000";
+    const otherServerURL = "https://khalifa47.pythonanywhere.com";
+
+    const isLocalServerRunning = async () => {
+      try {
+        const response = await fetch(localServerURL);
+        return response.ok;
+      } catch (error) {
+        return false;
+      }
+    };
+
+    const isLocalServer = await isLocalServerRunning();
+
+    // http://127.0.0.1:5000/predict_default
+    const res = await fetch(
+      `${isLocalServer ? localServerURL : otherServerURL}/predict_default`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(predictBody),
+      }
+    ).then((res) => res.json());
 
     if (res.error) {
       throw new Error(`${res.error}: Model error`);
