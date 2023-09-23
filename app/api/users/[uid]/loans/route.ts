@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/utils/prismadb";
 import type { Frequency, Loan, User } from "@prisma/client";
 import { calculateCreditScore } from "@/utils/credit/getCreditScore";
+import { getCreditData } from "@/utils/credit/calculateCredit";
 
 type Params = {
   uid: string;
@@ -63,10 +64,16 @@ export async function POST(request: Request, { params }: { params: Params }) {
     creditData,
   }: Fields = await request.json();
 
+  let creditDataServer: CreditData | undefined;
+
   if (!amount || !purpose || !frequency || !amount_per_frequency) {
     return new NextResponse("Missing fields", {
       status: 400,
     });
+  }
+
+  if (!creditData) {
+    creditDataServer = await getCreditData(uid);
   }
 
   try {
@@ -121,7 +128,7 @@ export async function POST(request: Request, { params }: { params: Params }) {
         installment: getMonthlyInstallments() / 135,
         "log.annual.inc": Math.log(annualIncome / 135),
         dti: dti,
-        fico: calculateCreditScore(creditData),
+        fico: calculateCreditScore(creditData ? creditData : creditDataServer!),
         "days.with.cr.line": 1290.041667, // TBD
         "revol.bal": 887, // TBD
         "revol.util": 38.6, // TBD

@@ -48,9 +48,9 @@ export async function POST(request: Request, { params }: { params: Params }) {
     });
   }
 
-  const invalidStatuses = ["approved", "disbursed"];
+  const validStatuses = ["approved", "disbursed"];
 
-  if (!invalidStatuses.includes(loan.status)) {
+  if (!validStatuses.includes(loan.status)) {
     return new NextResponse("No loan eligible for repayment", {
       status: 400,
     });
