@@ -178,7 +178,7 @@ export async function POST(request: Request, { params }: { params: Params }) {
       loanRisk: parseFloat(res.probability_of_default.toFixed(2)),
     };
 
-    if (guarantor!.id != "0") {
+    if (guarantor && guarantor!.id != "0") {
       dataToAdd.guarantor = {
         create: {
           userId: guarantor!.id,
