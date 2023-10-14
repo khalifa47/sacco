@@ -1,7 +1,7 @@
 import Title from "@/app/(components)/layout/Title";
-import dynamic from "next/dynamic";
 import Divider from "@/app/(components)/layout/Divider";
 import SummaryTable from "@/app/(components)/data/SummaryTable";
+import InfoCard from "@/app/(components)/data/InfoCard";
 import {
   getContributions,
   getLoans,
@@ -14,8 +14,6 @@ type ContributionData = {
   shares: Contribution[];
   welfare: Contribution[];
 };
-
-const InfoCard = dynamic(() => import("@/app/(components)/data/InfoCard"));
 
 export default async function Admin() {
   const contributionsData = getContributions() as Promise<ContributionData>;

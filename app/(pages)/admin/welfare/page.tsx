@@ -1,6 +1,7 @@
 import Title from "@/app/(components)/layout/Title";
 import DataTable from "@/app/(components)/data/DataTable";
-import dynamic from "next/dynamic";
+import InfoCard from "@/app/(components)/data/InfoCard";
+import Trend from "@/app/(components)/data/Trend";
 import Divider from "@/app/(components)/layout/Divider";
 import { getContributions, getTransactionData } from "@/utils/data/getters";
 import type { TransactionPromise } from "@/types/othTypes";
@@ -11,9 +12,6 @@ type ContributionData = {
   shares: Contribution[];
   welfare: Contribution[];
 };
-
-const InfoCard = dynamic(() => import("@/app/(components)/data/InfoCard"));
-const Trend = dynamic(() => import("@/app/(components)/data/Trend"));
 
 export default async function AdminWelfare() {
   const contributionsData = getContributions() as Promise<ContributionData>;

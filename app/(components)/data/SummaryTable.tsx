@@ -1,8 +1,6 @@
-"use client";
-
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
@@ -31,12 +29,12 @@ const StyledTableCell = ({
 }) => (
   <TableCell
     sx={{
-      [`&.${tableCellClasses.head}`]: {
+      "&.MuiTableCell-head": {
         backgroundColor: "black",
         color: "white",
         fontSize: 15,
       },
-      [`&.${tableCellClasses.body}`]: {
+      "&.MuiTableCell-body": {
         fontSize: 13,
         color,
       },

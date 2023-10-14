@@ -1,6 +1,7 @@
 import Title from "@/app/(components)/layout/Title";
 import DataTable from "@/app/(components)/data/DataTable";
-import dynamic from "next/dynamic";
+import InfoCard from "@/app/(components)/data/InfoCard";
+import Trend from "@/app/(components)/data/Trend";
 import Divider from "@/app/(components)/layout/Divider";
 import Actions from "@/app/(components)/action/Actions";
 import { createServerComponentSupabaseClient } from "@supabase/auth-helpers-nextjs";
@@ -14,8 +15,6 @@ type ContributionData = {
   shares: Contribution;
   welfare: Contribution;
 };
-const InfoCard = dynamic(() => import("@/app/(components)/data/InfoCard"));
-const Trend = dynamic(() => import("@/app/(components)/data/Trend"));
 
 export default async function Shares() {
   const supabase = createServerComponentSupabaseClient({

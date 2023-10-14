@@ -1,5 +1,3 @@
-"use client";
-
 import { capitalize, formatNumber } from "@/utils/helpers";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";

@@ -6,17 +6,9 @@ import { useRouter } from "next/navigation";
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import type { SupabaseClient } from "@supabase/auth-helpers-nextjs";
 
-import { ThemeProvider, createTheme } from "@mui/material";
 import Container from "@mui/material/Container";
 import ToastProvider from "./Toast";
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: "#F4641F",
-    },
-  },
-});
+import ThemeRegistry from "./theme/ThemeRegistry";
 
 export const Context = createContext<SupabaseClient | undefined>(undefined);
 
@@ -38,11 +30,11 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <Context.Provider value={supabase}>
-      <ThemeProvider theme={theme}>
+      <ThemeRegistry>
         <ToastProvider>
           <Container maxWidth="xl">{children}</Container>
         </ToastProvider>
-      </ThemeProvider>
+      </ThemeRegistry>
     </Context.Provider>
   );
 };

@@ -1,5 +1,3 @@
-"use client";
-
 import Dialog from "@mui/material/Dialog";
 import Slide from "@mui/material/Slide";
 import DialogTitle from "@mui/material/DialogTitle";

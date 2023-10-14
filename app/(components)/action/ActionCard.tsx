@@ -1,5 +1,3 @@
-"use client";
-
 import { capitalize } from "@/utils/helpers";
 import { SvgIcon } from "@mui/material";
 import ButtonBase from "@mui/material/ButtonBase";
@@ -164,7 +162,13 @@ const ActionCard = ({
         </Typography>
         <SvgIcon
           className="icon"
-          sx={{ fontSize: "70px", color: cardResource.color, display: "block" }}
+          sx={{
+            fontSize: "100px",
+            backgroundColor: cardResource.color,
+            borderRadius: "50%",
+            p: 2,
+            display: "block",
+          }}
         >
           {cardResource.icon}
         </SvgIcon>
