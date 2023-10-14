@@ -24,6 +24,7 @@ const defaultUser: User = {
   otherNames: "",
   lastName: "",
   email: "",
+  riskAppetite: null,
   phone: "",
   role: "user",
   nationalId: "",
@@ -94,6 +95,18 @@ const RequestForm = ({
           const userId = (await supabaseClient.auth.getUser()).data.user?.id;
           if (!userId) throw new Error("User not authenticated");
 
+          let riskAppetite = null;
+
+          if (values.purpose.toLowerCase().includes("invest")) {
+            riskAppetite = (
+              await supabaseClient
+                .from("users")
+                .select("risk_appetite")
+                .eq("id", userId)
+                .single()
+            ).data?.risk_appetite;
+          }
+
           const creditData = await getCreditData(userId);
           const res = await fetch(`/api/users/${userId}/loans`, {
             method: "POST",
@@ -103,6 +116,7 @@ const RequestForm = ({
             body: JSON.stringify({
               ...values,
               creditData,
+              riskAppetite,
             }),
           });
           if (!res.ok) {
@@ -111,12 +125,26 @@ const RequestForm = ({
             }
             throw new Error("Failed to request for a loan");
           }
-          showToast(
-            `Loan request for Ksh. ${formatNumber(
+
+          const resJson = await res.json();
+
+          if (resJson.invRecommendations) {
+            const invRecommendations = resJson.invRecommendations;
+
+            const invString = invRecommendations
+              .map((inv: any) => `${inv[0]}`)
+              .join(",")
+              .replace(/,/g, ", ");
+
+            const invRecommendationsString = `Loan request sent for approval.\nYour top 3 investments are: \n
+              ${invString}`;
+            showToast(invRecommendationsString, "info"); // TODO: do this differently. Maybe make a page for recommended investments
+          } else {
+            const successString = `Loan request for Ksh. ${formatNumber(
               values.amount
-            )} has been sent for approval.`,
-            "success"
-          );
+            )} has been sent for approval.`;
+            showToast(successString, "success");
+          }
         } catch (error: any) {
           showToast(error.toString(), "error");
         } finally {

@@ -15,6 +15,7 @@ type Fields = {
   frequency: Frequency;
   amount_per_frequency: number;
   guarantor?: User;
+  riskAppetite?: number;
 };
 
 export async function GET(request: Request, { params }: { params: Params }) {
@@ -62,6 +63,7 @@ export async function POST(request: Request, { params }: { params: Params }) {
     amount_per_frequency,
     guarantor,
     creditData,
+    riskAppetite,
   }: Fields = await request.json();
 
   let creditDataServer: CreditData | undefined;
@@ -91,7 +93,7 @@ export async function POST(request: Request, { params }: { params: Params }) {
       }
     };
 
-    const getAnnualIncome = async () => {
+    const getContributionAmount = async () => {
       const { _sum: contributionSum } = await prisma.contribution.aggregate({
         _sum: {
           amount: true,
@@ -104,9 +106,9 @@ export async function POST(request: Request, { params }: { params: Params }) {
       return contributionSum.amount ?? 0;
     };
 
-    const annualIncome = await getAnnualIncome();
+    const annualIncome = await getContributionAmount();
 
-    const getDti = async () => {
+    const getLoanAmount = async () => {
       const { _sum: loanSum } = await prisma.loan.aggregate({
         _sum: {
           amount: true,
@@ -116,10 +118,10 @@ export async function POST(request: Request, { params }: { params: Params }) {
         },
       });
 
-      return (loanSum.amount ?? 0) / annualIncome;
+      return (loanSum.amount ?? 0) + amount;
     };
 
-    const dti = await getDti();
+    const loanAmount = await getLoanAmount();
 
     const predictBody = {
       data: {
@@ -127,7 +129,7 @@ export async function POST(request: Request, { params }: { params: Params }) {
         purpose: purpose,
         installment: getMonthlyInstallments() / 135,
         "log.annual.inc": Math.log(annualIncome / 135),
-        dti: dti,
+        dti: loanAmount / annualIncome,
         fico: calculateCreditScore(creditData ? creditData : creditDataServer!),
         "days.with.cr.line": 1290.041667, // TBD
         "revol.bal": 887, // TBD
@@ -152,7 +154,6 @@ export async function POST(request: Request, { params }: { params: Params }) {
 
     const isLocalServer = await isLocalServerRunning();
 
-    // http://127.0.0.1:5000/predict_default
     const res = await fetch(
       `${isLocalServer ? localServerURL : otherServerURL}/predict_default`,
       {
@@ -189,9 +190,66 @@ export async function POST(request: Request, { params }: { params: Params }) {
     const createdLoan = await prisma.loan.create({
       data: dataToAdd,
     });
-    return new NextResponse(JSON.stringify(createdLoan), {
-      status: 200,
-    });
+
+    // TODO: send notification to guarantor
+
+    let invRecommendations = [];
+
+    if (purpose.toLowerCase().includes("invest")) {
+      console.log("Investment loan");
+      const getAverageLoanRisk = async () => {
+        const { _avg: loanRiskAvg } = await prisma.loan.aggregate({
+          _avg: {
+            loanRisk: true,
+          },
+          where: {
+            userId: uid,
+          },
+        });
+
+        return loanRiskAvg?.loanRisk ?? 0.11;
+      };
+
+      const averageLoanRisk = await getAverageLoanRisk();
+
+      const recommendBody = {
+        data: {
+          user_appetite: riskAppetite ?? 0.38,
+          user_loan_amount: loanAmount,
+          user_average_loan_risk: averageLoanRisk,
+          user_shares_amount: annualIncome,
+        },
+      };
+
+      const res = await fetch(
+        `${isLocalServer ? localServerURL : otherServerURL}/predict_investment`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(recommendBody),
+        }
+      ).then((res) => res.json());
+
+      if (res.error) {
+        // throw new Error(
+        //   `${res.error}: Model error. Could not recommend investments.`
+        // );
+        console.error(
+          `${res.error}: Model error. Could not recommend investments.`
+        );
+      }
+
+      invRecommendations = res.top3inv;
+    }
+
+    return new NextResponse(
+      JSON.stringify({ createdLoan, invRecommendations }),
+      {
+        status: 200,
+      }
+    );
   } catch (error: any) {
     return new NextResponse(error.message, {
       status: 500,
