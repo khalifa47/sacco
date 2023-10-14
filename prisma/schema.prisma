@@ -52,6 +52,16 @@ enum PaymentMethod {
   transfer
 }
 
+enum InvestmentType {
+  stocks
+  etf
+  index
+  forex
+  crypto
+  metals
+  real_estate
+}
+
 model User {
   id         String     @id // comes from auth
   nationalId String     @unique @map("national_id") @db.VarChar(20)
@@ -62,6 +72,7 @@ model User {
   lastName   String     @map("last_name")
   role       Role       @default(user)
   status     UserStatus @default(inactive)
+  riskAppetite Float?   @map("risk_appetite")
   lastActive DateTime?  @map("last_active")
   createdAt  DateTime   @default(now()) @map("created_at")
 
@@ -69,6 +80,7 @@ model User {
   loans         Loan[]
   contributions Contribution[]
   guarantors    Guarantor[]
+  investments   Investment[]
 
   @@map("users")
 }
@@ -163,6 +175,18 @@ model ContributionTransaction {
   contribution Contribution @relation(fields: [contributionId], references: [id], onDelete: Cascade)
 
   @@map("contribution_transactions")
+}
+
+model Investment {
+  id        Int      @id @default(autoincrement())
+  userId    String   @map("user_id")
+  amount    Float
+  type      InvestmentType
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("investments")
 }
 
 // Option 1: Have a single account table with a type column (Shares, Loans, Welfare) then have a single transaction table
