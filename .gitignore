@@ -38,3 +38,8 @@ next-env.d.ts
 # venv
 venv
 .venv
+
+# test notebooks
+/ml/investment2
+/ml/investment/inv.py
+/ml/investment/test.ipynb
