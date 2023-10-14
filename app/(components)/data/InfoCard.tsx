@@ -45,7 +45,7 @@ const InfoCard = ({
   admin?: boolean;
   content: InfoContent;
   amount: number;
-}) => {
+}): JSX.Element => {
   const contentColors = getColors(content);
   return (
     <Card
