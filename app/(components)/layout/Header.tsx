@@ -40,7 +40,7 @@ import { useRouter, useSelectedLayoutSegment } from "next/navigation";
 import type { UserMetadata } from "@supabase/supabase-js";
 import type { Notification } from "@prisma/client";
 
-const Logo = () => {
+export const Logo = () => {
   return (
     <Box
       component={Link}

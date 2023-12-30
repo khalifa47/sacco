@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSelectedLayoutSegment } from "next/navigation";
 
 import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import type { SupabaseClient } from "@supabase/auth-helpers-nextjs";
@@ -15,6 +15,7 @@ export const Context = createContext<SupabaseClient | undefined>(undefined);
 const Providers = ({ children }: { children: React.ReactNode }) => {
   const [supabase] = useState(() => createBrowserSupabaseClient());
   const router = useRouter();
+  const segment = useSelectedLayoutSegment();
 
   useEffect(() => {
     const {
@@ -32,7 +33,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
     <Context.Provider value={supabase}>
       <ThemeRegistry>
         <ToastProvider>
-          <Container maxWidth="xl">{children}</Container>
+          {segment ? <Container maxWidth="xl">{children}</Container> : children}
         </ToastProvider>
       </ThemeRegistry>
     </Context.Provider>

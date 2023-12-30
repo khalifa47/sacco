@@ -1,10 +1,19 @@
-import Link from "next/link";
+import Categories from "./(components)/landing/Categories";
+import LandingHeader from "./(components)/landing/Header";
+import LandingFooter from "./(components)/landing/Footer";
+import Hero from "./(components)/landing/Hero";
+import Questions from "./(components)/landing/Questions";
+import Values from "./(components)/landing/Values";
 
 export default function Home() {
   return (
     <main>
-      <h1>This is the home page!</h1>
-      <Link href="/auth">Go to Login, If you dare!</Link>
+      <LandingHeader />
+      <Hero />
+      <Values />
+      <Categories />
+      <Questions />
+      <LandingFooter />
     </main>
   );
 }
