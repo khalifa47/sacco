@@ -48,11 +48,7 @@ export const updateContribution = async (
 
   try {
     res = await fetch(
-      `${
-        process.env.BASE_URL || "http://localhost:3000"
-      }/api/users/${uid}/contributions/${cid}?transferchoice=${
-        transferProps?.choice
-      }&toid=${transferProps?.toId}`,
+      `${process.env.BASE_URL}/api/users/${uid}/contributions/${cid}?transferchoice=${transferProps?.choice}&toid=${transferProps?.toId}`,
       {
         method: "PATCH",
         headers: {
@@ -89,16 +85,13 @@ export const updateUser = async (
   let res: Response;
 
   try {
-    res = await fetch(
-      `${process.env.BASE_URL || "http://localhost:3000"}/api/users/${uid}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }
-    );
+    res = await fetch(`${process.env.BASE_URL}/api/users/${uid}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
     if (!res.ok) {
       const msg = await res.text();
       throw new Error(msg === "" ? res.statusText : msg);
@@ -114,18 +107,15 @@ export const updateLoanStatus = async (lid: number, status: LoanStatus) => {
   let res: Response;
 
   try {
-    res = await fetch(
-      `${process.env.BASE_URL || "http://localhost:3000"}/api/loans/${lid}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          status,
-        }),
-      }
-    );
+    res = await fetch(`${process.env.BASE_URL}/api/loans/${lid}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        status,
+      }),
+    });
     if (!res.ok) {
       const msg = await res.text();
       throw new Error(msg === "" ? res.statusText : msg);

@@ -1,8 +1,6 @@
 async function getLoanRepaymentData(userId: string) {
   const loanRepaymentDataResponse = await fetch(
-    `${
-      process.env.BASE_URL ?? "http://localhost:3000"
-    }/api/users/${userId}/loan_predict/loantransactions`
+    `${process.env.BASE_URL}/api/users/${userId}/loan_predict/loantransactions`
   );
 
   if (!loanRepaymentDataResponse.ok) {
@@ -17,9 +15,7 @@ async function getLoanRepaymentData(userId: string) {
 
 async function getCreditHistory(userId: string) {
   const creditHistory = await fetch(
-    `${
-      process.env.BASE_URL ?? "http://localhost:3000"
-    }/api/users/${userId}/loan_predict/contributiontransactions`
+    `${process.env.BASE_URL}/api/users/${userId}/loan_predict/contributiontransactions`
   );
 
   if (!creditHistory.ok) {
