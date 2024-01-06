@@ -6,6 +6,8 @@ type TransferProps = {
   toId?: string;
 };
 
+const baseUrl = "https://sacco-steel.vercel.app"; // TODO: not good
+
 export const transferContribution = async (
   choice: TransferChoice,
   amount: number,
@@ -48,7 +50,7 @@ export const updateContribution = async (
 
   try {
     res = await fetch(
-      `${process.env.BASE_URL}/api/users/${uid}/contributions/${cid}?transferchoice=${transferProps?.choice}&toid=${transferProps?.toId}`,
+      `${baseUrl}/api/users/${uid}/contributions/${cid}?transferchoice=${transferProps?.choice}&toid=${transferProps?.toId}`,
       {
         method: "PATCH",
         headers: {
@@ -85,7 +87,7 @@ export const updateUser = async (
   let res: Response;
 
   try {
-    res = await fetch(`${process.env.BASE_URL}/api/users/${uid}`, {
+    res = await fetch(`${baseUrl}/api/users/${uid}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -107,7 +109,7 @@ export const updateLoanStatus = async (lid: number, status: LoanStatus) => {
   let res: Response;
 
   try {
-    res = await fetch(`${process.env.BASE_URL}/api/loans/${lid}`, {
+    res = await fetch(`${baseUrl}/api/loans/${lid}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
