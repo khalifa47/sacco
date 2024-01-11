@@ -57,7 +57,7 @@ export const getLoans = async (uid?: string) => {
       `${process.env.BASE_URL}/api/${uid ? `users/${uid}/` : ""}loans`,
       {
         // headers: headers(),
-        next: { revalidate: 60 },
+        next: { revalidate: 0 },
       }
     );
     if (!res.ok) {
